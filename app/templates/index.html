@@ -1,0 +1,20 @@
+{{ define "content" }}
+<div>
+  <h1 class="mb-2"># Container orchestrated Stripe CTF 2.0</h1>
+  <p>Back in 2012, Stripe hosted a web security capture the flag game. Each level contained a security flaw that could be exploited to steal the password to the next level. When the game was finished, the servers were taken offline and the source code for was made availalbe on github.</p>
+  <p>This project brings it back to life by containerising each level with docker, orchestrating the services with docker-compose, and managing access and game state with a reverse proxy written in Go.</p>
+  <p>Enjoy!</p>
+  <h2 class="my-2">## Levels</h2>
+  <ol>
+    {{ range $i, $v := . }}
+    <li>
+      <a href="/levels/{{ $v.Index }}/"
+         {{ if $v.IsLocked  }}class="locked"{{ end }}
+         >
+         {{ $v.Index }}: {{ $v.Name }}
+      </a>
+    </li>
+    {{ end }}
+  </ol>
+</div>
+{{ end }}

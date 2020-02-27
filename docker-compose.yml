@@ -1,0 +1,154 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "8000:8000"
+    networks:
+      servers:
+    volumes:
+      - levels:/mnt/levels
+  level0:
+    build:
+      context: ./levels/0
+    # ports:
+    #   - "8080:3000"
+    networks:
+      servers:
+        aliases:
+          - level0-stripe-ctf
+    volumes:
+      - level0:/mnt/level
+  level1:
+    build:
+      context: ./levels/1
+    # ports:
+    #   - "8081:8000"
+    networks:
+      servers:
+        aliases:
+          - level1-stripe-ctf
+    volumes:
+      - level1:/mnt/level
+  level2:
+    build:
+      context: ./levels/2
+    # ports:
+    #   - "8082:8000"
+    networks:
+      servers:
+        aliases:
+          - level2-stripe-ctf
+    volumes:
+      - level2:/mnt/level
+  level3:
+    build:
+      context: ./levels/3
+    # ports:
+    #   - "8083:5000"
+    networks:
+      servers:
+        aliases:
+          - level3-stripe-ctf
+    volumes:
+      - level3:/mnt/level
+  level4-server:
+    build:
+      context: ./levels/4/server
+    # ports:
+    #   - "8084:4567"
+    volumes:
+      - passwords:/mnt/passwords
+    command: serve
+    networks:
+      servers:
+        aliases:
+          - level4-stripe-ctf
+      browsers:
+    volumes:
+      - level4:/mnt/level
+  level4-browser:
+    build:
+      context: ./levels/4/browser
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - passwords:/mnt/passwords
+    networks:
+      - browsers
+  level5:
+    build:
+      context: ./levels/5
+    # ports:
+    #   - "8085:4568"
+    command: serve
+    depends_on:
+      - level2
+    networks:
+      servers:
+        aliases:
+          - level5-stripe-ctf
+    volumes:
+      - level5:/mnt/level
+  level6-server:
+    build:
+      context: ./levels/6/server
+    # ports:
+    #   - "8086:4569"
+    volumes:
+      - passwords:/mnt/passwords
+    command: serve
+    networks:
+      servers:
+        aliases:
+          - level6-stripe-ctf
+      browsers:
+  level6-browser:
+    build:
+      context: ./levels/6/browser
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - passwords:/mnt/passwords
+    networks:
+      - browsers
+  level7:
+    build:
+      context: ./levels/7
+    # ports:
+    #   - "8087:9233"
+    command: serve
+    networks:
+      servers:
+        aliases:
+          - level7-stripe-ctf
+  level8:
+    build:
+      context: ./levels/8
+    # ports:
+    #   - "8088:4000"
+    depends_on:
+      - level2
+    networks:
+      servers:
+        aliases:
+          - level8-stripe-ctf
+volumes:
+  passwords:
+  levels:
+  level0:
+  level1:
+  level2:
+  level3:
+  level4:
+  level5:
+  level6:
+  level7:
+  level8:
+networks:
+  browsers:
+    driver: bridge
+    internal: true
+  servers:
+    driver: bridge

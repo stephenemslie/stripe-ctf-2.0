@@ -1,0 +1,71 @@
+{{ define "levelintro" }}
+Excellent, you are now on Level 1, the Guessing Game. All you have to do is guess the combination correctly, and you'll be given the password to access Level 2! We've been assured that this level has no security vulnerabilities in it (and the machine running the Guessing Game has no outbound network connectivity, meaning you wouldn't be able to extract the password anyway), so you'll probably just have to try all the possible combinations. Or will you...?
+{{ end }}
+{{ define "levelcontent" }}
+
+  <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+    index.php
+  </div>
+  <pre class="rounded-b-lg">
+<code class="language-php">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Guessing Game&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Welcome to the Guessing Game!&lt;/h1&gt;
+    &lt;p&gt;
+      Guess the secret combination below, and if you get it right,
+      you'll get the password to the next level!
+    &lt;/p&gt;
+    &lt;?php
+      $filename = 'secret-combination.txt';
+      extract($_GET);
+      if (isset($attempt)) {
+        $combination = trim(file_get_contents($filename));
+        if ($attempt === $combination) {
+          echo "&lt;p&gt;How did you know the secret combination was" .
+               " $combination!?&lt;/p&gt;";
+          $next = file_get_contents('level02-password.txt');
+          echo "&lt;p&gt;You've earned the password to the access Level 2:" .
+               " $next&lt;/p&gt;";
+        } else {
+          echo "&lt;p&gt;Incorrect! The secret combination is not $attempt&lt;/p&gt;";
+        }
+      }
+    ?&gt;
+    &lt;form action="/index.php" method="GET"&gt;
+      &lt;p&gt;&lt;input type="text" name="attempt"&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;input type="submit" value="Guess!"&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code>
+  </pre>
+
+  <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+    routing.php
+  </div>
+  <pre class="rounded-b-lg">
+<code class="language-php">&lt;?php
+
+$forbid = [
+  '/^\/ctf-halt.sh/',
+  '/^\/ctf-install.sh/',
+  '/^\/ctf-run.sh/',
+  '/^\/level02-password.txt/',
+  '/^\/secret-combination.txt/'
+];
+
+if (
+  file_exists($_SERVER['SCRIPT_FILENAME']) &&
+  # Make sure we're not letting people read secrets directly.
+  !current(array_filter($forbid, function($element) { return preg_match($element, $_SERVER['PHP_SELF']); }))
+) {
+  // Serve the requested resource as-is.
+  return false;
+} else {
+  include_once 'index.php';
+  } </code>
+  </pre>
+{{ end }}
+
+

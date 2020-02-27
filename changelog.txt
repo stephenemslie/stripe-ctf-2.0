@@ -1,0 +1,3 @@
+level 3: upgraded to python 3
+level 4: changing from casper to puppeteer
+level 4 TODO: firewall off outgoing connections

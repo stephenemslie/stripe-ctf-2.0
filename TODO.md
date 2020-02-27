@@ -1,0 +1,1 @@
+- Remove all outbound networking from level 1

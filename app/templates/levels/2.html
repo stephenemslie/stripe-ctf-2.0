@@ -1,0 +1,93 @@
+{{ define "levelintro" }}
+You are now on Level 2, the Social Network. Excellent work so far!  Social Networks are all the rage these days, so we decided to build one for CTF. Please fill out your profile at on the level 2 server.  You may even be able to find the password for Level 3 by doing so.
+{{ end }}
+{{ define "levelcontent" }}
+  <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+    index.php
+  </div>
+  <pre class="rounded-b-lg">
+<code class="language-php">&lt;?php
+  session_start();
+
+  if ($_FILES["dispic"]["error"] &gt; 0) {
+    echo "&lt;p&gt;Error: " . $_FILES["dispic"]["error"] . "&lt;/p&gt;";
+  }
+  else
+  {
+    $dest_dir = "uploads/";
+    $dest = $dest_dir . basename($_FILES["dispic"]["name"]);
+    $src = $_FILES["dispic"]["tmp_name"];
+    if (move_uploaded_file($src, $dest)) {
+      $_SESSION["dispic_url"] = $dest;
+      chmod($dest, 0644);
+      echo "&lt;p&gt;Successfully uploaded your display picture.&lt;/p&gt;";
+    }
+  }
+
+  $url = "https://upload.wikimedia.org/wikipedia/commons/f/f8/" .
+         "Question_mark_alternate.svg";
+  if (isset($_SESSION["dispic_url"])) {
+    $url = $_SESSION["dispic_url"];
+  }
+
+?&gt;
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Welcome to the CTF!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;center&gt;
+      &lt;h1&gt;Welcome to the CTF Social Network!&lt;/h1&gt;
+      &lt;div&gt;
+        &lt;img src=&lt;?php echo $url; ?&gt; /&gt;
+        &lt;?php
+          if (!isset($_SESSION["dispic_url"])) {
+            echo "&lt;p&gt;Oh, looks like you don't have a profile image" .
+                 " -- upload one now!&lt;/p&gt;";
+          }
+        ?&gt;
+        &lt;form action="/index.php" method="post" enctype="multipart/form-data"&gt;
+          &lt;input type="file" name="dispic" size="40" /&gt;
+          &lt;input type="submit" value="Upload!"&gt;
+        &lt;/form&gt;
+
+        &lt;p&gt;
+           Password for Level 3 (accessible only to members of the club):
+           &lt;a href="password.txt"&gt;password.txt&lt;/a&gt;
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/center&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code>
+  </pre>
+
+
+  <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+    routing.php
+  </div>
+  <pre class="rounded-b-lg">
+<code class="language-php">
+&lt;?php
+
+$forbid = [
+  '/^\/ctf-halt.sh/',
+  '/^\/ctf-install.sh/',
+  '/^\/ctf-run.sh/',
+  '/^\/password.txt/'
+];
+
+if (
+  file_exists($_SERVER['SCRIPT_FILENAME']) &&
+  # Make sure we're not letting people read secrets directly.
+  !current(array_filter($forbid, function($element) { return preg_match($element, $_SERVER['PHP_SELF']); }))
+) {
+  // Serve the requested resource as-is.
+  return false;
+} else {
+  include_once 'index.php';
+}
+</code>
+  </pre>
+
+{{ end }}

@@ -1,0 +1,9 @@
+{
+  "author": "Stephen Emslie <stephenemslie@gmail.com>",
+  "name": "level04-browser",
+  "description": "Browser for level 4 of CTF",
+  "version": "0.0.0",
+  "dependencies": {
+  },
+  "devDependencies": {}
+}

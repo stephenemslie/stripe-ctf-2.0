@@ -1,0 +1,9 @@
+{{ define "content" }}
+    {{ block "levelheader" . }}
+    <h2># Level {{ .Index }}: {{ .Name }}</h2>
+    <a href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
+    {{ end }}
+    <p>{{ template "levelintro" . }}</p>
+    <a href="/levels/{{ .Index }}/">Next: level {{ .Index }}</a>
+    {{ template "levelcontent" . }}
+{{ end }}
