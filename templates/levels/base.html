@@ -1,9 +1,21 @@
+{{ define "code" }}
+<div>
+  <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+    {{ .Basename }}
+  </div>
+  <pre class="rounded-b-lg">
+<code class="language-{{ .Language }}">{{ .Code }}</code>
+  </pre>
+</div>
+{{ end }}
 {{ define "content" }}
     {{ block "levelheader" . }}
     <h2># Level {{ .Index }}: {{ .Name }}</h2>
     <a href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
     {{ end }}
     <p>{{ template "levelintro" . }}</p>
-    <a href="/levels/{{ .Index }}/">Next: level {{ .Index }}</a>
+    {{ if lt .Index 8 }}
+    <a href="/levels/{{ .Next.Index }}/">Next: level {{ .Next.Index }}</a>
+    {{ end }}
     {{ template "levelcontent" . }}
 {{ end }}
