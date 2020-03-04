@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -f secret-combination.txt ]; then
+    uuidgen > secret-combination.txt
+fi
+
 if [ ! -f ./mnt/level/password.txt ]; then
     uuidgen > secret-combination.txt
     base64 /dev/urandom | head -c 10 > $PWPATH
