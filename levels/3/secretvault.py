@@ -26,7 +26,7 @@ import sys
 from werkzeug import debug
 
 # Generate test data when running locally
-data_dir = os.path.join(os.path.dirname(__file__), 'data')
+data_dir = os.environ['LEVEL3_DATA_DIR']
 if not os.path.exists(data_dir):
     import generate_data
     os.mkdir(data_dir)
