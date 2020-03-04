@@ -6,4 +6,4 @@ RUN base64 /dev/urandom | head -c 10 > password.txt
 COPY . .
 EXPOSE 4000
 ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD "serve"
+CMD ["serve"]
