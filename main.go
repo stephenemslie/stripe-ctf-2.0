@@ -71,6 +71,16 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 	return httputil.NewSingleHostReverseProxy(u)
 }
 
+func (l *Level) Next() (Level, error) {
+	var nextLevel Level
+	index := l.Index + 1
+	if index >= len(levels) {
+		return nextLevel, fmt.Errorf("No such level %d", index)
+	}
+	nextLevel = levels[index]
+	return nextLevel, nil
+}
+
 func (l *Level) unlock() {
 	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index)
 	_, err := os.Stat(path)
