@@ -31,10 +31,11 @@ func (s *SourceFile) Basename() string {
 }
 
 type Level struct {
-	Index int
-	Host  string
-	Port  int
-	Name  string
+	Index  int
+	Host   string
+	Port   int
+	Name   string
+	Source map[string]*SourceFile
 }
 
 func (l *Level) getPasswordPath() string {
