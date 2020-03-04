@@ -9,6 +9,15 @@ services:
       servers:
     volumes:
       - levels:/mnt/levels
+      - level0:/mnt/level0
+      - level1:/mnt/level1
+      - level2:/mnt/level2
+      - level3:/mnt/level3
+      - level4:/mnt/level4
+      - level5:/mnt/level5
+      - level6:/mnt/level6
+      - level7:/mnt/level7
+      - level8:/mnt/level8
   level0:
     build:
       context: ./levels/0
