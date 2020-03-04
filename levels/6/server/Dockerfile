@@ -1,7 +1,9 @@
 FROM ruby:2.7.0-alpine
 WORKDIR /usr/src/app
 RUN apk add --no-cache build-base sqlite sqlite-dev sqlite-libs
-RUN gem install sinatra sequel sqlite3 json rack rack_csrf
+COPY Gemfile ./
+COPY Gemfile.lock ./
+RUN bundle install
 COPY . .
 RUN chmod a+x docker-entrypoint.sh
 EXPOSE 4567
