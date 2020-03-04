@@ -10,6 +10,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -17,6 +18,12 @@ type SourceFile struct {
 	Level    int
 	Name     string
 	Language string
+}
+
+func (s *SourceFile) Code() string {
+	path := filepath.Join(".", "levels", strconv.Itoa(s.Level), s.Name)
+	code, _ := ioutil.ReadFile(path)
+	return string(code)
 }
 
 type Level struct {
