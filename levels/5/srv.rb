@@ -21,7 +21,7 @@ module DomainAuthenticator
     # Let people try to authenticate for any host.
     ALLOWED_HOSTS = //
 
-    PASSWORD = File.read('password.txt').strip
+    PASSWORD = File.read(ENV['PW_FILE']).strip
     enable :sessions
 
     # Use persistent entropy file
