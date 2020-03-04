@@ -9,7 +9,7 @@ require 'sequel'
 require 'sinatra'
 
 module Streamer
-  PASSWORD = File.read('/mnt/passwords/password6.txt').strip
+  PASSWORD = File.read(ENV['PW_FILE']).strip
 
   module DB
     def self.db_file
