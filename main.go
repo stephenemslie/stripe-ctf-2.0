@@ -26,6 +26,10 @@ func (s *SourceFile) Code() string {
 	return string(code)
 }
 
+func (s *SourceFile) Basename() string {
+	return filepath.Base(s.Name)
+}
+
 type Level struct {
 	Index int
 	Host  string
