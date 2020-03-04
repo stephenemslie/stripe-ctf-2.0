@@ -66,14 +66,21 @@ func (l *Level) ExecuteTemplate(w http.ResponseWriter) {
 	t.Execute(w, l)
 }
 
-func (l *Level) ExecuteLockedTemplate(w http.ResponseWriter) {
-	t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
-	t.Execute(w, l)
-}
-
 func (l *Level) Proxy() *httputil.ReverseProxy {
 	u, _ := url.Parse(fmt.Sprintf("http://level%d:%d/", l.Index, l.Port))
 	return httputil.NewSingleHostReverseProxy(u)
+}
+
+func (l *Level) unlock() {
+	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index)
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		file, err := os.Create(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+	}
 }
 
 var levels = []Level{
@@ -143,9 +150,24 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	level := levels[levelIndex]
 	if level.IsLocked() {
-		level.ExecuteLockedTemplate(w)
+		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
 	} else {
 		level.ExecuteTemplate(w)
+	}
+}
+
+func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	levelIndex, _ := strconv.Atoi(vars["index"])
+	level := levels[levelIndex]
+	if r.Method == http.MethodGet {
+		t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
+		t.Execute(w, level)
+	} else if r.Method == http.MethodPost {
+		if level.checkPassword(r.FormValue("password")) {
+			level.unlock()
+		}
+		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
 	}
 }
 
@@ -156,7 +178,7 @@ func main() {
 		s := r.Host(level.Host).Subrouter()
 		s.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 			if level.IsLocked() {
-				level.ExecuteLockedTemplate(w)
+				http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
 				level.Proxy().ServeHTTP(w, r)
 			}
@@ -164,6 +186,7 @@ func main() {
 	}
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	r.HandleFunc("/", indexHandler).Methods("GET")
+	r.HandleFunc("/levels/{index:[0-8]}/unlock/", unlockLevelHandler).Methods("GET", "POST")
 	r.HandleFunc("/levels/{index:[0-8]}/", levelHandler).Methods("GET")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8000", nil))
