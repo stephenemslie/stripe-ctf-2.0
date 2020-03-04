@@ -13,6 +13,12 @@ import (
 	"strconv"
 )
 
+type SourceFile struct {
+	Level    int
+	Name     string
+	Language string
+}
+
 type Level struct {
 	Index int
 	Host  string
