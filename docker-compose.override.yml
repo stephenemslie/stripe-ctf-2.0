@@ -2,7 +2,7 @@ version: "3.7"
 services:
   app:
     volumes:
-      - ./app:/go/src/app
+      - .:/go/src/app
   level0:
     volumes:
       - ./levels/0:/usr/src/app
