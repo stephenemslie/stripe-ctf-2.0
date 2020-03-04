@@ -103,7 +103,7 @@ class PayloadProcessor:
 
 def chunkPassword(chunk_count, password, request=None):
     # Equivalent to ceil(password_length / chunk_count)
-    chunk_size = (len(password) + chunk_count - 1) / chunk_count
+    chunk_size = (len(password) + chunk_count - 1) // chunk_count
 
     chunks = []
     for i in range(0, len(password), chunk_size):
