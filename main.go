@@ -157,7 +157,10 @@ var levels = []Level{
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("templates/base.html", "templates/index.html")
-	t.Execute(w, levels)
+	data := struct {
+		Levels []Level
+	}{levels}
+	t.Execute(w, data)
 }
 
 func levelHandler(w http.ResponseWriter, r *http.Request) {
