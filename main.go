@@ -71,12 +71,6 @@ func (l *Level) IsLocked() bool {
 	return false
 }
 
-func (l *Level) ExecuteTemplate(w http.ResponseWriter) {
-	path := fmt.Sprintf("templates/levels/%d.html", l.Index)
-	t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
-	t.Execute(w, l)
-}
-
 func (l *Level) Proxy() *httputil.ReverseProxy {
 	u, _ := url.Parse(fmt.Sprintf("http://level%d:%d/", l.Index, l.Port))
 	return httputil.NewSingleHostReverseProxy(u)
@@ -173,7 +167,18 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	if level.IsLocked() {
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
 	} else {
-		level.ExecuteTemplate(w)
+		path := fmt.Sprintf("templates/levels/%d.html", level.Index)
+		t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
+		next, _ := level.Next()
+		data := struct {
+			Levels []Level
+			Level  Level
+			Next   Level
+		}{levels, level, next}
+		err := t.Execute(w, data)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
