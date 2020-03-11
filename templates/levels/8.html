@@ -66,9 +66,3 @@ $ curl &lt;%= url %&gt; -d '{"password": "password-to-check", "webhooks": []}'
   automatically spins up 4 chunk servers and a primary server.
 </p>
 {{ end }}
-{{ define "levelcontent" }}
-  {{ template "code" index .Source "primary_server" }}
-  {{ template "code" index .Source "chunk_server" }}
-  {{ template "code" index .Source "password_db_launcher" }}
-  {{ template "code" index .Source "common.py" }}
-{{ end }}

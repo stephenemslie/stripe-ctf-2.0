@@ -26,10 +26,3 @@
   application so that other people can run their own Streamer instances.
 </p>
 {{ end }}
-{{ define "levelcontent" }}
-  {{ template "code" index .Source "srv.rb" }}
-  {{ template "code" index .Source "layout.erb" }}
-  {{ template "code" index .Source "login.erb" }}
-  {{ template "code" index .Source "register.erb" }}
-  {{ template "code" index .Source "user_info.erb" }}
-{{ end }}

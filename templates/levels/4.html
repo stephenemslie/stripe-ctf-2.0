@@ -11,10 +11,3 @@
   For the purposes of this test the `karma_fountain` user is active via the web interface every 30 seconds, using a script, [CasperJS][1], and [PhantomJS][2] to simulate human activity.
 </p>
 {{ end }}
-{{ define "levelcontent" }}
-{{ template "code" index .Source "srv.rb" }}
-{{ template "code" index .Source "layout.erb" }}
-{{ template "code" index .Source "home.erb" }}
-{{ template "code" index .Source "login.erb" }}
-{{ template "code" index .Source "register.erb" }}
-{{ end }}
