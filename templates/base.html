@@ -8,7 +8,21 @@
 </head>
 <body class="font-mono">
   <div class="my-8 mx-auto max-w-3xl">
-    <nav><a href="/">[Home]</a></nav>  
+      <nav class="breadcrumb w-full text-white rounded-t mb-8">
+        <ol class="flex justify-center">
+          <li class="breadcrumb-item flex-grow py-3 bg-gray-300 hover:bg-gray-400 breadcrumb-arrow-gray-300 hover:breadcrumb-arrow-gray-400">
+            <a class="breadcrumb-item-contents" href="/"> home </a>
+          </li>
+          {{ range $i, $v := .Levels }}
+            <li class="breadcrumb-item flex-grow py-3 bg-gray-300 hover:bg-pink-400 breadcrumb-arrow-gray-300 hover:breadcrumb-arrow-pink-400{{ if $v.IsLocked  }} locked{{ end }}">
+              <a class="breadcrumb-item-contents" href="/levels/{{ $v.Index }}/">{{ $v.Index }}</a>
+            </li>
+          {{ end }}
+          <li class="breadcrumb-item flex-grow py-3 bg-gray-300 hover:bg-gray-400">
+            <a class="breadcrumb-item-contents" href="/">flag</a>
+          </li>
+        </ol>
+      </nav>
     {{ template "content" . }}
   </div>
   <script src="/static/prism.js"></script>
