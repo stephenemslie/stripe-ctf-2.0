@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"html/template"
@@ -28,6 +29,16 @@ func (s *SourceFile) Code() string {
 
 func (s *SourceFile) Basename() string {
 	return filepath.Base(s.Name)
+}
+
+func (s *SourceFile) MarshalJSON() ([]byte, error) {
+	data := struct {
+		Name     string
+		Basename string
+		Language string
+		Code     string
+	}{s.Name, s.Basename(), s.Language, s.Code()}
+	return json.Marshal(data)
 }
 
 type Level struct {
