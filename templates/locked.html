@@ -1,7 +1,13 @@
 {{ define "content" }}
 <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
-<div class="flex flex-row justify-center mt-10">
-  <input class="flex-0 w-1/2 border rounded h-15 p-4 text-center" data-lpignore="true" type="password" name="password"/>
+<div class="flex flex-row justify-center my-16">
+  <input
+    class="border rounded h-15 p-4 text-center w-1/2"
+    data-lpignore="true"
+    type="password"
+    name="password"
+    placeholder="password"
+    />
   <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
     unlock
   </button>
