@@ -1,7 +1,7 @@
 {{ define "content" }}
-    {{ block "levelheader" . }}
-    <h2># Level {{ .Index }}: {{ .Name }}</h2>
-    <a href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
+    {{ block "levelheader" .Level }}
+    <h1 class="text-2xl">Level {{ .Index }}: {{ .Name }}</h1>
+    <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
     {{ end }}
     <p>{{ template "levelintro" . }}</p>
     {{ if lt .Index 8 }}
