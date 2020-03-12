@@ -4,9 +4,6 @@
     <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
     {{ end }}
     <p>{{ template "levelintro" . }}</p>
-    {{ if lt .Index 8 }}
-    <a href="/levels/{{ .Next.Index }}/">Next: level {{ .Next.Index }}</a>
-    {{ end }}
     <div id="codeview"></div>
     <script type="text/babel" src="/static/codeview.js"></script>
     <script type="text/babel">
