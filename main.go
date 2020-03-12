@@ -198,8 +198,16 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	level := levels[levelIndex]
 	if r.Method == http.MethodGet {
-		t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
-		t.Execute(w, level)
+		if !level.IsLocked() {
+			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
+		} else {
+			t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
+			data := struct {
+				Levels []Level
+				Level  Level
+			}{levels, level}
+			t.Execute(w, data)
+		}
 	} else if r.Method == http.MethodPost {
 		if level.checkPassword(r.FormValue("password")) {
 			level.unlock()
