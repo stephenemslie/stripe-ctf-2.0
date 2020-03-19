@@ -88,6 +88,7 @@ services:
       - UNLOCK_FILE=/mnt/levels/4.unlocked
     volumes:
       - level4:/mnt/level4
+      - levels:/mnt/levels:ro
     networks:
       - browsers
   level5:
@@ -129,6 +130,7 @@ services:
       - UNLOCK_FILE=/mnt/levels/6.unlocked
     volumes:
       - level6:/mnt/level6
+      - levels:/mnt/levels:ro
     networks:
       - browsers
   level7:
