@@ -1,8 +1,11 @@
 #!/bin/sh
 
-if [ ! -f ./mnt/level/password.txt ]; then
-    base64 /dev/urandom | head -c 10 > /mnt/level/password.txt
-    node ctf-install.js `cat /mnt/level/password.txt`
+if [ ! -f $PWPATH ]; then
+    base64 /dev/urandom | head -c 10 > $PWPATH
+fi
+
+if [ ! -f level00.db ]; then
+    node ctf-install.js `cat $PWPATH`
 fi
 
 if [ "$1" = 'serve' ]; then
