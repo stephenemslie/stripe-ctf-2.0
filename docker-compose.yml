@@ -98,7 +98,7 @@ services:
     depends_on:
       - level2
     networks:
-      servers:
+      browsers:
         aliases:
           - level5-stripe-ctf
     environment:
