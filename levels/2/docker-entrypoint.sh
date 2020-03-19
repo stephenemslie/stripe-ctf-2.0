@@ -1,8 +1,10 @@
 #!/bin/sh
 
-if [ ! -f /mnt/level/password.txt ]; then
-  ln -s /mnt/level/password.txt password.txt
-  base64 /dev/urandom | head -c 10 > /mnt/level/password.txt
+mkdir -p /usr/src/app/uploads
+ln -s $PWPATH password.txt
+
+if [ ! -f $PWPATH ]; then
+  base64 /dev/urandom | head -c 10 > $PWPATH
 fi
 
 if [ "$1" == 'serve' ]; then
