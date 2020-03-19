@@ -1,9 +1,6 @@
 <?php
 
 $forbid = [
-  '/^\/ctf-halt.sh/',
-  '/^\/ctf-install.sh/',
-  '/^\/ctf-run.sh/',
   '/^\/password.txt/'
 ];
 
