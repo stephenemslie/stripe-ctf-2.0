@@ -41,6 +41,13 @@ async function checkCredits(username, password) {
     `Starting timer to check credits every ${intervalSeconds} seconds.`
   );
   setInterval(() => {
-    checkCredits("karma_fountain", password);
+    fs.access(process.env.UNLOCK_FILE, err => {
+      if (err) {
+        console.log("Checking karma");
+        checkCredits("karma_fountain", password);
+      } else {
+        console.log(`${process.env.UNLOCK_FILE} exists, skipping check`);
+      }
+    });
   }, intervalSeconds * 1000);
 })();
