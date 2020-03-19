@@ -83,6 +83,12 @@ async function browse(username, password) {
   const intervalSeconds = 30;
   console.log(`Starting timer for ${intervalSeconds} seconds.`);
   setInterval(() => {
-    browse("level07-password-holder", password);
+    fs.access(process.env.UNLOCK_FILE, err => {
+      if (err) {
+        browse("level07-password-holder", password);
+      } else {
+        console.log(`${process.env.UNLOCK_FILE} exists, skipping browse`);
+      }
+    });
   }, intervalSeconds * 1000);
 })();
