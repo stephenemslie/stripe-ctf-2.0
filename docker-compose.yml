@@ -66,8 +66,6 @@ services:
   level4-server:
     build:
       context: ./levels/4/server
-    volumes:
-      - passwords:/mnt/passwords
     command: serve
     networks:
       servers:
