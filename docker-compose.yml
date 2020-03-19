@@ -6,6 +6,7 @@ services:
       - "8000:8000"
     networks:
       servers:
+      browsers:
     volumes:
       - levels:/mnt/levels
       - level0:/mnt/level0
