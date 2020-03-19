@@ -24,6 +24,8 @@ services:
       servers:
         aliases:
           - level0-stripe-ctf
+    environment:
+      - PWPATH=/mnt/level0/password.txt
     volumes:
       - level0:/mnt/level0
   level1:
@@ -34,7 +36,7 @@ services:
         aliases:
           - level1-stripe-ctf
     environment:
-      - PWPATH=/mnt/level/password.txt
+      - PWPATH=/mnt/level1/password.txt
     volumes:
       - level1:/mnt/level1
   level2:
@@ -44,6 +46,8 @@ services:
       servers:
         aliases:
           - level2-stripe-ctf
+    environment:
+      - PWPATH=/mnt/level2/password.txt
     volumes:
       - level2:/mnt/level2
   level3:
@@ -55,6 +59,7 @@ services:
           - level3-stripe-ctf
     environment:
       - LEVEL3_DATA_DIR=/var/level3/data
+      - PWPATH=/mnt/level3/password.txt
     volumes:
       - level3:/mnt/level3
   level4-server:
@@ -69,7 +74,7 @@ services:
           - level4-stripe-ctf
       browsers:
     environment:
-      - PW_FILE=/mnt/level/password.txt
+      - PW_FILE=/mnt/level4/password.txt
     volumes:
       - level4:/mnt/level4
   level4-browser:
@@ -77,6 +82,8 @@ services:
       context: ./levels/4/browser
     cap_add:
       - SYS_ADMIN
+    environment:
+      - PW_FILE=/mnt/level4/password.txt
     volumes:
       - level4:/mnt/level4
     networks:
@@ -92,7 +99,7 @@ services:
         aliases:
           - level5-stripe-ctf
     environment:
-      - PW_FILE=/mnt/level/password.txt
+      - PW_FILE=/mnt/level5/password.txt
     volumes:
       - level5:/mnt/level5
   level6-server:
@@ -105,7 +112,7 @@ services:
           - level6-stripe-ctf
       browsers:
     environment:
-      - PW_FILE=/mnt/level/password.txt
+      - PW_FILE=/mnt/level6/password.txt
     volumes:
       - level6:/mnt/level6
   level6-browser:
@@ -113,6 +120,8 @@ services:
       context: ./levels/6/browser
     cap_add:
       - SYS_ADMIN
+    environment:
+      - PW_FILE=/mnt/level6/password.txt
     volumes:
       - level6:/mnt/level6
     networks:
@@ -126,7 +135,7 @@ services:
         aliases:
           - level7-stripe-ctf
     environment:
-      - PW_FILE=/mnt/level/password.txt
+      - PW_FILE=/mnt/level7/password.txt
     volumes:
       - level7:/mnt/level7
   level8:
@@ -138,6 +147,8 @@ services:
       servers:
         aliases:
           - level8-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level8/password.txt
     volumes:
       - level8:/mnt/level8
 volumes:
