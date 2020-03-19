@@ -74,6 +74,8 @@ async function browse(username, password) {
   } else {
     console.log("Decided not to post.");
   }
+  browser.close();
+  return;
 }
 
 (() => {
