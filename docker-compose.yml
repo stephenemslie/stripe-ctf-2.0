@@ -123,6 +123,8 @@ services:
       context: ./levels/6/browser
     depends_on:
       - level6-server
+    networks:
+      - browsers
     cap_add:
       - SYS_ADMIN
     environment:
@@ -131,8 +133,6 @@ services:
     volumes:
       - level6:/mnt/level6
       - levels:/mnt/levels:ro
-    networks:
-      - browsers
   level7:
     build:
       context: ./levels/7
