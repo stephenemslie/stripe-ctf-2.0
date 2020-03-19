@@ -118,6 +118,8 @@ services:
   level6-browser:
     build:
       context: ./levels/6/browser
+    depends_on:
+      - level6-server
     cap_add:
       - SYS_ADMIN
     environment:
