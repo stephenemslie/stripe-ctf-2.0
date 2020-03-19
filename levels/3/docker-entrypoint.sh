@@ -1,11 +1,10 @@
 #!/bin/sh
 
-if [ ! -f /mnt/level/password.txt ]; then
-  base64 /dev/urandom | head -c 10 > /mnt/level/password.txt
+if [ ! -f $PWPATH ]; then
+  base64 /dev/urandom | head -c 10 > $PWPATH
 fi
 
-
-export PASSWORD=`cat /mnt/level/password.txt`
+export PASSWORD=`cat $PWPATH`
 export PLANS=`uuidgen`
 export PROOF=`uuidgen`
 mkdir -p $LEVEL3_DATA_DIR
