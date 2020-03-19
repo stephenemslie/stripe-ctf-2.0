@@ -35,7 +35,7 @@ async function checkCredits(username, password) {
 }
 
 (() => {
-  const password = fs.readFileSync("/mnt/passwords/password4.txt", "utf-8");
+  const password = fs.readFileSync(process.env.PW_FILE, "utf-8");
   const intervalSeconds = 30;
   console.log(
     `Starting timer to check credits every ${intervalSeconds} seconds.`
