@@ -25,7 +25,7 @@ services:
         aliases:
           - level0-stripe-ctf
     volumes:
-      - level0:/mnt/level
+      - level0:/mnt/level0
   level1:
     build:
       context: ./levels/1
@@ -36,7 +36,7 @@ services:
     environment:
       - PWPATH=/mnt/level/password.txt
     volumes:
-      - level1:/mnt/level
+      - level1:/mnt/level1
   level2:
     build:
       context: ./levels/2
@@ -45,7 +45,7 @@ services:
         aliases:
           - level2-stripe-ctf
     volumes:
-      - level2:/mnt/level
+      - level2:/mnt/level2
   level3:
     build:
       context: ./levels/3
@@ -56,7 +56,7 @@ services:
     environment:
       - LEVEL3_DATA_DIR=/var/level3/data
     volumes:
-      - level3:/mnt/level
+      - level3:/mnt/level3
   level4-server:
     build:
       context: ./levels/4/server
@@ -71,14 +71,14 @@ services:
     environment:
       - PW_FILE=/mnt/level/password.txt
     volumes:
-      - level4:/mnt/level
+      - level4:/mnt/level4
   level4-browser:
     build:
       context: ./levels/4/browser
     cap_add:
       - SYS_ADMIN
     volumes:
-      - passwords:/mnt/passwords
+      - level4:/mnt/level4
     networks:
       - browsers
   level5:
@@ -94,7 +94,7 @@ services:
     environment:
       - PW_FILE=/mnt/level/password.txt
     volumes:
-      - level5:/mnt/level
+      - level5:/mnt/level5
   level6-server:
     build:
       context: ./levels/6/server
@@ -107,14 +107,14 @@ services:
     environment:
       - PW_FILE=/mnt/level/password.txt
     volumes:
-      - level6:/mnt/level
+      - level6:/mnt/level6
   level6-browser:
     build:
       context: ./levels/6/browser
     cap_add:
       - SYS_ADMIN
     volumes:
-      - level6:/mnt/level
+      - level6:/mnt/level6
     networks:
       - browsers
   level7:
@@ -128,7 +128,7 @@ services:
     environment:
       - PW_FILE=/mnt/level/password.txt
     volumes:
-      - level7:/mnt/level
+      - level7:/mnt/level7
   level8:
     build:
       context: ./levels/8
@@ -139,7 +139,7 @@ services:
         aliases:
           - level8-stripe-ctf
     volumes:
-      - level8:/mnt/level
+      - level8:/mnt/level8
 volumes:
   passwords:
   levels:
