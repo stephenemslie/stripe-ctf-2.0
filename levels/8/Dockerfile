@@ -1,6 +1,6 @@
-FROM python:3.8.1-alpine
+FROM python:2.7.17-alpine3.11
 RUN apk add --no-cache build-base
-RUN pip install twisted
+RUN pip install twisted==11.1.0
 WORKDIR /usr/src/app
 COPY . .
 EXPOSE 4000
