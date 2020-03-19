@@ -83,6 +83,7 @@ services:
       - SYS_ADMIN
     environment:
       - PW_FILE=/mnt/level4/password.txt
+      - UNLOCK_FILE=/mnt/levels/4.unlocked
     volumes:
       - level4:/mnt/level4
     networks:
@@ -121,6 +122,7 @@ services:
       - SYS_ADMIN
     environment:
       - PW_FILE=/mnt/level6/password.txt
+      - UNLOCK_FILE=/mnt/levels/6.unlocked
     volumes:
       - level6:/mnt/level6
     networks:
