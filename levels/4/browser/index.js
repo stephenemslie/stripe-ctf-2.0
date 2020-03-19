@@ -14,7 +14,12 @@ async function checkCredits(username, password) {
     username,
     password
   );
-  await page.waitForNavigation();
+  try {
+    await page.waitForNavigation({ timeout: 10000 });
+  } catch {
+    browser.close();
+    return;
+  }
   const { title, url, credits } = await page.evaluate(() => {
     return {
       title: document.title,
