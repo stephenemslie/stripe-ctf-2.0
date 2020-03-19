@@ -44,6 +44,9 @@ services:
     build:
       context: ./levels/2
     networks:
+      browsers:
+        aliases:
+          - level2-stripe-ctf
       servers:
         aliases:
           - level2-stripe-ctf
