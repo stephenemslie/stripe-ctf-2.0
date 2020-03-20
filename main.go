@@ -65,7 +65,7 @@ func (l *Level) setPassword(password string) {
 }
 
 func (l *Level) IsLocked() bool {
-	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index)
+	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index-1)
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		return true
