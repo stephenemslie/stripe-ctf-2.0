@@ -64,6 +64,7 @@ func (l *Level) setPassword(password string) {
 	ioutil.WriteFile(l.getPasswordPath(), []byte(password), 0644)
 }
 
+// IsLocked returns true if the level is locked
 func (l *Level) IsLocked() bool {
 	if l.Index == 0 {
 		return false
