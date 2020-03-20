@@ -5,3 +5,5 @@ COPY main.go /go/src/app/main.go
 RUN go get
 COPY . /go/src/app
 EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["serve"]
