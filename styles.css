@@ -4,6 +4,10 @@ p {
   @apply my-4;
 }
 
+h1 {
+  @apply text-2xl;
+}
+
 @tailwind components;
 
 @tailwind utilities;
