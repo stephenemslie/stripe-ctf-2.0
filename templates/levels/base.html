@@ -1,7 +1,7 @@
 {{ define "content" }}
     {{ block "levelheader" .Level }}
       <h1>{{ .Emoji }} Level {{ .Index }}: {{ .Name }}</h1>
-    <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
+      <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
     {{ end }}
     {{ template "levelintro" .Level }}
     {{ if .Level.Next.IsLocked }}
@@ -23,10 +23,10 @@
     <div id="codeview"></div>
     <script type="text/babel" src="/static/codeview.js"></script>
     <script type="text/babel">
-        ReactDOM.render(
-          <CodeView index={{"{"}}{{.Level.Index}}{{"}"}}/>,
-          document.getElementById("codeview")
-        );
+      ReactDOM.render(
+        <CodeView index={{"{"}}{{.Level.Index}}{{"}"}}/>,
+        document.getElementById("codeview")
+      );
     </script>
 {{ end }}
 {{ define "extrahead" }}
