@@ -81,8 +81,9 @@ func (l *Level) proxy() *httputil.ReverseProxy {
 	return httputil.NewSingleHostReverseProxy(u)
 }
 
-func (l *Level) Next() (Level, error) {
-	var nextLevel Level
+// Next returns the next level and an error if there isn't one
+func (l *Level) Next() (*Level, error) {
+	var nextLevel *Level
 	index := l.Index + 1
 	if index >= len(levels) {
 		return nextLevel, fmt.Errorf("No such level %d", index)
