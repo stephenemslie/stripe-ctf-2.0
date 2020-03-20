@@ -1,0 +1,7 @@
+*.db
+node_modules
+entropy.dat
+__pycache__/
+levels/1/secret-combination.txt
+levels/2/password.txt
+levels/2/uploads
