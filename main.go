@@ -183,12 +183,11 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		path := fmt.Sprintf("templates/levels/%d.html", level.Index)
 		t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
-		next, _ := level.Next()
 		data := struct {
+			Handler string
 			Levels  []*Level
 			Level   *Level
-			Next   Level
-		}{levels, level, next}
+		}{"level", levels, level}
 		err := t.Execute(w, data)
 		if err != nil {
 			fmt.Println(err)
