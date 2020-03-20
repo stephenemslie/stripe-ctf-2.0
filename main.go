@@ -254,7 +254,7 @@ func main() {
 	for i := range levels {
 		level := levels[i]
 		s := r.Host(level.Host).Subrouter()
-		s.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if level.IsLocked() {
 				http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
