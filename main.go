@@ -105,27 +105,27 @@ func (l *Level) unlock() {
 }
 
 var levels = []*Level{
-	{0, "level0-stripe-ctf", 3000, "The Secret Safe",
+	{0, "level0-stripe-ctf", 3000, "The Secret Safe", "blue", "🔐",
 		map[string]*SourceFile{
 			"level00.html": &SourceFile{0, "level00.html", "html"},
 			"level00.js":   &SourceFile{0, "level00.js", "javascript"},
 		}},
-	{1, "level1-stripe-ctf", 8000, "The Guessing Game",
+	{1, "level1-stripe-ctf", 8000, "The Guessing Game", "teal", "🎲",
 		map[string]*SourceFile{
 			"index.php":   &SourceFile{1, "index.php", "php"},
 			"routing.php": &SourceFile{1, "routing.php", "php"},
 		}},
-	{2, "level2-stripe-ctf", 8000, "The Social Network",
+	{2, "level2-stripe-ctf", 8000, "The Social Network", "green", "👥",
 		map[string]*SourceFile{
 			"index.php":   &SourceFile{2, "index.php", "php"},
 			"routing.php": &SourceFile{2, "routing.php", "php"},
 		}},
-	{3, "level3-stripe-ctf", 5000, "The Secret Vault",
+	{3, "level3-stripe-ctf", 5000, "The Secret Vault", "yellow", "🙊",
 		map[string]*SourceFile{
 			"index.html":     &SourceFile{3, "index.html", "html"},
 			"secretvault.py": &SourceFile{3, "secretvault.py", "python"},
 		}},
-	{4, "level4-stripe-ctf", 4567, "Karma Trader",
+	{4, "level4-stripe-ctf", 4567, "Karma Trader", "orange", "🙏",
 		map[string]*SourceFile{
 			"srv.rb":       &SourceFile{4, "server/srv.rb", "ruby"},
 			"layout.erb":   &SourceFile{4, "server/views/layout.erb", "ruby"},
@@ -133,11 +133,11 @@ var levels = []*Level{
 			"login.erb":    &SourceFile{4, "server/views/login.erb", "ruby"},
 			"register.erb": &SourceFile{4, "server/views/register.erb", "ruby"},
 		}},
-	{5, "level5-stripe-ctf", 4568, "DomainAuthenticator",
+	{5, "level5-stripe-ctf", 4568, "DomainAuthenticator", "red", "🌐",
 		map[string]*SourceFile{
 			"srv.rb": &SourceFile{5, "srv.rb", "ruby"},
 		}},
-	{6, "level6-stripe-ctf", 4569, "Streamer",
+	{6, "level6-stripe-ctf", 4569, "Streamer", "pink", "💬",
 		map[string]*SourceFile{
 			"srv.rb":        &SourceFile{6, "server/srv.rb", "ruby"},
 			"layout.erb":    &SourceFile{6, "server/views/layout.erb", "ruby"},
@@ -145,14 +145,14 @@ var levels = []*Level{
 			"register.erb":  &SourceFile{6, "server/views/register.erb", "ruby"},
 			"user_info.erb": &SourceFile{6, "server/views/user_info.erb", "ruby"},
 		}},
-	{7, "level7-stripe-ctf", 9233, "WaffleCopter",
+	{7, "level7-stripe-ctf", 9233, "WaffleCopter", "purple", "🚁",
 		map[string]*SourceFile{
 			"client.py":       &SourceFile{7, "client.py", "python"},
 			"db.py":           &SourceFile{7, "db.py", "python"},
 			"settings.py":     &SourceFile{7, "settings.py", "python"},
 			"wafflecopter.py": &SourceFile{7, "wafflecopter.py", "python"},
 		}},
-	{8, "level8-stripe-ctf", 4000, "PasswordDB",
+	{8, "level8-stripe-ctf", 4000, "PasswordDB", "indigo", "🔑",
 		map[string]*SourceFile{
 			"primary_server":       &SourceFile{8, "primary_server", "python"},
 			"password_db_launcher": &SourceFile{8, "password_db_launcher", "python"},
