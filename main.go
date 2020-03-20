@@ -227,7 +227,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		if level.checkPassword(r.FormValue("password")) {
 			level.unlock()
 		}
-		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
+		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex+1), http.StatusFound)
 	}
 }
 
