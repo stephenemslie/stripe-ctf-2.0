@@ -76,7 +76,7 @@ func (l *Level) IsLocked() bool {
 	return false
 }
 
-func (l *Level) Proxy() *httputil.ReverseProxy {
+func (l *Level) proxy() *httputil.ReverseProxy {
 	u, _ := url.Parse(fmt.Sprintf("http://%s:%d/", l.Host, l.Port))
 	return httputil.NewSingleHostReverseProxy(u)
 }
@@ -230,7 +230,7 @@ func main() {
 			if level.IsLocked() {
 				http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
-				level.Proxy().ServeHTTP(w, r)
+				level.proxy().ServeHTTP(w, r)
 			}
 		})
 	}
