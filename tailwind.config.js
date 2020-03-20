@@ -65,7 +65,7 @@ module.exports = {
       const utilities = {};
       Object.entries(theme("colors")).map(([color, shades]) => {
         Object.entries(shades).map(([shade, value]) => {
-          utilities[`.breadcrumb-arrow-${color}-${shade} a::after`] = {
+          utilities[`.breadcrumb-arrow-${color}-${shade}::after`] = {
             borderLeftColor: value
           };
         });
