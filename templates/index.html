@@ -1,8 +1,9 @@
 {{ define "content" }}
 <div>
-  <h1 class="mb-2"># Container orchestrated Stripe CTF 2.0</h1>
-  <p>Back in 2012, Stripe hosted a web security capture the flag game. Each level contained a security flaw that could be exploited to steal the password to the next level. When the game was finished, the servers were taken offline and the source code for was made availalbe on github.</p>
-  <p>This project brings it back to life by containerising each level with docker, orchestrating the services with docker-compose, and managing access and game state with a reverse proxy written in Go.</p>
+  <h1 class="mb-2">👋 Welcome!</h1>
+  <p>In 2012, Stripe hosted a web security capture the flag game. Each level contained a security flaw that could be exploited to progress. It was a neat way for web developers to learn about some of the most common web security flaws from the perspective of a determined attacker.</p>
+  <p>Luckily, when the servers were taken offline, Stripe open sourced the levels for the challenge. This project brings it back to life by containerizing each level with docker, orchestrating the services with Docker Compose, and managing access, game state, and this website with a reverse proxy written in Go.</p>
   <p>Enjoy!</p>
+  <a href="/levels/0/" class="underline text-blue-400">Level 0: The Secret Safe</a>
 </div>
 {{ end }}
