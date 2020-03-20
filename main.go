@@ -103,7 +103,7 @@ func (l *Level) unlock() {
 	}
 }
 
-var levels = []Level{
+var levels = []*Level{
 	{0, "level0-stripe-ctf", 3000, "The Secret Safe",
 		map[string]*SourceFile{
 			"level00.html": &SourceFile{0, "level00.html", "html"},
@@ -179,8 +179,8 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
 		next, _ := level.Next()
 		data := struct {
-			Levels []Level
-			Level  Level
+			Levels  []*Level
+			Level   *Level
 			Next   Level
 		}{levels, level, next}
 		err := t.Execute(w, data)
@@ -208,8 +208,8 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
 			data := struct {
-				Levels []Level
-				Level  Level
+				Levels  []*Level
+				Level   *Level
 			}{levels, level}
 			t.Execute(w, data)
 		}
