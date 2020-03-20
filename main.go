@@ -231,6 +231,24 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func flagHandler(w http.ResponseWriter, r *http.Request) {
+	level := levels[8]
+	if level.IsLocked() {
+		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
+	} else {
+		t, _ := template.ParseFiles("templates/base.html", "templates/flag.html")
+		data := struct {
+			Handler string
+			Levels  []*Level
+			Level   string
+		}{"flag", levels, ""}
+		err := t.Execute(w, data)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
 func main() {
 	r := mux.NewRouter()
 	for i := range levels {
@@ -249,6 +267,7 @@ func main() {
 	r.HandleFunc("/levels/{index:[0-8]}/unlock/", unlockLevelHandler).Methods("GET", "POST")
 	r.HandleFunc("/levels/{index:[0-8]}.json", codeLevelHandler).Methods("GET")
 	r.HandleFunc("/levels/{index:[0-8]}/", levelHandler).Methods("GET")
+	r.HandleFunc("/flag/", flagHandler).Methods("GET")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
