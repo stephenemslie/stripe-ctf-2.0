@@ -10,7 +10,7 @@ module.exports = {
             a: {
               position: "relative",
               display: "block",
-              marginLeft: "45px",
+              paddingLeft: "45px",
               textAlign: "center",
               "&::after": {
                 content: '""',
@@ -45,12 +45,12 @@ module.exports = {
             },
             "&:first-child": {
               a: {
-                marginLeft: "30px"
+                paddingLeft: "30px"
               }
             },
             "&:last-child": {
               a: {
-                marginRight: "30px",
+                paddingRight: "30px",
                 "&::after": {
                   border: 0
                 },
