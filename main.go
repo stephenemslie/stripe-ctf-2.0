@@ -217,9 +217,10 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
 			data := struct {
+				Handler string
 				Levels  []*Level
 				Level   *Level
-			}{levels, level}
+			}{"unlock", levels, level}
 			t.Execute(w, data)
 		}
 	} else if r.Method == http.MethodPost {
