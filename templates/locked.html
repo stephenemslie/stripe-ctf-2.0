@@ -1,4 +1,5 @@
 {{ define "content" }}
+<h1 class="text-center mt-6">🔒 Level {{ .Level.Index }} is locked</h1>
 <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
 <div class="flex flex-row justify-center my-16">
   <input
@@ -6,7 +7,7 @@
     data-lpignore="true"
     type="password"
     name="password"
-    placeholder="password"
+    placeholder="level {{ .Level.Index }} password"
     />
   <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
     unlock
