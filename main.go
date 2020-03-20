@@ -46,7 +46,9 @@ type Level struct {
 	Host   string
 	Port   int
 	Name   string
-	Source map[string]*SourceFile
+	Color  string
+	Emoji  string
+	Source []*SourceFile
 }
 
 func (l *Level) getPasswordPath() string {
