@@ -1,8 +1,17 @@
 version: "3.7"
 services:
-  app:
+  ctfproxy-frontend:
+    build:
+      context: ./ctfproxy
+      target: node
     volumes:
-      - .:/go/src/app
+      - ./ctfproxy:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npmwatch
+  ctfproxy:
+    volumes:
+      - ./ctfproxy:/usr/src/app
+    command: gowatch
   level0:
     volumes:
       - ./levels/0:/usr/src/app
