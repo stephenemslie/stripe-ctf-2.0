@@ -22,7 +22,7 @@ type SourceFile struct {
 }
 
 func (s *SourceFile) Code() string {
-	path := filepath.Join(".", "levels", strconv.Itoa(s.Level), s.Name)
+	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
 	code, _ := ioutil.ReadFile(path)
 	return string(code)
 }
