@@ -13,7 +13,7 @@ WORKDIR /usr/src/app
 COPY go.mod /usr/src/app/go.mod
 RUN go mod download
 RUN go get github.com/githubnemo/CompileDaemon
-COPY . /go/src/app
+COPY . /usr/src/app
 COPY --from=0 /usr/src/app/static/styles.css /usr/src/app/static/styles.css
 EXPOSE 8000
 ENTRYPOINT ["./docker-entrypoint.sh"]
