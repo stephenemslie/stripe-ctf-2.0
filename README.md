@@ -41,8 +41,8 @@ docker-compose rm
 docker volume prune
 ```
 
-To run in development (with hot reloading):
+To run in development:
 
 ```
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml docker-compose up
 ```
