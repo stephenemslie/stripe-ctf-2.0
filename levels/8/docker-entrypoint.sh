@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ ! -f $PW_FILE ]; then
-    python -c "import secrets; import sys; sys.stdout.write(''.join([str(secrets.randbelow(10)) for i in range(12)]))" > $PW_FILE
+    python -c "import random; import sys; sys.stdout.write(''.join([str(random.SystemRandom().randint(0, 9)) for i in range(12)]))" > $PW_FILE
 fi
 
 if [ "$1" = 'serve' ]; then
