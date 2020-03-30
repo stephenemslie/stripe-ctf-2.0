@@ -4,9 +4,9 @@ if [ ! -f secret-combination.txt ]; then
     uuidgen > secret-combination.txt
 fi
 
-if [ ! -f $PWPATH ]; then
+if [ ! -f $PW_FILE ]; then
     uuidgen > secret-combination.txt
-    base64 /dev/urandom | head -c 10 > $PWPATH
+    base64 /dev/urandom | head -c 10 > $PW_FILE
 fi
 
 if [ "$1" = 'serve' ]; then

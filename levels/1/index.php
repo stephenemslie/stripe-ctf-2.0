@@ -16,7 +16,7 @@
         if ($attempt === $combination) {
           echo "<p>How did you know the secret combination was" .
                " $combination!?</p>";
-          $next = file_get_contents($_ENV["PWPATH"]);
+          $next = file_get_contents($_ENV["PW_FILE"]);
           echo "<p>You've earned the password to the access Level 2:" .
                " $next</p>";
         } else {

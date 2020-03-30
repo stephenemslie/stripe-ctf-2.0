@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ ! -f $PWPATH ]; then
-  base64 /dev/urandom | head -c 10 > $PWPATH
+if [ ! -f $PW_FILE ]; then
+  base64 /dev/urandom | head -c 10 > $PW_FILE
 fi
 
-export PASSWORD=`cat $PWPATH`
+export PASSWORD=`cat $PW_FILE`
 export PLANS=`uuidgen`
 export PROOF=`uuidgen`
 mkdir -p $LEVEL3_DATA_DIR

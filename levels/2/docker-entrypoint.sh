@@ -1,10 +1,10 @@
 #!/bin/sh
 
 mkdir -p /usr/src/app/uploads
-ln -s $PWPATH password.txt
+ln -s $PW_FILE password.txt
 
-if [ ! -f $PWPATH ]; then
-  base64 /dev/urandom | head -c 10 > $PWPATH
+if [ ! -f $PW_FILE ]; then
+  base64 /dev/urandom | head -c 10 > $PW_FILE
 fi
 
 if [ "$1" == 'serve' ]; then
