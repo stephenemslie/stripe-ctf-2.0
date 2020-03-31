@@ -65,7 +65,7 @@ func (l *Level) setPassword(password string) {
 }
 
 func (l *Level) IsComplete() bool {
-	path := fmt.Sprintf("/mnt/levels/%d.complete", l.Index)
+	path := fmt.Sprintf("/mnt/levels/%d.completed", l.Index)
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		return false
@@ -97,7 +97,7 @@ func (l *Level) Next() (*Level, error) {
 }
 
 func (l *Level) unlock() {
-	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index)
+	path := fmt.Sprintf("/mnt/levels/%d.completed", l.Index)
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		file, err := os.Create(path)
