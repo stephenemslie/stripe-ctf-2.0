@@ -64,17 +64,20 @@ func (l *Level) setPassword(password string) {
 	ioutil.WriteFile(l.getPasswordPath(), []byte(password), 0644)
 }
 
-// IsLocked returns true if the level is locked
+func (l *Level) IsComplete() bool {
+	path := fmt.Sprintf("/mnt/levels/%d.complete", l.Index)
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
 func (l *Level) IsLocked() bool {
 	if l.Index == 0 {
 		return false
 	}
-	path := fmt.Sprintf("/mnt/levels/%d.unlocked", l.Index-1)
-	_, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return true
-	}
-	return false
+	return !levels[l.Index-1].IsComplete()
 }
 
 func (l *Level) proxy() *httputil.ReverseProxy {
