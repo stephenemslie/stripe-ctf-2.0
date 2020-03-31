@@ -188,18 +188,18 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	level := levels[levelIndex]
 	if level.IsLocked() {
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
-	} else {
-		path := fmt.Sprintf("templates/levels/%d.html", level.Index)
-		t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
-		data := struct {
-			Handler string
-			Levels  []*Level
-			Level   *Level
-		}{"level", levels, level}
-		err := t.Execute(w, data)
-		if err != nil {
-			fmt.Println(err)
-		}
+		return
+	}
+	path := fmt.Sprintf("templates/levels/%d.html", level.Index)
+	t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
+	data := struct {
+		Handler string
+		Levels  []*Level
+		Level   *Level
+	}{"level", levels, level}
+	err := t.Execute(w, data)
+	if err != nil {
+		fmt.Println(err)
 	}
 }
 
