@@ -17,6 +17,14 @@ h1 {
   font-family: "8-bit_pusabregular";
 }
 
+a {
+  @apply text-blue-300;
+}
+
+a:hover {
+  @apply bg-blue-700;
+}
+
 @tailwind components;
 
 @tailwind utilities;
