@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        dark: "#34294f"
+        "prism-bg": "#2d3748"
       }
     }
   },
