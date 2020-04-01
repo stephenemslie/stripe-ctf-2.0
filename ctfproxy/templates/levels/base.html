@@ -4,7 +4,7 @@
       <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
     {{ end }}
     {{ template "levelintro" .Level }}
-    {{ if .Level.Next.IsLocked }}
+    {{ if not .Level.IsComplete }}
       <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
         <div class="flex flex-row justify-start my-8">
           <input
