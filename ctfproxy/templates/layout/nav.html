@@ -1,7 +1,7 @@
 {{ define "nav" }}
-  <nav class="breadcrumb w-full rounded-t">
+  <nav class="breadcrumb w-full">
     <ol class="flex justify-center">
-    {{ $arrowclasses := "py-3 bg-gray-400 breadcrumb-arrow-gray-400 hover:bg-blue-200 hover:breadcrumb-arrow-blue-200" }}
+    {{ $arrowclasses := "py-3 bg-gray-400 breadcrumb-arrow-gray-400 hover:bg-blue-200 hover:breadcrumb-arrow-blue-200 text-white" }}
       <li class="flex-grow">
         <a class="{{ $arrowclasses }}
                    {{ if eq .Handler "home" }}

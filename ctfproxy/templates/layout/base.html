@@ -11,51 +11,6 @@
 <body class="font-mono bg-blue-300">
   <div class="min-h-screen">
     <div class="mx-auto max-w-3xl flex flex-grow flex-col rounded-lg bg-white my-16 pb-16">
-      <nav class="breadcrumb w-full text-white rounded-t mb-8">
-        <ol class="flex justify-center">
-          <li class="flex-grow">
-            <a class="py-3
-                      {{ if eq .Handler "home" }}
-                        bg-blue-400
-                        breadcrumb-arrow-blue-400
-                      {{ else }}
-                        bg-gray-300
-                        breadcrumb-arrow-gray-300 
-                        hover:bg-blue-200 
-                        hover:breadcrumb-arrow-blue-200
-                      {{ end }}
-                      "
-              href="/"> home </a>
-          </li>
-          {{ range $i, $v := .Levels }}
-            <li class="flex-grow">
-              <a class="py-3
-                        bg-gray-300
-                        breadcrumb-arrow-gray-300
-                        hover:bg-blue-200
-                        hover:breadcrumb-arrow-blue-200
-                        {{ if $.Level }}
-                          {{ if eq $v.Index $.Level.Index }}
-                            bg-blue-400
-                            breadcrumb-arrow-blue-400
-                            active
-                          {{ end }}
-                        {{ end }}"
-                 href="/levels/{{ $v.Index }}/">{{ $v.Index }}</a>
-            </li>
-          {{ end }}
-          <li class="flex-grow">
-            <a class="py-3
-                      {{ if eq .Handler "flag" }}
-                        bg-blue-400
-                      {{ else }}
-                        bg-gray-300
-                        hover:bg-blue-200
-                      {{ end }}"
-                href="/flag/">flag</a>
-          </li>
-        </ol>
-      </nav>
       <div class="px-6">
         {{ template "content" . }}
       </div>
