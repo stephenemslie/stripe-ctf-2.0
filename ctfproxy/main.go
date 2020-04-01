@@ -169,8 +169,11 @@ var levels = []*Level{
 		}},
 }
 
+var baseTemplate *template.Template
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("templates/base.html", "templates/index.html")
+	t, _ := baseTemplate.Clone()
+	t.ParseFiles("templates/index.html")
 	data := struct {
 		Handler string
 		Level   string
@@ -191,7 +194,8 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	path := fmt.Sprintf("templates/levels/%d.html", level.Index)
-	t, _ := template.ParseFiles("templates/base.html", "templates/levels/base.html", path)
+	t, _ := baseTemplate.Clone()
+	t.ParseFiles(path)
 	data := struct {
 		Handler string
 		Levels  []*Level
@@ -219,7 +223,8 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		if !level.IsLocked() {
 			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
 		} else {
-			t, _ := template.ParseFiles("templates/base.html", "templates/locked.html")
+			t, _ := baseTemplate.Clone()
+			t.ParseFiles("templates/locked.html")
 			data := struct {
 				Handler string
 				Levels  []*Level
@@ -243,9 +248,11 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	}{"flag", levels, ""}
 	var t *template.Template
 	if levels[8].IsComplete() {
-		t, _ = template.ParseFiles("templates/base.html", "templates/flag.html")
+		t, _ = baseTemplate.Clone()
+		t.ParseFiles("templates/flag.html")
 	} else {
-		t, _ = template.ParseFiles("templates/base.html", "templates/flag_locked.html")
+		t, _ = baseTemplate.Clone()
+		t.ParseFiles("templates/flag_locked.html")
 	}
 	err := t.Execute(w, data)
 	if err != nil {
@@ -254,6 +261,7 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 	r := mux.NewRouter()
 	for i := range levels {
 		level := levels[i]
