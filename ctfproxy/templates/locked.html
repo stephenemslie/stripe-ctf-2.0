@@ -1,17 +1,20 @@
 {{ define "content" }}
-<h1 class="text-center mt-6">🔒 Level {{ .Level.Index }} is locked</h1>
-<form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
-<div class="flex flex-row justify-center my-16">
-  <input
-    class="border rounded h-15 p-4 text-center w-1/2"
-    data-lpignore="true"
-    type="password"
-    name="password"
-    placeholder="level {{ .Level.Index }} password"
-    />
-  <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
-    unlock
-  </button>
+<div class="bg-gray-700 px-6 py-16">
+  <div class="text-4xl text-center">{{ .Level.Emoji }}</div>
+  <h1 class="text-center">Level {{ .Level.Index }} is locked</h1>
+  <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
+    <div class="flex flex-row justify-center my-10">
+      <input
+        class="border rounded h-15 p-4 text-center w-1/3"
+        data-lpignore="true"
+        type="password"
+        name="password"
+        placeholder="password"
+        />
+      <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
+        unlock
+      </button>
+    </div>
+  </form>
 </div>
-</form>
 {{ end }}
