@@ -10,10 +10,9 @@
 </head>
 <body class="font-mono">
   <div class="min-h-screen">
-    <div class="mx-auto max-w-3xl flex flex-grow flex-col rounded-lg bg-white my-16 pb-16">
-      <div class="px-6">
-        {{ template "content" . }}
-      </div>
+    <div class="mx-auto max-w-3xl flex flex-grow flex-col overflow-hidden rounded-lg shadow-2xl text-gray-200 my-16">
+      {{ template "nav" . }}
+      {{ template "content" . }}
     </div>
   </div>
   {{ block "extrascripts" .}}{{ end }}
