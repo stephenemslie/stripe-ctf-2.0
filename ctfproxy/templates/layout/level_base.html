@@ -1,11 +1,11 @@
 {{ define "content" }}
-    {{ block "levelheader" .Level }}
-      <h1>{{ .Emoji }} Level {{ .Index }}: {{ .Name }}</h1>
-      <a class="block text-s text-gray-600 mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
-    {{ end }}
-    {{ template "levelintro" .Level }}
-    {{ if not .Level.IsComplete }}
-      <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
+  {{ with .Level }}
+    <div class="bg-gray-700 p-6 pt-12 pb-32 border-gray-400 border-b-4">
+      <h1><div class="text-4xl inline mr-4">{{ .Emoji }}</div>Level {{ .Index }}: {{ .Name }}</h1>
+      <a class="text-s mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
+      <p> {{ template "levelintro" . }} </p>
+      {{ if not .IsComplete }}
+      <form method="POST" action="/levels/{{ .Index }}/unlock/">
         <div class="flex flex-row justify-start my-8">
           <input
             class="border rounded h-15 p-3 text-center w-1/3"
@@ -14,20 +14,22 @@
             name="password"
             placeholder="password"
             >
-          <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
-            unlock
-          </button>
+            <button class="ml-2 w-15 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2">
+              unlock
+            </button>
         </div>
       </form>
-    {{ end }}
-    <div id="codeview"></div>
+      {{ end }}
+    </div>
+    <div id="codeview" class="mx-6 mb-16" style="margin-top: -160px;"></div>
     <script type="text/babel" src="/static/codeview.js"></script>
     <script type="text/babel">
       ReactDOM.render(
-        <CodeView index={{"{"}}{{.Level.Index}}{{"}"}}/>,
-        document.getElementById("codeview")
-      );
+          <CodeView index={{"{"}}{{.Index}}{{"}"}}/>,
+          document.getElementById("codeview")
+        );
     </script>
+  {{ end }}
 {{ end }}
 {{ define "extrahead" }}
   <script src="/static/react.production.min.js"></script>
