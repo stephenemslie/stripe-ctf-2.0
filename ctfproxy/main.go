@@ -236,20 +236,20 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func flagHandler(w http.ResponseWriter, r *http.Request) {
-	level := levels[8]
-	if level.IsLocked() {
-		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
+	data := struct {
+		Handler string
+		Levels  []*Level
+		Level   string
+	}{"flag", levels, ""}
+	var t *template.Template
+	if levels[8].IsComplete() {
+		t, _ = template.ParseFiles("templates/base.html", "templates/flag.html")
 	} else {
-		t, _ := template.ParseFiles("templates/base.html", "templates/flag.html")
-		data := struct {
-			Handler string
-			Levels  []*Level
-			Level   string
-		}{"flag", levels, ""}
-		err := t.Execute(w, data)
-		if err != nil {
-			fmt.Println(err)
-		}
+		t, _ = template.ParseFiles("templates/base.html", "templates/flag_locked.html")
+	}
+	err := t.Execute(w, data)
+	if err != nil {
+		fmt.Println(err)
 	}
 }
 
