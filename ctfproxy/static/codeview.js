@@ -21,14 +21,14 @@ function CodeView(props) {
   }, [activeSource]);
   return level && activeSource ? (
     <div>
-      <div class="bg-white rounded-t-lg border-t border-l border-r border-gray-400 p-4 mt-10">
+      <div class="bg-prism-bg rounded-t-lg p-4 mt-10">
         {Object.entries(level.Source).map(([key, source]) => {
           const active = source.Name == activeSource.Name;
           return (
             <button
               className={`rounded py-1 px-2 mr-2 text-sm focus:outline-none ${
                 active
-                  ? "bg-indigo-100 text-indigo-700"
+                  ? "bg-gray-700 text-gray-300"
                   : "text-gray-500 hover:text-indigo-600"
               }`}
               onClick={() => {
