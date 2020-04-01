@@ -14,6 +14,7 @@ p {
 
 h1 {
   @apply text-2xl;
+  font-family: "8-bit_pusabregular";
 }
 
 @tailwind components;
