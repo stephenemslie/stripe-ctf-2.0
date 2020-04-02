@@ -268,7 +268,7 @@ func main() {
 		s := r.Host(level.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if level.IsLocked() {
-				http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", level.Index), http.StatusFound)
+				http.Redirect(w, r, fmt.Sprintf("http://stripe-ctf:8000/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
 				level.proxy().ServeHTTP(w, r)
 			}
