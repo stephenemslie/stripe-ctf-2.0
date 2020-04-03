@@ -5,7 +5,7 @@
   "main": "tailwind.config.js",
   "watch": {
     "build:css": {
-      "patterns": ["assets/styles.css", "assets/tailwind.config.js"]
+      "patterns": ["assets/styles.css", "assets/tailwind*.js"]
     }
   },
   "scripts": {
