@@ -39,7 +39,6 @@ function CodeView(props) {
                     : "text-gray-500 hover:bg-gray-700"
                 }`}
                 onClick={() => {
-                  console.log(source);
                   setActiveSource(source);
                 }}
               >
