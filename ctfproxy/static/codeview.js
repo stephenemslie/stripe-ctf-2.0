@@ -10,12 +10,65 @@ function CodeView(props) {
   const { index } = props;
   const [level, setLevel] = React.useState(null);
   const [activeSource, setActiveSource] = React.useState(null);
+  const [hints, setHints] = React.useState(false);
+
+  function breakLines(parent) {
+    let nodes = parent.childNodes;
+    for (let i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
+      if (node.nodeType == Node.TEXT_NODE) {
+        while (true) {
+          let index = node.textContent.indexOf("\n");
+          if (index == -1) break;
+          node = node.splitText(index + 1);
+        }
+      }
+    }
+  }
+
+  function wrapLines(parent) {
+    let nodes = parent.childNodes;
+    let lines = [];
+    let lineNodes = [];
+    for (let i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
+      lineNodes.push(node);
+      if (node.nodeType == Node.TEXT_NODE) {
+        let matches = node.wholeText.matchAll(/\n/g);
+        [...matches].map(match => {
+          lines.push(lineNodes);
+          lineNodes = [];
+        });
+      }
+    }
+    lines.map((line, i) => {
+      if (line.length == 0) return;
+      let el = document.createElement("span");
+      el.classList.add(`line-${i}`);
+      line[0].parentNode.insertBefore(el, line[0]);
+      line.map(node => {
+        el.appendChild(node);
+      });
+    });
+  }
+
   React.useEffect(() => {
     fetchLevel(index).then(level => {
       setLevel(level);
-      setActiveSource(Object.values(level.Source)[0]);
+      setActiveSource(level.Source[0]);
+    });
+    Prism.hooks.add("complete", () => {
+      let parent = document.querySelector("code");
+      breakLines(parent);
+      wrapLines(parent);
+      if (!activeSource) return;
+      activeSource.Hints.map(hint => {
+        let line = document.querySelector(`.line-${hint.Line}`);
+        line.classList.add("hint");
+      });
     });
   }, []);
+
   React.useEffect(() => {
     Prism.highlightAll();
   }, [activeSource]);
