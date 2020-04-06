@@ -12,7 +12,9 @@
   <div class="min-h-screen">
     <div class="mx-auto max-w-3xl flex flex-grow flex-col overflow-hidden rounded-lg shadow-2xl text-gray-200 my-16 bg-gray-500">
       {{ template "nav" . }}
-      {{ template "content" . }}
+      <div id="content">
+        {{ template "content" . }}
+      </div>
     </div>
   </div>
   {{ block "extrascripts" .}}{{ end }}

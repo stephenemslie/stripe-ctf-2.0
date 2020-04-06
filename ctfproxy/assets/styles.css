@@ -21,7 +21,7 @@ a {
   @apply text-blue-300;
 }
 
-a:hover {
+#content a:hover {
   @apply bg-blue-700;
 }
 
