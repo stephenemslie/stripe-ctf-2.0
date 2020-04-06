@@ -25,7 +25,7 @@ function CodeView(props) {
     return <div />;
   }
 
-  return level && activeSource ? (
+  return (
     <div className={hints ? "showhints" : ""}>
       <div class="bg-prism-bg rounded-t-lg p-4 mt-10 flex flex-row">
         <div class=" flex-grow">
