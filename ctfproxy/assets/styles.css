@@ -29,6 +29,10 @@ h1 {
   @apply bg-blue-700;
 }
 
+.showhints .hint {
+  text-shadow: 0 0 5px #fff;
+}
+
 @tailwind components;
 
 @tailwind utilities;
