@@ -15,10 +15,15 @@ import (
 	"strconv"
 )
 
+type Hint struct {
+	line int
+}
+
 type SourceFile struct {
 	Level    int
 	Name     string
 	Language string
+	Hints    []*Hint
 }
 
 func (s *SourceFile) Code() string {
@@ -111,61 +116,63 @@ func (l *Level) unlock() {
 var levels = []*Level{
 	{0, "level0-stripe-ctf", 3000, "The Secret Safe", "blue", "🔐",
 		[]*SourceFile{
-			{0, "level00.html", "html"},
-			{0, "level00.js", "javascript"},
+			{0, "level00.html", "html", []*Hint{}},
+			{0, "level00.js", "javascript", []*Hint{
+				{36},
+			}},
 		}},
 	{1, "level1-stripe-ctf", 8000, "The Guessing Game", "teal", "🎲",
 		[]*SourceFile{
-			{1, "index.php", "php"},
-			{1, "routing.php", "php"},
+			{1, "index.php", "php", []*Hint{}},
+			{1, "routing.php", "php", []*Hint{}},
 		}},
 	{2, "level2-stripe-ctf", 8000, "The Social Network", "green", "👥",
 		[]*SourceFile{
-			{2, "index.php", "php"},
-			{2, "routing.php", "php"},
+			{2, "index.php", "php", []*Hint{}},
+			{2, "routing.php", "php", []*Hint{}},
 		}},
 	{3, "level3-stripe-ctf", 5000, "The Secret Vault", "yellow", "🙊",
 		[]*SourceFile{
-			{3, "index.html", "html"},
-			{3, "secretvault.py", "python"},
+			{3, "index.html", "html", []*Hint{}},
+			{3, "secretvault.py", "python", []*Hint{{76}}},
 		}},
 	{4, "level4-stripe-ctf", 4567, "Karma Trader", "orange", "🙏",
 		[]*SourceFile{
-			{4, "server/srv.rb", "ruby"},
-			{4, "server/views/layout.erb", "ruby"},
-			{4, "server/views/home.erb", "ruby"},
-			{4, "server/views/login.erb", "ruby"},
-			{4, "server/views/register.erb", "ruby"},
+			{4, "server/srv.rb", "ruby", []*Hint{{145}}},
+			{4, "server/views/layout.erb", "erb", []*Hint{}},
+			{4, "server/views/home.erb", "erb", []*Hint{}},
+			{4, "server/views/login.erb", "erb", []*Hint{}},
+			{4, "server/views/register.erb", "erb", []*Hint{}},
 		}},
 	{5, "level5-stripe-ctf", 4568, "DomainAuthenticator", "red", "🌐",
 		[]*SourceFile{
-			{5, "srv.rb", "ruby"},
+			{5, "srv.rb", "ruby", []*Hint{}},
 		}},
 	{6, "level6-stripe-ctf", 4569, "Streamer", "pink", "💬",
 		[]*SourceFile{
-			{6, "server/srv.rb", "ruby"},
-			{6, "server/views/layout.erb", "ruby"},
-			{6, "server/views/login.erb", "ruby"},
-			{6, "server/views/register.erb", "ruby"},
-			{6, "server/views/user_info.erb", "ruby"},
+			{6, "server/srv.rb", "ruby", []*Hint{}},
+			{6, "server/views/layout.erb", "erb", []*Hint{}},
+			{6, "server/views/login.erb", "erb", []*Hint{}},
+			{6, "server/views/register.erb", "erb", []*Hint{}},
+			{6, "server/views/user_info.erb", "erb", []*Hint{}},
 		}},
 	{7, "level7-stripe-ctf", 9233, "WaffleCopter", "purple", "🚁",
 		[]*SourceFile{
-			{7, "wafflecopter.py", "python"},
-			{7, "client.py", "python"},
-			{7, "db.py", "python"},
-			{7, "initialize_db.py", "python"},
-			{7, "settings.py", "python"},
-			{7, "templates/index.html", "html"},
-			{7, "templates/login.html", "html"},
-			{7, "templates/logs.html", "html"},
+			{7, "wafflecopter.py", "python", []*Hint{}},
+			{7, "client.py", "python", []*Hint{}},
+			{7, "db.py", "python", []*Hint{}},
+			{7, "initialize_db.py", "python", []*Hint{}},
+			{7, "settings.py", "python", []*Hint{}},
+			{7, "templates/index.html", "html", []*Hint{}},
+			{7, "templates/login.html", "html", []*Hint{}},
+			{7, "templates/logs.html", "html", []*Hint{}},
 		}},
 	{8, "level8-stripe-ctf", 4000, "PasswordDB", "indigo", "🔑",
 		[]*SourceFile{
-			{8, "primary_server", "python"},
-			{8, "password_db_launcher", "python"},
-			{8, "common.py", "python"},
-			{8, "chunk_server", "python"},
+			{8, "primary_server", "python", []*Hint{}},
+			{8, "password_db_launcher", "python", []*Hint{}},
+			{8, "common.py", "python", []*Hint{}},
+			{8, "chunk_server", "python", []*Hint{}},
 		}},
 }
 
