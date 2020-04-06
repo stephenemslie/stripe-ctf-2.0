@@ -19,6 +19,13 @@ type Hint struct {
 	line int
 }
 
+func (h *Hint) MarshalJSON() ([]byte, error) {
+	data := struct {
+		Line int
+	}{h.line}
+	return json.Marshal(data)
+}
+
 type SourceFile struct {
 	Level    int
 	Name     string
@@ -42,7 +49,8 @@ func (s *SourceFile) MarshalJSON() ([]byte, error) {
 		Basename string
 		Language string
 		Code     string
-	}{s.Name, s.Basename(), s.Language, s.Code()}
+		Hints    []*Hint
+	}{s.Name, s.Basename(), s.Language, s.Code(), s.Hints}
 	return json.Marshal(data)
 }
 
