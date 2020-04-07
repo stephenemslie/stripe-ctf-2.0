@@ -11,6 +11,8 @@ function CodeView(props) {
   const [level, setLevel] = React.useState(null);
   const [activeSource, setActiveSource] = React.useState(null);
   const [hints, setHints] = React.useState(false);
+  const activeSourceRef = React.useRef();
+  activeSourceRef.current = activeSource;
 
   function breakLines(parent, startLineNum = 1) {
     // Clone nodes in their original order for consistency during changes
@@ -60,9 +62,7 @@ function CodeView(props) {
     Prism.hooks.add("complete", () => {
       let parent = document.querySelector("code");
       breakLines(parent);
-      wrapLines(parent);
-      if (!activeSource) return;
-      activeSource.Hints.map(hint => {
+      activeSourceRef.current.Hints.map(hint => {
         let line = document.querySelector(`.line-${hint.Line}`);
         line.classList.add("hint");
       });
