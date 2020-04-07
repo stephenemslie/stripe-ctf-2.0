@@ -37,6 +37,7 @@ function CodeView(props) {
         line = [];
       }
     }
+    return lineCount;
   }
 
   function wrapLine(line, lineNum) {
