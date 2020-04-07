@@ -6,7 +6,7 @@ This is a fork of Stripe's 2012 web security capture the flag, with the followin
 
  - Each level as a docker container
  - Docker-Compose orchestration
- - A Go proxy service manage game state
+ - A bastion container running a Go proxy service to manage game state and level access.
 
 This is a learning project, so design decisions reflect a desire to experiment.
 
