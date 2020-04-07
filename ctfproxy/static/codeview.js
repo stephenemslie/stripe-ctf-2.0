@@ -50,31 +50,6 @@ function CodeView(props) {
     line.map(node => {
       el.appendChild(node);
     });
-
-  function wrapLines(parent) {
-    let nodes = parent.childNodes;
-    let lines = [];
-    let lineNodes = [];
-    for (let i = 0; i < nodes.length; i++) {
-      let node = nodes[i];
-      lineNodes.push(node);
-      if (node.nodeType == Node.TEXT_NODE) {
-        let matches = node.wholeText.matchAll(/\n/g);
-        [...matches].map(match => {
-          lines.push(lineNodes);
-          lineNodes = [];
-        });
-      }
-    }
-    lines.map((line, i) => {
-      if (line.length == 0) return;
-      let el = document.createElement("span");
-      el.classList.add(`line-${i}`);
-      line[0].parentNode.insertBefore(el, line[0]);
-      line.map(node => {
-        el.appendChild(node);
-      });
-    });
   }
 
   React.useEffect(() => {
