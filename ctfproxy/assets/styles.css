@@ -17,7 +17,7 @@ h1 {
   font-family: "8-bit_pusabregular";
 }
 
-a {
+#content a {
   @apply text-blue-300;
 }
 
