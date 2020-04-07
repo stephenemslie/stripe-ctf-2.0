@@ -5,7 +5,8 @@ services:
     ports:
       - "8000:8000"
     networks:
-      servers:
+      proxy:
+      levels:
       browsers:
     environment:
       - LEVELCODE=/mnt/levelcode
@@ -25,7 +26,7 @@ services:
     build:
       context: ./levels/0
     networks:
-      servers:
+      levels:
         aliases:
           - level0-stripe-ctf
     environment:
@@ -36,7 +37,7 @@ services:
     build:
       context: ./levels/1
     networks:
-      servers:
+      levels:
         aliases:
           - level1-stripe-ctf
     environment:
@@ -50,7 +51,7 @@ services:
       browsers:
         aliases:
           - level2-stripe-ctf
-      servers:
+      levels:
         aliases:
           - level2-stripe-ctf
     environment:
@@ -61,7 +62,7 @@ services:
     build:
       context: ./levels/3
     networks:
-      servers:
+      levels:
         aliases:
           - level3-stripe-ctf
     environment:
@@ -74,7 +75,7 @@ services:
       context: ./levels/4/server
     command: serve
     networks:
-      servers:
+      levels:
         aliases:
           - level4-stripe-ctf
       browsers:
@@ -116,7 +117,7 @@ services:
       context: ./levels/6/server
     command: serve
     networks:
-      servers:
+      levels:
         aliases:
           - level6-stripe-ctf
       browsers:
@@ -144,7 +145,7 @@ services:
       context: ./levels/7
     command: serve
     networks:
-      servers:
+      levels:
         aliases:
           - level7-stripe-ctf
     environment:
@@ -157,7 +158,7 @@ services:
     depends_on:
       - level2
     networks:
-      servers:
+      levels:
         aliases:
           - level8-stripe-ctf
     environment:
@@ -180,5 +181,8 @@ networks:
   browsers:
     driver: bridge
     internal: true
-  servers:
+  levels:
+    driver: bridge
+    internal: true
+  proxy:
     driver: bridge
