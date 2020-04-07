@@ -29,6 +29,12 @@ function CodeView(props) {
           lineCount++;
           line = [node];
         }
+      } else if (
+        node.nodeType == Node.ELEMENT_NODE &&
+        node.classList.contains("language-php")
+      ) {
+        lineCount = breakLines(node, lineCount);
+        line = [];
       }
     }
   }
