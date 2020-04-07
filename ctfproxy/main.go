@@ -126,35 +126,35 @@ var levels = []*Level{
 		[]*SourceFile{
 			{0, "level00.html", "html", []*Hint{}},
 			{0, "level00.js", "javascript", []*Hint{
-				{36},
+				{37},
 			}},
 		}},
 	{1, "level1-stripe-ctf", 8000, "The Guessing Game", "teal", "🎲",
 		[]*SourceFile{
-			{1, "index.php", "php", []*Hint{}},
+			{1, "index.php", "php", []*Hint{{13}}},
 			{1, "routing.php", "php", []*Hint{}},
 		}},
 	{2, "level2-stripe-ctf", 8000, "The Social Network", "green", "👥",
 		[]*SourceFile{
-			{2, "index.php", "php", []*Hint{}},
+			{2, "index.php", "php", []*Hint{{12}}},
 			{2, "routing.php", "php", []*Hint{}},
 		}},
 	{3, "level3-stripe-ctf", 5000, "The Secret Vault", "yellow", "🙊",
 		[]*SourceFile{
-			{3, "index.html", "html", []*Hint{}},
-			{3, "secretvault.py", "python", []*Hint{{76}}},
+			{3, "index.html", "html", []*Hint{{11}}},
+			{3, "secretvault.py", "python", []*Hint{{77}}},
 		}},
 	{4, "level4-stripe-ctf", 4567, "Karma Trader", "orange", "🙏",
 		[]*SourceFile{
-			{4, "server/srv.rb", "ruby", []*Hint{{145}}},
+			{4, "server/srv.rb", "ruby", []*Hint{{145}, {146}, {147}}},
 			{4, "server/views/layout.erb", "erb", []*Hint{}},
-			{4, "server/views/home.erb", "erb", []*Hint{}},
+			{4, "server/views/home.erb", "erb", []*Hint{{57}}},
 			{4, "server/views/login.erb", "erb", []*Hint{}},
 			{4, "server/views/register.erb", "erb", []*Hint{}},
 		}},
 	{5, "level5-stripe-ctf", 4568, "DomainAuthenticator", "red", "🌐",
 		[]*SourceFile{
-			{5, "srv.rb", "ruby", []*Hint{}},
+			{5, "srv.rb", "ruby", []*Hint{{108}, {20}, {55}, {56}, {57}, {58}}},
 		}},
 	{6, "level6-stripe-ctf", 4569, "Streamer", "pink", "💬",
 		[]*SourceFile{
