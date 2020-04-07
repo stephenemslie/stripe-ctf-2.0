@@ -29,8 +29,24 @@ h1 {
   @apply bg-blue-700;
 }
 
+code .hint label {
+  display: none;
+}
+
 .showhints .hint {
+  position: relative;
   text-shadow: 0 0 5px #fff;
+}
+
+.showhints .hint label {
+  display: block;
+  text-shadow: 0 0 5px #fff;
+  top: 0;
+  left: 0;
+  line-height: 16px;
+  @apply absolute;
+  @apply text-lg;
+  @apply cursor-pointer;
 }
 
 @tailwind components;

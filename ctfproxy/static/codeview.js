@@ -65,6 +65,10 @@ function CodeView(props) {
       activeSourceRef.current.Hints.map(hint => {
         let line = document.querySelector(`.line-${hint.Line}`);
         line.classList.add("hint");
+        let el = document.createElement("label");
+        el.textContent = "*";
+        el.setAttribute("title", "This is a hint");
+        line.appendChild(el);
       });
     });
   }, []);
