@@ -1,5 +1,9 @@
 @tailwind base;
 
+body {
+  background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+}
+
 @font-face {
   font-family: "8-bit_pusabregular";
   src: url("/static/8-bit-pusab-webfont.woff2") format("woff2"),
