@@ -13,7 +13,8 @@ function CodeView(props) {
   const [hints, setHints] = React.useState(false);
 
   function breakLines(parent) {
-    let nodes = parent.childNodes;
+    // Clone nodes in their original order for consistency during changes
+    let nodes = [...parent.childNodes];
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i];
       if (node.nodeType == Node.TEXT_NODE) {
