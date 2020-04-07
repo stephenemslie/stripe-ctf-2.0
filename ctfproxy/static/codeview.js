@@ -27,6 +27,14 @@ function CodeView(props) {
     }
   }
 
+  function wrapLine(line, lineNum) {
+    let el = document.createElement("span");
+    el.classList.add(`line-${lineNum}`);
+    line[0].parentNode.insertBefore(el, line[0]);
+    line.map(node => {
+      el.appendChild(node);
+    });
+
   function wrapLines(parent) {
     let nodes = parent.childNodes;
     let lines = [];
