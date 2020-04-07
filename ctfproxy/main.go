@@ -176,9 +176,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t.ParseFiles("templates/index.html")
 	data := struct {
 		Handler string
-		Level   string
+		Level   Level
 		Levels  []*Level
-	}{"home", "", levels}
+	}{"home", Level{Index: -1}, levels}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -244,8 +244,8 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Handler string
 		Levels  []*Level
-		Level   string
-	}{"flag", levels, ""}
+		Level   Level
+	}{"flag", levels, Level{Index: -1}}
 	var t *template.Template
 	if levels[8].IsComplete() {
 		t, _ = baseTemplate.Clone()
