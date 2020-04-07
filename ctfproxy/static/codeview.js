@@ -33,7 +33,7 @@ function CodeView(props) {
             const active = source.Name == activeSource.Name;
             return (
               <button
-                className={`rounded py-1 px-2 mr-2 text-sm focus:outline-none ${
+                className={`rounded py-1 px-2 mr-2 mb-2 text-sm focus:outline-none ${
                   active
                     ? "bg-gray-600 text-gray-300"
                     : "text-gray-500 hover:bg-gray-700"
