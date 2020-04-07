@@ -12,16 +12,22 @@ function CodeView(props) {
   const [activeSource, setActiveSource] = React.useState(null);
   const [hints, setHints] = React.useState(false);
 
-  function breakLines(parent) {
+  function breakLines(parent, startLineNum = 1) {
     // Clone nodes in their original order for consistency during changes
     let nodes = [...parent.childNodes];
+    let line = [];
+    let lineCount = startLineNum;
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i];
+      line.push(node);
       if (node.nodeType == Node.TEXT_NODE) {
         while (true) {
           let index = node.textContent.indexOf("\n");
           if (index == -1) break;
           node = node.splitText(index + 1);
+          wrapLine(line, lineCount);
+          lineCount++;
+          line = [node];
         }
       }
     }
