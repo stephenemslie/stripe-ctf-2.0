@@ -82,7 +82,7 @@ function CodeView(props) {
   }
 
   return (
-    <div>
+    <div className={hints ? "showhints" : ""}>
       <div class="bg-prism-bg rounded-t-lg p-4 mt-10 flex flex-row">
         <div class=" flex-grow">
           {Object.entries(level.Source).map(([key, source]) => {
@@ -102,6 +102,18 @@ function CodeView(props) {
               </button>
             );
           })}
+        </div>
+        <div class="w-40">
+          <button
+            className={`rounded py-1 px-2 mr-2 text-sm focus:outline-none float-right hover:bg-gray-700 ${
+              hints ? "bg-gray-600 text-gray-300" : "text-gray-500"
+            }`}
+            onClick={() => {
+              setHints(!hints);
+            }}
+          >
+            hints {hints ? "on" : "off"}
+          </button>
         </div>
       </div>
       <pre class="rounded-b-lg">
