@@ -254,7 +254,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	level := levels[levelIndex]
 	if r.Method == http.MethodGet {
-		if !level.IsLocked() {
+		if levelProgress >= levelIndex {
 			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
 		} else {
 			t, _ := baseTemplate.Clone()
@@ -284,12 +284,12 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	session := r.Context().Value("session").(*sessions.Session)
 	levelProgress := session.Values["levelProgress"].(int)
 	var t *template.Template
-	if levels[8].IsComplete() {
-		t, _ = baseTemplate.Clone()
-		t.ParseFiles("templates/flag.html")
-	} else {
+	if levelProgress < 9 {
 		t, _ = baseTemplate.Clone()
 		t.ParseFiles("templates/flag_locked.html")
+	} else {
+		t, _ = baseTemplate.Clone()
+		t.ParseFiles("templates/flag.html")
 	}
 	data := struct {
 		Handler       string
@@ -313,7 +313,9 @@ func main() {
 		level := levels[i]
 		s := r.Host(level.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if level.IsLocked() {
+			session := r.Context().Value("session").(*sessions.Session)
+			levelProgress := session.Values["levelProgress"].(int)
+			if levelProgress < level.Index {
 				http.Redirect(w, r, fmt.Sprintf("http://stripe-ctf:8000/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
 				level.proxy().ServeHTTP(w, r)
