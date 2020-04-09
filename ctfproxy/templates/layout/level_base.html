@@ -4,7 +4,7 @@
       <h1><div class="text-4xl inline mr-4">{{ .Emoji }}</div>Level {{ .Index }}: {{ .Name }}</h1>
       <a class="text-s mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
       <p> {{ template "levelintro" . }} </p>
-      {{ if not .IsComplete }}
+      {{ if le $.LevelProgress .Index }}
       <form method="POST" action="/levels/{{ .Index }}/unlock/">
         <div class="flex flex-row justify-start my-8">
           <input
