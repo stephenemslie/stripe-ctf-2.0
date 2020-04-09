@@ -102,6 +102,16 @@ func (l *Level) Next() (*Level, error) {
 	return nextLevel, nil
 }
 
+func (l *Level) reset() {
+	path := fmt.Sprintf("/mnt/level%d/reset.txt", l.Index)
+	os.Remove(path)
+	file, err := os.Create(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+}
+
 var levels = []*Level{
 	{0, "level0-stripe-ctf", 3000, "The Secret Safe", "blue", "🔐",
 		[]*SourceFile{
@@ -250,6 +260,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
+			level.reset()
 		}
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex+1), http.StatusFound)
 	}
