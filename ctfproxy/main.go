@@ -102,18 +102,6 @@ func (l *Level) Next() (*Level, error) {
 	return nextLevel, nil
 }
 
-func (l *Level) unlock() {
-	path := fmt.Sprintf("/mnt/levels/%d.completed", l.Index)
-	_, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		file, err := os.Create(path)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer file.Close()
-	}
-}
-
 var levels = []*Level{
 	{0, "level0-stripe-ctf", 3000, "The Secret Safe", "blue", "🔐",
 		[]*SourceFile{
