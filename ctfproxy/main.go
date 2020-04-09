@@ -236,7 +236,13 @@ func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
 	session := r.Context().Value("session").(*sessions.Session)
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	levelProgress := session.Values["levelProgress"].(int)
-	level := levels[levelIndex]
+	if levelProgress < levelIndex {
+		http.Error(
+			w,
+			http.StatusText(http.StatusUnauthorized),
+			http.StatusUnauthorized)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(levels[levelIndex])
 }
