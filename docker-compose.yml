@@ -14,7 +14,6 @@ services:
       - LEVELCODE=/mnt/levelcode
     volumes:
       - ./levels:/mnt/levelcode
-      - levels:/mnt/levels
       - level0:/mnt/level0
       - level1:/mnt/level1
       - level2:/mnt/level2
@@ -97,7 +96,6 @@ services:
       - UNLOCK_FILE=/mnt/levels/4.completed
     volumes:
       - level4:/mnt/level4
-      - levels:/mnt/levels:ro
     networks:
       - browsers
   level5:
@@ -141,7 +139,6 @@ services:
       - UNLOCK_FILE=/mnt/levels/6.completed
     volumes:
       - level6:/mnt/level6
-      - levels:/mnt/levels:ro
   level7:
     build:
       context: ./levels/7
@@ -169,7 +166,6 @@ services:
       - level8:/mnt/level8
 volumes:
   passwords:
-  levels:
   level0:
   level1:
   level2:
