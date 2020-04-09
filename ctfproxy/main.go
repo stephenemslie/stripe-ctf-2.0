@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -169,7 +171,22 @@ var levels = []*Level{
 		}},
 }
 
-var baseTemplate *template.Template
+var (
+	baseTemplate *template.Template
+	sessionStore *sessions.CookieStore
+)
+
+func sessionMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		session, _ := sessionStore.Get(r, "ctf")
+		if _, ok := session.Values["levelProgress"]; !ok {
+			session.Values["levelProgress"] = 0
+			session.Save(r, w)
+		}
+		r = r.WithContext(context.WithValue(r.Context(), "session", session))
+		next.ServeHTTP(w, r)
+	})
+}
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := baseTemplate.Clone()
@@ -261,8 +278,11 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	key := []byte(os.Getenv("SECRET"))
+	sessionStore = sessions.NewCookieStore(key)
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 	r := mux.NewRouter()
+	r.Use(sessionMiddleware)
 	for i := range levels {
 		level := levels[i]
 		s := r.Host(level.Host).Subrouter()
