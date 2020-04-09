@@ -165,7 +165,6 @@ services:
     volumes:
       - level8:/mnt/level8
 volumes:
-  passwords:
   level0:
   level1:
   level2:
