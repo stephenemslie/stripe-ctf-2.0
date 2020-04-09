@@ -15,7 +15,7 @@
       {{ range $i, $v := .Levels }}
         <li class="flex-grow">
           <a class="py-3
-                    {{ if $v.IsLocked }}
+                    {{ if lt $.LevelProgress $v.Index }}
                       {{ if eq $v.Index $.Level.Index }}
                         bg-gray-500
                         breadcrumb-arrow-gray-500
@@ -37,7 +37,7 @@
       {{ end }}
       <li class="flex-grow">
         <a class="py-3
-                  {{ if (index .Levels 8).IsComplete }}
+                  {{ if eq $.LevelProgress 9 }}
                     {{ if eq .Handler "flag" }}
                       bg-blue-300
                     {{ else }}
