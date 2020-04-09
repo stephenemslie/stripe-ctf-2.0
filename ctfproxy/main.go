@@ -276,7 +276,11 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			level.reset()
 		}
-		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex+1), http.StatusFound)
+		if level.Index == 8 {
+			http.Redirect(w, r, fmt.Sprintf("/levels/flag/"), http.StatusFound)
+		} else {
+			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", level.Index+1), http.StatusFound)
+		}
 	}
 }
 
