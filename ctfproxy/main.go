@@ -237,7 +237,9 @@ func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
+	session := r.Context().Value("session").(*sessions.Session)
 	vars := mux.Vars(r)
+	levelProgress := session.Values["levelProgress"].(int)
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	level := levels[levelIndex]
 	if r.Method == http.MethodGet {
@@ -255,7 +257,11 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	} else if r.Method == http.MethodPost {
 		if level.checkPassword(r.FormValue("password")) {
-			level.unlock()
+			session.Values["levelProgress"] = level.Index + 1
+			err := session.Save(r, w)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		}
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex+1), http.StatusFound)
 	}
