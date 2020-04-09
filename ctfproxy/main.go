@@ -191,13 +191,15 @@ func sessionMiddleware(next http.Handler) http.Handler {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	session := r.Context().Value("session").(*sessions.Session)
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles("templates/index.html")
 	data := struct {
-		Handler string
-		Level   Level
-		Levels  []*Level
-	}{"home", Level{Index: -1}, levels}
+		Handler       string
+		Level         Level
+		Levels        []*Level
+		LevelProgress int
+	}{"home", Level{Index: -1}, levels, session.Values["levelProgress"].(int)}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -208,7 +210,9 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	levelIndex, _ := strconv.Atoi(vars["index"])
 	level := levels[levelIndex]
-	if level.IsLocked() {
+	session := r.Context().Value("session").(*sessions.Session)
+	levelProgress := session.Values["levelProgress"].(int)
+	if levelProgress < level.Index {
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
 		return
 	}
@@ -216,10 +220,11 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles(path)
 	data := struct {
-		Handler string
-		Levels  []*Level
-		Level   *Level
-	}{"level", levels, level}
+		Handler       string
+		Levels        []*Level
+		Level         *Level
+		LevelProgress int
+	}{"level", levels, level, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -228,10 +233,12 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 
 func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	session := r.Context().Value("session").(*sessions.Session)
 	levelIndex, _ := strconv.Atoi(vars["index"])
+	levelProgress := session.Values["levelProgress"].(int)
 	level := levels[levelIndex]
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(level)
+	json.NewEncoder(w).Encode(levels[levelIndex])
 }
 
 func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
@@ -247,10 +254,11 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			t, _ := baseTemplate.Clone()
 			t.ParseFiles("templates/locked.html")
 			data := struct {
-				Handler string
-				Levels  []*Level
-				Level   *Level
-			}{"unlock", levels, level}
+				Handler       string
+				Levels        []*Level
+				Level         *Level
+				LevelProgress int
+			}{"unlock", levels, level, levelProgress}
 			t.Execute(w, data)
 		}
 	} else if r.Method == http.MethodPost {
@@ -267,11 +275,8 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func flagHandler(w http.ResponseWriter, r *http.Request) {
-	data := struct {
-		Handler string
-		Levels  []*Level
-		Level   Level
-	}{"flag", levels, Level{Index: -1}}
+	session := r.Context().Value("session").(*sessions.Session)
+	levelProgress := session.Values["levelProgress"].(int)
 	var t *template.Template
 	if levels[8].IsComplete() {
 		t, _ = baseTemplate.Clone()
@@ -280,6 +285,12 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 		t, _ = baseTemplate.Clone()
 		t.ParseFiles("templates/flag_locked.html")
 	}
+	data := struct {
+		Handler       string
+		Levels        []*Level
+		Level         Level
+		LevelProgress int
+	}{"flag", levels, Level{Index: -1}, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
