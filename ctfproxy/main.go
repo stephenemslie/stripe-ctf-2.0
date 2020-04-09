@@ -58,7 +58,11 @@ func (l *Level) getPasswordPath() string {
 }
 
 func (l *Level) checkPassword(pwAttempt string) bool {
-	password, _ := ioutil.ReadFile(l.getPasswordPath())
+	password, err := ioutil.ReadFile(l.getPasswordPath())
+	if os.IsNotExist(err) {
+		fmt.Println(err)
+		return false
+	}
 	return (string(password) == pwAttempt)
 }
 
