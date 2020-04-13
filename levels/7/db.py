@@ -9,7 +9,7 @@ class ManyFound(Exception):
 
 # for app.secret_key
 def rewrite_entropy_file(path):
-    f = open(path, 'w')
+    f = open(path, 'wb')
     f.write(os.urandom(24))
     f.close()
 
@@ -55,13 +55,13 @@ class DB(object):
 
     def do_select(self, table, where=None):
         where = where or {}
-        where_clause = ' AND '.join('%s=?' % key for key in where.iterkeys())
+        where_clause = ' AND '.join('%s=?' % key for key in where.keys())
         values = where.values()
         q = 'select * from ' + str(table)
         if where_clause:
             q += ' where ' + where_clause
         self.log(q, '<==', values)
-        self.cursor.execute(q, values)
+        self.cursor.execute(q, tuple(values))
 
     def insert(self, table, data):
         cols = ', '.join(data.keys())
@@ -69,6 +69,6 @@ class DB(object):
         placeholders = ', '.join('?' for i in data)
         q = 'insert into %s (%s) values (%s)' % (table, cols, placeholders)
         self.log(q, '<==', vals)
-        self.cursor.execute(q, vals)
+        self.cursor.execute(q, tuple(vals))
         self.commit()
         return self.cursor.rowcount

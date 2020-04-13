@@ -1,0 +1,20 @@
+{{ define "content" }}
+<div class="bg-gray-700 px-6 py-16">
+  <div class="text-4xl text-center">{{ .Level.Emoji }}</div>
+  <h1 class="text-center">Level {{ .Level.Index }} is locked</h1>
+  <form method="POST" action="/levels/{{ .Level.Index }}/unlock/">
+    <div class="flex flex-row justify-center my-10">
+      <input
+        class="border border-gray-600 rounded h-15 p-3 text-center w-1/3 text-gray-500 bg-gray-800"
+        data-lpignore="true"
+        type="password"
+        name="password"
+        placeholder="password"
+        />
+      <button class="ml-2 w-15 hover:bg-gray-600 text-white rounded px-4 py-2 font-bold">
+        submit
+      </button>
+    </div>
+  </form>
+</div>
+{{ end }}

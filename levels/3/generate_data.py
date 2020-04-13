@@ -11,7 +11,7 @@ def random_string(length=7):
     return ''.join(random.choice(string.ascii_lowercase) for x in range(length))
 
 def main(basedir, level03, proof, plans):
-    print 'Generating users.db'
+    print('Generating users.db')
     conn = sqlite3.connect(os.path.join(basedir, 'users.db'))
     cursor = conn.cursor()
 
@@ -32,8 +32,8 @@ def main(basedir, level03, proof, plans):
     for username, secret in list:
         password = random_string()
         salt = random_string()
-        password_hash = hashlib.sha256(password + salt).hexdigest()
-        print '- Adding {0}'.format(username)
+        password_hash = hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
+        print('- Adding {0}'.format(username))
         cursor.execute("INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)", (username, password_hash, salt))
 
         dict[id] = secret
@@ -41,19 +41,19 @@ def main(basedir, level03, proof, plans):
 
     conn.commit()
 
-    print 'Generating secrets.json'
+    print('Generating secrets.json')
     f = open(os.path.join(basedir, 'secrets.json'), 'w')
     json.dump(dict,
               f,
               indent=2)
     f.write('\n')
 
-    print 'Generating entropy.dat'
-    f = open(os.path.join(basedir, 'entropy.dat'), 'w')
+    print('Generating entropy.dat')
+    f = open(os.path.join(basedir, 'entropy.dat'), 'wb')
     f.write(os.urandom(24))
 
 if __name__ == '__main__':
     if not len(sys.argv) == 5:
-        print 'Usage: %s <basedir> <level03> <proof> <plans>' % sys.argv[0]
+        print('Usage: %s <basedir> <level03> <proof> <plans>' % sys.argv[0])
         sys.exit(1)
     main(*sys.argv[1:])

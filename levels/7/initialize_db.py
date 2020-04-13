@@ -93,9 +93,9 @@ def create_tables():
     c.execute('create index date on logs (date)')
 
 def add_user(uid, username, password, premium):
-    hashed = bcrypt.hashpw(password, bcrypt.gensalt(10))
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10))
     secret = rand_alnum(14)
-    data = {'id': uid, 'name': username, 'password': hashed,
+    data = {'id': uid, 'name': username, 'password': hashed.decode('utf-8'),
             'premium': premium, 'secret': secret}
     conn.insert('users', data)
 
@@ -123,7 +123,7 @@ def gen_log(user_id, path, params, date=None):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print 'usage: initialize_db.py LEVEL_PASSWORD'
+        print('usage: initialize_db.py LEVEL_PASSWORD')
         sys.exit(1)
 
     main(sys.argv[1])

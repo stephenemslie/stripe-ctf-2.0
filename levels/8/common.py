@@ -15,7 +15,7 @@ class Halt(Exception):
     pass
 
 
-class HTTPServer(object, resource.Resource):
+class HTTPServer(resource.Resource):
     isLeaf = True
 
     def __init__(self, processor, args):
@@ -31,7 +31,7 @@ class HTTPServer(object, resource.Resource):
         processor_instance.processRaw()
         return server.NOT_DONE_YET
 
-class PayloadProcessor(object):
+class PayloadProcessor:
     request_count = 0
 
     def __init__(self, request):
@@ -103,10 +103,10 @@ class PayloadProcessor(object):
 
 def chunkPassword(chunk_count, password, request=None):
     # Equivalent to ceil(password_length / chunk_count)
-    chunk_size = (len(password) + chunk_count - 1) / chunk_count
+    chunk_size = (len(password) + chunk_count - 1) // chunk_count
 
     chunks = []
-    for i in xrange(0, len(password), chunk_size):
+    for i in range(0, len(password), chunk_size):
         chunks.append(password[i:i+chunk_size])
 
     while len(chunks) < chunk_count:
@@ -139,10 +139,12 @@ def makeRequest(address_spec, data, callback, errback):
         errback(address_spec, error)
 
     host, port = address_spec
-    factory = client.HTTPClientFactory('/',
-                                       agent='PasswordChunker',
-                                       method='POST',
-                                       postdata=json.dumps(data))
+    factory = client.HTTPClientFactory(
+        '/',
+        agent='PasswordChunker',
+        method='POST',
+        postdata=json.dumps(data)
+    )
     factory.deferred.addCallback(callback)
     factory.deferred.addErrback(wrapper)
     reactor.connectTCP(host, port, factory)

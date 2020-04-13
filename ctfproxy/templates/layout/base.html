@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Containerized Stripe CTF 2.0</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/prism-tailwind.css">
+    <link rel="icon" href="/static/images/flag.svg" type="image/svg+xml">
+    {{ block "extrahead" . }}{{ end }}
+</head>
+<body class="font-mono">
+  <div class="min-h-screen">
+    <div class="mx-auto max-w-3xl flex flex-grow flex-col overflow-hidden rounded-lg shadow-2xl text-gray-200 my-16 bg-gray-500">
+      {{ template "nav" . }}
+      <div id="content">
+        {{ template "content" . }}
+      </div>
+    </div>
+  </div>
+  {{ block "extrascripts" .}}{{ end }}
+</body>
+</html>

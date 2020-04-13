@@ -2,7 +2,7 @@
 import hashlib
 import json
 import sys
-import urllib
+import urllib.parse
 
 import requests
 
@@ -51,7 +51,7 @@ class Client(object):
 
     def _make_post(self, params):
         params['user_id'] = self.user_id
-        body = urllib.urlencode(params)
+        body = urllib.parse.urlencode(params)
 
         sig = self._signature(body)
         body += '|sig:' + sig
@@ -60,13 +60,13 @@ class Client(object):
 
     def _signature(self, message):
         h = hashlib.sha1()
-        h.update(self.api_secret + message)
+        h.update((self.api_secret + message).encode('utf-8'))
         return h.hexdigest()
 
 if __name__ == '__main__':
     if len(sys.argv) != 7:
-        print 'usage: client.py ENDPOINT USER_ID SECRET WAFFLE LAT LONG'
+        print('usage: client.py ENDPOINT USER_ID SECRET WAFFLE LAT LONG')
         sys.exit(1)
 
     c = Client(*sys.argv[1:4])
-    print c.order(sys.argv[4], sys.argv[5:7])
+    print(c.order(sys.argv[4], sys.argv[5:7]))

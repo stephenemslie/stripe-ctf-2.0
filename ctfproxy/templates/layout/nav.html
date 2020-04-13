@@ -1,0 +1,57 @@
+{{ define "nav" }}
+  <nav class="breadcrumb w-full bg-white">
+    <ol class="flex justify-center text-white">
+      <li class="flex-grow">
+        <a class="py-3
+                  {{ if eq .Handler "home" }}
+                  bg-blue-300
+                  breadcrumb-arrow-blue-300
+                  {{ else }}
+                  bg-blue-200
+                  breadcrumb-arrow-blue-200
+                  {{ end }}"
+          href="/"> home </a>
+      </li>
+      {{ range $i, $v := .Levels }}
+        <li class="flex-grow">
+          <a class="py-3
+                    {{ if lt $.LevelProgress $v.Index }}
+                      {{ if eq $v.Index $.Level.Index }}
+                        bg-gray-500
+                        breadcrumb-arrow-gray-500
+                      {{ else }}
+                        bg-gray-400
+                        breadcrumb-arrow-gray-400
+                      {{ end }}
+                    {{ else }}
+                      {{ if eq $v.Index $.Level.Index }}
+                        bg-blue-300
+                        breadcrumb-arrow-blue-300
+                      {{ else  }}
+                        bg-blue-200
+                        breadcrumb-arrow-blue-200
+                      {{ end }}
+                    {{ end }}"
+             href="/levels/{{ $v.Index }}/">{{ $v.Index }}</a>
+        </li>
+      {{ end }}
+      <li class="flex-grow">
+        <a class="py-3
+                  {{ if eq $.LevelProgress 9 }}
+                    {{ if eq .Handler "flag" }}
+                      bg-blue-300
+                    {{ else }}
+                      bg-blue-200
+                    {{ end }}
+                  {{ else }}
+                    {{ if eq .Handler "flag" }}
+                      bg-gray-500
+                    {{ else }}
+                      bg-gray-400
+                    {{ end }}
+                  {{ end }}"
+            href="/flag/">flag</a>
+      </li>
+    </ol>
+  </nav>
+{{ end }}

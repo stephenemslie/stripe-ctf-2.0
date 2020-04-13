@@ -39,7 +39,7 @@
                  " -- upload one now!</p>";
           }
         ?>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="/index.php" method="post" enctype="multipart/form-data">
           <input type="file" name="dispic" size="40" />
           <input type="submit" value="Upload!">
         </form>

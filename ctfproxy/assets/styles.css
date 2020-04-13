@@ -1,0 +1,34 @@
+@tailwind base;
+
+body {
+  background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+}
+
+@font-face {
+  font-family: "8-bit_pusabregular";
+  src: url("/static/8-bit-pusab-webfont.woff2") format("woff2"),
+    url("/static/8-bit-pusab-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+p {
+  @apply my-6;
+}
+
+h1 {
+  @apply text-2xl;
+  font-family: "8-bit_pusabregular";
+}
+
+#content a {
+  @apply text-blue-300;
+}
+
+#content a:hover {
+  @apply bg-blue-700;
+}
+
+@tailwind components;
+
+@tailwind utilities;

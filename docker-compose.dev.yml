@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+  ctfproxy-frontend:
+    build:
+      context: ./ctfproxy
+      target: node
+    volumes:
+      - ./ctfproxy:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npmwatch
+  ctfproxy:
+    volumes:
+      - ./ctfproxy:/usr/src/app
+    command: gowatch
+  level0:
+    volumes:
+      - ./levels/0:/usr/src/app
+      - /usr/src/app/node_modules
+  level1:
+    volumes:
+      - ./levels/1:/usr/src/app
+  level2:
+    volumes:
+      - ./levels/2:/usr/src/app
+  level3:
+    volumes:
+      - ./levels/3:/usr/src/app
+  level4-browser:
+    volumes:
+      - ./levels/4/browser:/usr/src/app
+      - /usr/src/app/node_modules
+  level4-server:
+    volumes:
+      - ./levels/4/server:/usr/src/app
+  level6-browser:
+    volumes:
+      - ./levels/6/browser:/usr/src/app
+      - /usr/src/app/node_modules
+  level6-server:
+    volumes:
+      - ./levels/6/server:/usr/src/app
+  level7:
+    volumes:
+      - ./levels/7:/usr/src/app
+  level8:
+    volumes:
+      - ./levels/8:/usr/src/app

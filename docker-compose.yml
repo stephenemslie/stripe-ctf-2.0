@@ -1,0 +1,186 @@
+version: "3.7"
+services:
+  ctfproxy:
+    env_file:
+      - secret.env
+    build: ./ctfproxy
+    ports:
+      - "8000:8000"
+    networks:
+      proxy:
+      levels:
+      browsers:
+    environment:
+      - LEVELCODE=/mnt/levelcode
+    volumes:
+      - ./levels:/mnt/levelcode
+      - level0:/mnt/level0
+      - level1:/mnt/level1
+      - level2:/mnt/level2
+      - level3:/mnt/level3
+      - level4:/mnt/level4
+      - level5:/mnt/level5
+      - level6:/mnt/level6
+      - level7:/mnt/level7
+      - level8:/mnt/level8
+  level0:
+    build:
+      context: ./levels/0
+    networks:
+      levels:
+        aliases:
+          - level0-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level0/password.txt
+    volumes:
+      - level0:/mnt/level0
+  level1:
+    build:
+      context: ./levels/1
+    networks:
+      levels:
+        aliases:
+          - level1-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level1/password.txt
+    volumes:
+      - level1:/mnt/level1
+  level2:
+    build:
+      context: ./levels/2
+    networks:
+      browsers:
+        aliases:
+          - level2-stripe-ctf
+      levels:
+        aliases:
+          - level2-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level2/password.txt
+    volumes:
+      - level2:/mnt/level2
+  level3:
+    build:
+      context: ./levels/3
+    networks:
+      levels:
+        aliases:
+          - level3-stripe-ctf
+    environment:
+      - LEVEL3_DATA_DIR=/var/level3/data
+      - PW_FILE=/mnt/level3/password.txt
+    volumes:
+      - level3:/mnt/level3
+  level4-server:
+    build:
+      context: ./levels/4/server
+    command: serve
+    networks:
+      levels:
+        aliases:
+          - level4-stripe-ctf
+      browsers:
+    environment:
+      - PW_FILE=/mnt/level4/password.txt
+      - DB_FILE=/usr/src/app/karma.db
+      - RESET_FILE=/mnt/level4/reset.txt
+    volumes:
+      - level4:/mnt/level4
+  level4-browser:
+    build:
+      context: ./levels/4/browser
+    depends_on:
+      - level4-server
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      - PW_FILE=/mnt/level4/password.txt
+    volumes:
+      - level4:/mnt/level4
+    networks:
+      - browsers
+  level5:
+    build:
+      context: ./levels/5
+    command: serve
+    depends_on:
+      - level2
+    networks:
+      browsers:
+        aliases:
+          - level5-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level5/password.txt
+    volumes:
+      - level5:/mnt/level5
+  level6-server:
+    build:
+      context: ./levels/6/server
+    command: serve
+    networks:
+      levels:
+        aliases:
+          - level6-stripe-ctf
+      browsers:
+    environment:
+      - PW_FILE=/mnt/level6/password.txt
+    volumes:
+      - level6:/mnt/level6
+  level6-browser:
+    build:
+      context: ./levels/6/browser
+    depends_on:
+      - level6-server
+    networks:
+      - browsers
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      - PW_FILE=/mnt/level6/password.txt
+      - RESET_FILE=/mnt/level6/reset.txt
+    volumes:
+      - level6:/mnt/level6
+  level7:
+    build:
+      context: ./levels/7
+    command: serve
+    networks:
+      levels:
+        aliases:
+          - level7-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level7/password.txt
+    volumes:
+      - level7:/mnt/level7
+  level8:
+    build:
+      context: ./levels/8
+    depends_on:
+      - level2
+    networks:
+      levels:
+        aliases:
+          - level8-stripe-ctf
+    environment:
+      - PW_FILE=/mnt/level8/password.txt
+    volumes:
+      - level8:/mnt/level8
+volumes:
+  level0:
+  level1:
+  level2:
+  level3:
+  level4:
+  level5:
+  level6:
+  level7:
+  level8:
+networks:
+  browsers:
+    driver: bridge
+    internal: true
+  levels:
+    driver: bridge
+    internal: true
+  proxy:
+    driver: bridge
