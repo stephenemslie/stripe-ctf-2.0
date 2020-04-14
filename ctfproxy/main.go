@@ -40,7 +40,7 @@ func (s *SourceFile) MarshalJSON() ([]byte, error) {
 		Basename string `json:"basename"`
 		Language string `json:"language"`
 		Code     string `json:"code"`
-	}{s.Name, s.Basename(), s.Language, s.Code()}
+	}{s.Name, s.getBasename(), s.Language, s.getCode()}
 	return json.Marshal(data)
 }
 
