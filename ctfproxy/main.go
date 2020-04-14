@@ -5,120 +5,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"os"
-	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/stephenemslie/stripe-ctf-2.0/ctfproxy/level"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
 
-type SourceFile struct {
-	Level    int    `json:"level"`
-	Name     string `json:"name"`
-	Language string `json:"language"`
-}
-
-func (s *SourceFile) getCode() string {
-	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
-	code, _ := ioutil.ReadFile(path)
-	return string(code)
-}
-
-func (s *SourceFile) getBasename() string {
-	return filepath.Base(s.Name)
-}
-
-func (s *SourceFile) MarshalJSON() ([]byte, error) {
-	data := struct {
-		Name     string `json:"name"`
-		Basename string `json:"basename"`
-		Language string `json:"language"`
-		Code     string `json:"code"`
-	}{s.Name, s.getBasename(), s.Language, s.getCode()}
-	return json.Marshal(data)
-}
-
-type Level struct {
-	Index   int           `json:"index"`
-	Host    string        `json:"host"`
-	Port    int           `json:"port"`
-	Name    string        `json:"name"`
-	Emoji   string        `json:"emoji"`
-	Sources []*SourceFile `json:"sources"`
-}
-
-func (l *Level) getPasswordPath() string {
-	return fmt.Sprintf("/mnt/level%d/password.txt", l.Index)
-}
-
-func (l *Level) checkPassword(pwAttempt string) bool {
-	password, err := ioutil.ReadFile(l.getPasswordPath())
-	if os.IsNotExist(err) {
-		fmt.Println(err)
-		return false
-	}
-	return (string(password) == pwAttempt)
-}
-
-func (l *Level) setPassword(password string) {
-	ioutil.WriteFile(l.getPasswordPath(), []byte(password), 0644)
-}
-
-func (l *Level) IsComplete() bool {
-	path := fmt.Sprintf("/mnt/levels/%d.completed", l.Index)
-	_, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
-func (l *Level) IsLocked() bool {
-	if l.Index == 0 {
-		return false
-	}
-	return !levels[l.Index-1].IsComplete()
-}
-
-func (l *Level) proxy() *httputil.ReverseProxy {
-	u, _ := url.Parse(fmt.Sprintf("http://%s:%d/", l.Host, l.Port))
-	return httputil.NewSingleHostReverseProxy(u)
-}
-
-// Next returns the next level and an error if there isn't one
-func (l *Level) Next() (*Level, error) {
-	var nextLevel *Level
-	index := l.Index + 1
-	if index >= len(levels) {
-		return nextLevel, fmt.Errorf("No such level %d", index)
-	}
-	nextLevel = levels[index]
-	return nextLevel, nil
-}
-
-func (l *Level) reset() {
-	path := fmt.Sprintf("/mnt/level%d/reset.txt", l.Index)
-	os.Remove(path)
-	file, err := os.Create(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-}
-
 var (
 	baseTemplate *template.Template
 	sessionStore *sessions.CookieStore
-	levels       []*Level
 )
 
 func sessionMiddleware(next http.Handler) http.Handler {
@@ -139,10 +41,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t.ParseFiles("templates/index.html")
 	data := struct {
 		Handler       string
-		Level         Level
-		Levels        []*Level
+		Level         level.Level
+		Levels        []*level.Level
 		LevelProgress int
-	}{"home", Level{Index: -1}, levels, session.Values["levelProgress"].(int)}
+	}{"home", level.Level{Index: -1}, level.Levels, session.Values["levelProgress"].(int)}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -152,22 +54,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 func levelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	levelIndex, _ := strconv.Atoi(vars["index"])
-	level := levels[levelIndex]
+	currentLevel := level.Levels[levelIndex]
 	session := r.Context().Value("session").(*sessions.Session)
 	levelProgress := session.Values["levelProgress"].(int)
-	if levelProgress < level.Index {
+	if levelProgress < currentLevel.Index {
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
 		return
 	}
-	path := fmt.Sprintf("templates/levels/%d.html", level.Index)
+	path := fmt.Sprintf("templates/levels/%d.html", currentLevel.Index)
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles(path)
 	data := struct {
 		Handler       string
-		Levels        []*Level
-		Level         *Level
+		Levels        []*level.Level
+		Level         *level.Level
 		LevelProgress int
-	}{"level", levels, level, levelProgress}
+	}{"level", level.Levels, currentLevel, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -187,7 +89,7 @@ func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(levels[levelIndex])
+	json.NewEncoder(w).Encode(level.Levels[levelIndex])
 }
 
 func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
@@ -195,7 +97,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	levelProgress := session.Values["levelProgress"].(int)
 	levelIndex, _ := strconv.Atoi(vars["index"])
-	level := levels[levelIndex]
+	currentLevel := level.Levels[levelIndex]
 	if r.Method == http.MethodGet {
 		if levelProgress >= levelIndex {
 			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
@@ -204,25 +106,25 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			t.ParseFiles("templates/locked.html")
 			data := struct {
 				Handler       string
-				Levels        []*Level
-				Level         *Level
+				Levels        []*level.Level
+				Level         *level.Level
 				LevelProgress int
-			}{"unlock", levels, level, levelProgress}
+			}{"unlock", level.Levels, currentLevel, levelProgress}
 			t.Execute(w, data)
 		}
 	} else if r.Method == http.MethodPost {
-		if level.checkPassword(r.FormValue("password")) {
-			session.Values["levelProgress"] = level.Index + 1
+		if currentLevel.CheckPassword(r.FormValue("password")) {
+			session.Values["levelProgress"] = currentLevel.Index + 1
 			err := session.Save(r, w)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-			level.reset()
+			currentLevel.Reset()
 		}
-		if level.Index == 8 {
+		if currentLevel.Index == 8 {
 			http.Redirect(w, r, fmt.Sprintf("/levels/flag/"), http.StatusFound)
 		} else {
-			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", level.Index+1), http.StatusFound)
+			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", currentLevel.Index+1), http.StatusFound)
 		}
 	}
 }
@@ -240,10 +142,10 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	data := struct {
 		Handler       string
-		Levels        []*Level
-		Level         Level
+		Levels        []*level.Level
+		Level         level.Level
 		LevelProgress int
-	}{"flag", levels, Level{Index: -1}, levelProgress}
+	}{"flag", level.Levels, level.Level{Index: -1}, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -269,16 +171,13 @@ func init() {
 	}
 	sessionStore = sessions.NewCookieStore(key)
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
-	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
-	levelsJson, _ := ioutil.ReadFile(path)
-	json.Unmarshal(levelsJson, &levels)
 }
 
 func main() {
 	r := mux.NewRouter()
 	r.Use(sessionMiddleware)
-	for i := range levels {
-		level := levels[i]
+	for i := range level.Levels {
+		level := level.Levels[i]
 		s := r.Host(level.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			session := r.Context().Value("session").(*sessions.Session)
@@ -286,7 +185,7 @@ func main() {
 			if levelProgress < level.Index {
 				http.Redirect(w, r, fmt.Sprintf("http://stripe-ctf:8000/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
-				level.proxy().ServeHTTP(w, r)
+				level.Proxy().ServeHTTP(w, r)
 			}
 		})
 	}
