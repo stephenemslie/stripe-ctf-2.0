@@ -24,13 +24,13 @@ type SourceFile struct {
 	Language string `json:"language"`
 }
 
-func (s *SourceFile) Code() string {
+func (s *SourceFile) getCode() string {
 	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
 	code, _ := ioutil.ReadFile(path)
 	return string(code)
 }
 
-func (s *SourceFile) Basename() string {
+func (s *SourceFile) getBasename() string {
 	return filepath.Base(s.Name)
 }
 
