@@ -36,10 +36,10 @@ func (s *SourceFile) getBasename() string {
 
 func (s *SourceFile) MarshalJSON() ([]byte, error) {
 	data := struct {
-		Name     string
-		Basename string
-		Language string
-		Code     string
+		Name     string `json:"name"`
+		Basename string `json:"basename"`
+		Language string `json:"language"`
+		Code     string `json:"code"`
 	}{s.Name, s.Basename(), s.Language, s.Code()}
 	return json.Marshal(data)
 }
