@@ -49,7 +49,6 @@ type Level struct {
 	Host   string
 	Port   int
 	Name   string
-	Color  string
 	Emoji  string
 	Source []*SourceFile
 }
