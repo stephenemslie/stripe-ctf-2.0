@@ -5,115 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"os"
-	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/stephenemslie/stripe-ctf-2.0/ctfproxy/level"
 
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
-
-type SourceFile struct {
-	Level    int    `json:"level"`
-	Name     string `json:"name"`
-	Language string `json:"language"`
-}
-
-func (s *SourceFile) getCode() string {
-	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
-	code, _ := ioutil.ReadFile(path)
-	return string(code)
-}
-
-func (s *SourceFile) getBasename() string {
-	return filepath.Base(s.Name)
-}
-
-func (s *SourceFile) MarshalJSON() ([]byte, error) {
-	data := struct {
-		Name     string `json:"name"`
-		Basename string `json:"basename"`
-		Language string `json:"language"`
-		Code     string `json:"code"`
-	}{s.Name, s.getBasename(), s.Language, s.getCode()}
-	return json.Marshal(data)
-}
-
-type Level struct {
-	Index   int           `json:"index"`
-	Host    string        `json:"host"`
-	Port    int           `json:"port"`
-	Name    string        `json:"name"`
-	Emoji   string        `json:"emoji"`
-	Sources []*SourceFile `json:"sources"`
-}
-
-func (l *Level) getPasswordPath() string {
-	return fmt.Sprintf("/mnt/level%d/password.txt", l.Index)
-}
-
-func (l *Level) checkPassword(pwAttempt string) bool {
-	password, err := ioutil.ReadFile(l.getPasswordPath())
-	if os.IsNotExist(err) {
-		fmt.Println(err)
-		return false
-	}
-	return (string(password) == pwAttempt)
-}
-
-func (l *Level) setPassword(password string) {
-	ioutil.WriteFile(l.getPasswordPath(), []byte(password), 0644)
-}
-
-func (l *Level) IsComplete() bool {
-	path := fmt.Sprintf("/mnt/levels/%d.completed", l.Index)
-	_, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
-func (l *Level) IsLocked() bool {
-	if l.Index == 0 {
-		return false
-	}
-	return !levels[l.Index-1].IsComplete()
-}
-
-func (l *Level) proxy() *httputil.ReverseProxy {
-	u, _ := url.Parse(fmt.Sprintf("http://%s:%d/", l.Host, l.Port))
-	return httputil.NewSingleHostReverseProxy(u)
-}
-
-// Next returns the next level and an error if there isn't one
-func (l *Level) Next() (*Level, error) {
-	var nextLevel *Level
-	index := l.Index + 1
-	if index >= len(levels) {
-		return nextLevel, fmt.Errorf("No such level %d", index)
-	}
-	nextLevel = levels[index]
-	return nextLevel, nil
-}
-
-func (l *Level) reset() {
-	path := fmt.Sprintf("/mnt/level%d/reset.txt", l.Index)
-	os.Remove(path)
-	file, err := os.Create(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-}
 
 var (
 	baseTemplate *template.Template
