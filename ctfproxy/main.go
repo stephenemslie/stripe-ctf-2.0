@@ -16,6 +16,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+
+	secretmanager "cloud.google.com/go/secretmanager/apiv1"
+	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
 
 type SourceFile struct {
@@ -249,6 +252,21 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 	key := []byte(os.Getenv("SECRET"))
+	if len(key) == 0 && os.Getenv("GCLOUD_SECRET_KEY_NAME") != "" {
+		ctx := context.Background()
+		client, err := secretmanager.NewClient(ctx)
+		if err != nil {
+			log.Fatalf("failed to setup secrets client: %v", err)
+		}
+		accessRequest := &secretmanagerpb.AccessSecretVersionRequest{
+			Name: os.Getenv("GCLOUD_SECRET_KEY_NAME"),
+		}
+		result, err := client.AccessSecretVersion(ctx, accessRequest)
+		if err != nil {
+			log.Fatalf("failed to access secret version: %v", err)
+		}
+		key = result.Payload.Data
+	}
 	sessionStore = sessions.NewCookieStore(key)
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
