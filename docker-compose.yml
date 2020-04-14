@@ -4,6 +4,7 @@ services:
     env_file:
       - secret.env
     build: ./ctfproxy
+    image: gcr.io/stripe-ctf-2-semslie/ctfproxy
     ports:
       - "8000:8000"
     networks:
@@ -26,6 +27,7 @@ services:
   level0:
     build:
       context: ./levels/0
+    image: gcr.io/stripe-ctf-2-semslie/level0
     networks:
       levels:
         aliases:
@@ -37,6 +39,7 @@ services:
   level1:
     build:
       context: ./levels/1
+    image: gcr.io/stripe-ctf-2-semslie/level1
     networks:
       levels:
         aliases:
@@ -48,6 +51,7 @@ services:
   level2:
     build:
       context: ./levels/2
+    image: gcr.io/stripe-ctf-2-semslie/level2
     networks:
       browsers:
         aliases:
@@ -62,6 +66,7 @@ services:
   level3:
     build:
       context: ./levels/3
+    image: gcr.io/stripe-ctf-2-semslie/level3
     networks:
       levels:
         aliases:
@@ -74,6 +79,7 @@ services:
   level4-server:
     build:
       context: ./levels/4/server
+    image: gcr.io/stripe-ctf-2-semslie/level4-server
     command: serve
     networks:
       levels:
@@ -89,6 +95,7 @@ services:
   level4-browser:
     build:
       context: ./levels/4/browser
+    image: gcr.io/stripe-ctf-2-semslie/level4-browser
     depends_on:
       - level4-server
     cap_add:
@@ -102,6 +109,7 @@ services:
   level5:
     build:
       context: ./levels/5
+    image: gcr.io/stripe-ctf-2-semslie/level5
     command: serve
     depends_on:
       - level2
@@ -116,6 +124,7 @@ services:
   level6-server:
     build:
       context: ./levels/6/server
+    image: gcr.io/stripe-ctf-2-semslie/level6-server
     command: serve
     networks:
       levels:
@@ -129,6 +138,7 @@ services:
   level6-browser:
     build:
       context: ./levels/6/browser
+    image: gcr.io/stripe-ctf-2-semslie/level6-browser
     depends_on:
       - level6-server
     networks:
@@ -143,6 +153,7 @@ services:
   level7:
     build:
       context: ./levels/7
+    image: gcr.io/stripe-ctf-2-semslie/level7
     command: serve
     networks:
       levels:
@@ -155,6 +166,7 @@ services:
   level8:
     build:
       context: ./levels/8
+    image: gcr.io/stripe-ctf-2-semslie/level8
     depends_on:
       - level2
     networks:
