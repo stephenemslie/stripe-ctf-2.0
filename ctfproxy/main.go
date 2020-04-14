@@ -248,15 +248,15 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func init() {
+	key := []byte(os.Getenv("SECRET"))
+	sessionStore = sessions.NewCookieStore(key)
+	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
 	levelsJson, _ := ioutil.ReadFile(path)
 	json.Unmarshal(levelsJson, &levels)
 }
 
 func main() {
-	key := []byte(os.Getenv("SECRET"))
-	sessionStore = sessions.NewCookieStore(key)
-	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 	r := mux.NewRouter()
 	r.Use(sessionMiddleware)
 	for i := range levels {
