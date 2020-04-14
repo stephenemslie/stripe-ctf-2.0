@@ -19,39 +19,38 @@ import (
 )
 
 type SourceFile struct {
-	Level    int
-	Name     string
-	Language string
+	Level    int    `json:"level"`
+	Name     string `json:"name"`
+	Language string `json:"language"`
 }
 
-func (s *SourceFile) Code() string {
+func (s *SourceFile) getCode() string {
 	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
 	code, _ := ioutil.ReadFile(path)
 	return string(code)
 }
 
-func (s *SourceFile) Basename() string {
+func (s *SourceFile) getBasename() string {
 	return filepath.Base(s.Name)
 }
 
 func (s *SourceFile) MarshalJSON() ([]byte, error) {
 	data := struct {
-		Name     string
-		Basename string
-		Language string
-		Code     string
-	}{s.Name, s.Basename(), s.Language, s.Code()}
+		Name     string `json:"name"`
+		Basename string `json:"basename"`
+		Language string `json:"language"`
+		Code     string `json:"code"`
+	}{s.Name, s.getBasename(), s.Language, s.getCode()}
 	return json.Marshal(data)
 }
 
 type Level struct {
-	Index  int
-	Host   string
-	Port   int
-	Name   string
-	Color  string
-	Emoji  string
-	Source []*SourceFile
+	Index   int           `json:"index"`
+	Host    string        `json:"host"`
+	Port    int           `json:"port"`
+	Name    string        `json:"name"`
+	Emoji   string        `json:"emoji"`
+	Sources []*SourceFile `json:"sources"`
 }
 
 func (l *Level) getPasswordPath() string {
@@ -113,70 +112,10 @@ func (l *Level) reset() {
 	defer file.Close()
 }
 
-var levels = []*Level{
-	{0, "level0-stripe-ctf", 3000, "The Secret Safe", "blue", "🔐",
-		[]*SourceFile{
-			{0, "level00.html", "html"},
-			{0, "level00.js", "javascript"},
-		}},
-	{1, "level1-stripe-ctf", 8000, "The Guessing Game", "teal", "🎲",
-		[]*SourceFile{
-			{1, "index.php", "php"},
-			{1, "routing.php", "php"},
-		}},
-	{2, "level2-stripe-ctf", 8000, "The Social Network", "green", "👥",
-		[]*SourceFile{
-			{2, "index.php", "php"},
-			{2, "routing.php", "php"},
-		}},
-	{3, "level3-stripe-ctf", 5000, "The Secret Vault", "yellow", "🙊",
-		[]*SourceFile{
-			{3, "index.html", "html"},
-			{3, "secretvault.py", "python"},
-		}},
-	{4, "level4-stripe-ctf", 4567, "Karma Trader", "orange", "🙏",
-		[]*SourceFile{
-			{4, "server/srv.rb", "ruby"},
-			{4, "server/views/layout.erb", "ruby"},
-			{4, "server/views/home.erb", "ruby"},
-			{4, "server/views/login.erb", "ruby"},
-			{4, "server/views/register.erb", "ruby"},
-		}},
-	{5, "level5-stripe-ctf", 4568, "DomainAuthenticator", "red", "🌐",
-		[]*SourceFile{
-			{5, "srv.rb", "ruby"},
-		}},
-	{6, "level6-stripe-ctf", 4569, "Streamer", "pink", "💬",
-		[]*SourceFile{
-			{6, "server/srv.rb", "ruby"},
-			{6, "server/views/layout.erb", "ruby"},
-			{6, "server/views/login.erb", "ruby"},
-			{6, "server/views/register.erb", "ruby"},
-			{6, "server/views/user_info.erb", "ruby"},
-		}},
-	{7, "level7-stripe-ctf", 9233, "WaffleCopter", "purple", "🚁",
-		[]*SourceFile{
-			{7, "wafflecopter.py", "python"},
-			{7, "client.py", "python"},
-			{7, "db.py", "python"},
-			{7, "initialize_db.py", "python"},
-			{7, "settings.py", "python"},
-			{7, "templates/index.html", "html"},
-			{7, "templates/login.html", "html"},
-			{7, "templates/logs.html", "html"},
-		}},
-	{8, "level8-stripe-ctf", 4000, "PasswordDB", "indigo", "🔑",
-		[]*SourceFile{
-			{8, "primary_server", "python"},
-			{8, "password_db_launcher", "python"},
-			{8, "common.py", "python"},
-			{8, "chunk_server", "python"},
-		}},
-}
-
 var (
 	baseTemplate *template.Template
 	sessionStore *sessions.CookieStore
+	levels       []*Level
 )
 
 func sessionMiddleware(next http.Handler) http.Handler {
@@ -308,10 +247,16 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func init() {
 	key := []byte(os.Getenv("SECRET"))
 	sessionStore = sessions.NewCookieStore(key)
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
+	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
+	levelsJson, _ := ioutil.ReadFile(path)
+	json.Unmarshal(levelsJson, &levels)
+}
+
+func main() {
 	r := mux.NewRouter()
 	r.Use(sessionMiddleware)
 	for i := range levels {

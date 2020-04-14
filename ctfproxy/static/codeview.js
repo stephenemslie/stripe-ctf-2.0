@@ -13,7 +13,7 @@ function CodeView(props) {
   React.useEffect(() => {
     fetchLevel(index).then(level => {
       setLevel(level);
-      setActiveSource(Object.values(level.Source)[0]);
+      setActiveSource(Object.values(level.sources)[0]);
     });
   }, []);
   React.useEffect(() => {
@@ -28,8 +28,8 @@ function CodeView(props) {
     <div>
       <div class="bg-prism-bg rounded-t-lg p-4 mt-10 flex flex-row">
         <div class=" flex-grow">
-          {Object.entries(level.Source).map(([key, source]) => {
-            const active = source.Name == activeSource.Name;
+          {Object.entries(level.sources).map(([key, source]) => {
+            const active = source.name == activeSource.name;
             return (
               <button
                 className={`rounded py-1 px-2 mr-2 mb-2 text-sm focus:outline-none ${
@@ -41,15 +41,15 @@ function CodeView(props) {
                   setActiveSource(source);
                 }}
               >
-                {source.Basename}
+                {source.basename}
               </button>
             );
           })}
         </div>
       </div>
       <pre class="rounded-b-lg">
-        <code className={"language-" + activeSource.Language}>
-          {activeSource.Code}
+        <code className={"language-" + activeSource.language}>
+          {activeSource.code}
         </code>
       </pre>
     </div>

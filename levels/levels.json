@@ -1,0 +1,238 @@
+[
+    {
+        "emoji": "\ud83d\udd10",
+        "host": "level0-stripe-ctf",
+        "index": 0,
+        "name": "The Secret Safe",
+        "port": 3000,
+        "sources": [
+            {
+                "language": "html",
+                "level": 0,
+                "name": "level00.html"
+            },
+            {
+                "language": "javascript",
+                "level": 0,
+                "name": "level00.js"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83c\udfb2",
+        "host": "level1-stripe-ctf",
+        "index": 1,
+        "name": "The Guessing Game",
+        "port": 8000,
+        "sources": [
+            {
+                "language": "php",
+                "level": 1,
+                "name": "index.php"
+            },
+            {
+                "language": "php",
+                "level": 1,
+                "name": "routing.php"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\udc65",
+        "host": "level2-stripe-ctf",
+        "index": 2,
+        "name": "The Social Network",
+        "port": 8000,
+        "sources": [
+            {
+                "language": "php",
+                "level": 2,
+                "name": "index.php"
+            },
+            {
+                "language": "php",
+                "level": 2,
+                "name": "routing.php"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\ude4a",
+        "host": "level3-stripe-ctf",
+        "index": 3,
+        "name": "The Secret Vault",
+        "port": 5000,
+        "sources": [
+            {
+                "language": "html",
+                "level": 3,
+                "name": "index.html"
+            },
+            {
+                "language": "python",
+                "level": 3,
+                "name": "secretvault.py"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\ude4f",
+        "host": "level4-stripe-ctf",
+        "index": 4,
+        "name": "Karma Trader",
+        "port": 4567,
+        "sources": [
+            {
+                "language": "ruby",
+                "level": 4,
+                "name": "server/srv.rb"
+            },
+            {
+                "language": "ruby",
+                "level": 4,
+                "name": "server/views/layout.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 4,
+                "name": "server/views/home.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 4,
+                "name": "server/views/login.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 4,
+                "name": "server/views/register.erb"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83c\udf10",
+        "host": "level5-stripe-ctf",
+        "index": 5,
+        "name": "DomainAuthenticator",
+        "port": 4568,
+        "sources": [
+            {
+                "language": "ruby",
+                "level": 5,
+                "name": "srv.rb"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\udcac",
+        "host": "level6-stripe-ctf",
+        "index": 6,
+        "name": "Streamer",
+        "port": 4569,
+        "sources": [
+            {
+                "language": "ruby",
+                "level": 6,
+                "name": "server/srv.rb"
+            },
+            {
+                "language": "ruby",
+                "level": 6,
+                "name": "server/views/layout.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 6,
+                "name": "server/views/login.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 6,
+                "name": "server/views/register.erb"
+            },
+            {
+                "language": "ruby",
+                "level": 6,
+                "name": "server/views/user_info.erb"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\ude81",
+        "host": "level7-stripe-ctf",
+        "index": 7,
+        "name": "WaffleCopter",
+        "port": 9233,
+        "sources": [
+            {
+                "language": "python",
+                "level": 7,
+                "name": "wafflecopter.py"
+            },
+            {
+                "language": "python",
+                "level": 7,
+                "name": "client.py"
+            },
+            {
+                "language": "python",
+                "level": 7,
+                "name": "db.py"
+            },
+            {
+                "language": "python",
+                "level": 7,
+                "name": "initialize_db.py"
+            },
+            {
+                "language": "python",
+                "level": 7,
+                "name": "settings.py"
+            },
+            {
+                "language": "html",
+                "level": 7,
+                "name": "templates/index.html"
+            },
+            {
+                "language": "html",
+                "level": 7,
+                "name": "templates/login.html"
+            },
+            {
+                "language": "html",
+                "level": 7,
+                "name": "templates/logs.html"
+            }
+        ]
+    },
+    {
+        "emoji": "\ud83d\udd11",
+        "host": "level8-stripe-ctf",
+        "index": 8,
+        "name": "PasswordDB",
+        "port": 4000,
+        "sources": [
+            {
+                "language": "python",
+                "level": 8,
+                "name": "primary_server"
+            },
+            {
+                "language": "python",
+                "level": 8,
+                "name": "password_db_launcher"
+            },
+            {
+                "language": "python",
+                "level": 8,
+                "name": "common.py"
+            },
+            {
+                "language": "python",
+                "level": 8,
+                "name": "chunk_server"
+            }
+        ]
+    }
+]
