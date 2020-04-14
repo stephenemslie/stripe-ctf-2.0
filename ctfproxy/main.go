@@ -19,9 +19,9 @@ import (
 )
 
 type SourceFile struct {
-	Level    int
-	Name     string
-	Language string
+	Level    int    `json:"level"`
+	Name     string `json:"name"`
+	Language string `json:"language"`
 }
 
 func (s *SourceFile) Code() string {
