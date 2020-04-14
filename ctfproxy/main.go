@@ -45,12 +45,12 @@ func (s *SourceFile) MarshalJSON() ([]byte, error) {
 }
 
 type Level struct {
-	Index  int
-	Host   string
-	Port   int
-	Name   string
-	Emoji  string
-	Source []*SourceFile
+	Index   int           `json:"index"`
+	Host    string        `json:"host"`
+	Port    int           `json:"port"`
+	Name    string        `json:"name"`
+	Emoji   string        `json:"emoji"`
+	Sources []*SourceFile `json:"sources"`
 }
 
 func (l *Level) getPasswordPath() string {
