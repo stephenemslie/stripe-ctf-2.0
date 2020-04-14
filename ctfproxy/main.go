@@ -115,6 +115,7 @@ func (l *Level) reset() {
 var (
 	baseTemplate *template.Template
 	sessionStore *sessions.CookieStore
+	levels       []*Level
 )
 
 func sessionMiddleware(next http.Handler) http.Handler {
@@ -244,6 +245,12 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+}
+
+func init() {
+	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
+	levelsJson, _ := ioutil.ReadFile(path)
+	json.Unmarshal(levelsJson, &levels)
 }
 
 func main() {
