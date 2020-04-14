@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -15,6 +13,9 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 )
 
 type SourceFile struct {
