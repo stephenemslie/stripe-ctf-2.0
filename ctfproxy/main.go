@@ -41,10 +41,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t.ParseFiles("templates/index.html")
 	data := struct {
 		Handler       string
-		Level         Level
-		Levels        []*Level
+		Level         level.Level
+		Levels        []*level.Level
 		LevelProgress int
-	}{"home", Level{Index: -1}, levels, session.Values["levelProgress"].(int)}
+	}{"home", level.Level{Index: -1}, level.Levels, session.Values["levelProgress"].(int)}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -54,22 +54,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 func levelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	levelIndex, _ := strconv.Atoi(vars["index"])
-	level := levels[levelIndex]
+	currentLevel := level.Levels[levelIndex]
 	session := r.Context().Value("session").(*sessions.Session)
 	levelProgress := session.Values["levelProgress"].(int)
-	if levelProgress < level.Index {
+	if levelProgress < currentLevel.Index {
 		http.Redirect(w, r, fmt.Sprintf("/levels/%d/unlock/", levelIndex), http.StatusFound)
 		return
 	}
-	path := fmt.Sprintf("templates/levels/%d.html", level.Index)
+	path := fmt.Sprintf("templates/levels/%d.html", currentLevel.Index)
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles(path)
 	data := struct {
 		Handler       string
-		Levels        []*Level
-		Level         *Level
+		Levels        []*level.Level
+		Level         *level.Level
 		LevelProgress int
-	}{"level", levels, level, levelProgress}
+	}{"level", level.Levels, currentLevel, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -89,7 +89,7 @@ func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(levels[levelIndex])
+	json.NewEncoder(w).Encode(level.Levels[levelIndex])
 }
 
 func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
@@ -97,7 +97,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	levelProgress := session.Values["levelProgress"].(int)
 	levelIndex, _ := strconv.Atoi(vars["index"])
-	level := levels[levelIndex]
+	currentLevel := level.Levels[levelIndex]
 	if r.Method == http.MethodGet {
 		if levelProgress >= levelIndex {
 			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", levelIndex), http.StatusFound)
@@ -106,25 +106,25 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			t.ParseFiles("templates/locked.html")
 			data := struct {
 				Handler       string
-				Levels        []*Level
-				Level         *Level
+				Levels        []*level.Level
+				Level         *level.Level
 				LevelProgress int
-			}{"unlock", levels, level, levelProgress}
+			}{"unlock", level.Levels, currentLevel, levelProgress}
 			t.Execute(w, data)
 		}
 	} else if r.Method == http.MethodPost {
-		if level.checkPassword(r.FormValue("password")) {
-			session.Values["levelProgress"] = level.Index + 1
+		if currentLevel.CheckPassword(r.FormValue("password")) {
+			session.Values["levelProgress"] = currentLevel.Index + 1
 			err := session.Save(r, w)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-			level.reset()
+			currentLevel.Reset()
 		}
-		if level.Index == 8 {
+		if currentLevel.Index == 8 {
 			http.Redirect(w, r, fmt.Sprintf("/levels/flag/"), http.StatusFound)
 		} else {
-			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", level.Index+1), http.StatusFound)
+			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", currentLevel.Index+1), http.StatusFound)
 		}
 	}
 }
@@ -142,10 +142,10 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	data := struct {
 		Handler       string
-		Levels        []*Level
-		Level         Level
+		Levels        []*level.Level
+		Level         level.Level
 		LevelProgress int
-	}{"flag", levels, Level{Index: -1}, levelProgress}
+	}{"flag", level.Levels, level.Level{Index: -1}, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -176,8 +176,8 @@ func init() {
 func main() {
 	r := mux.NewRouter()
 	r.Use(sessionMiddleware)
-	for i := range levels {
-		level := levels[i]
+	for i := range level.Levels {
+		level := level.Levels[i]
 		s := r.Host(level.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			session := r.Context().Value("session").(*sessions.Session)
@@ -185,7 +185,7 @@ func main() {
 			if levelProgress < level.Index {
 				http.Redirect(w, r, fmt.Sprintf("http://stripe-ctf:8000/levels/%d/unlock/", level.Index), http.StatusFound)
 			} else {
-				level.proxy().ServeHTTP(w, r)
+				level.Proxy().ServeHTTP(w, r)
 			}
 		})
 	}
