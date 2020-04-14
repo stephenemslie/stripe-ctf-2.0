@@ -333,5 +333,9 @@ func main() {
 	r.HandleFunc("/levels/{index:[0-8]}/", levelHandler).Methods("GET")
 	r.HandleFunc("/flag/", flagHandler).Methods("GET")
 	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
