@@ -21,7 +21,6 @@ import (
 var (
 	baseTemplate *template.Template
 	sessionStore *sessions.CookieStore
-	levels       []*Level
 )
 
 func sessionMiddleware(next http.Handler) http.Handler {
@@ -172,9 +171,6 @@ func init() {
 	}
 	sessionStore = sessions.NewCookieStore(key)
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
-	path := filepath.Join(os.Getenv("LEVELCODE"), "levels.json")
-	levelsJson, _ := ioutil.ReadFile(path)
-	json.Unmarshal(levelsJson, &levels)
 }
 
 func main() {
