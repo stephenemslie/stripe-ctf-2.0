@@ -53,6 +53,7 @@ module KarmaTrader
 
   class KarmaSrv < Sinatra::Base
     set :environment, :production
+    set :port, Integer(ENV['PORT'] || 4567)
     enable :sessions
 
     # Use persistent entropy file
