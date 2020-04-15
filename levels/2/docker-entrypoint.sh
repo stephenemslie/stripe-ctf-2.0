@@ -9,7 +9,7 @@ fi
 
 if [ "$1" == 'serve' ]; then
   /usr/sbin/sshd
-  exec php -t . -S 0.0.0.0:8000 routing.php
+  exec php -t . -S 0.0.0.0:${PORT:-8000} routing.php
 fi
 
 exec "$@"
