@@ -121,7 +121,6 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-			currentLevel.Reset()
 		}
 		if currentLevel.Index == 8 {
 			http.Redirect(w, r, fmt.Sprintf("/levels/flag/"), http.StatusFound)
