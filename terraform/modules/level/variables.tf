@@ -21,3 +21,11 @@ variable "env" {
 variable "caller" {
   type = string
 }
+
+variable "proxy_service" {
+  type = object({
+    name     = string
+    project  = string
+    location = string
+  })
+}

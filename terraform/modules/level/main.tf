@@ -46,6 +46,19 @@ resource "google_cloud_run_service" "service" {
   }
 }
 
+resource "google_cloud_run_domain_mapping" "ctfproxy" {
+  location = var.proxy_service.location
+  name     = "${var.name}.hack2012.app"
+
+  metadata {
+    namespace = var.proxy_service.project
+  }
+
+  spec {
+    route_name = var.proxy_service.name
+  }
+}
+
 resource "google_cloud_run_service_iam_member" "caller" {
   location = google_cloud_run_service.service.location
   project  = google_cloud_run_service.service.project

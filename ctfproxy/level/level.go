@@ -51,22 +51,22 @@ type Level struct {
 	Sources []*SourceFile `json:"sources"`
 }
 
-func (l *Level) GetExternalURL() string {
+func (l *Level) GetExternalURL() (string, error) {
 	key := fmt.Sprintf("LEVEL%d_EXTERNAL_URL", l.Index)
 	url := os.Getenv(key)
-	if len(url) == 0 {
-		log.Fatalf("Missing or empty %s environment variable", key)
+	if len(url) > 0 {
+		return url, nil
 	}
-	return url
+	return "", fmt.Errorf("Missing or empty %s environment variable", key)
 }
 
-func (l *Level) GetInternalURL() string {
+func (l *Level) GetInternalURL() (string, error) {
 	key := fmt.Sprintf("LEVEL%d_INTERNAL_URL", l.Index)
 	url := os.Getenv(key)
-	if len(url) == 0 {
-		log.Fatalf("Missing or empty %s environment variable", key)
+	if len(url) > 0 {
+		return url, nil
 	}
-	return url
+	return "", fmt.Errorf("Missing or empty %s environment variable", key)
 }
 
 func (l *Level) CheckPassword(pwAttempt string) bool {
@@ -92,10 +92,10 @@ func (l *Level) CheckPassword(pwAttempt string) bool {
 }
 
 func (l *Level) Proxy() *httputil.ReverseProxy {
-	internalUrl := l.GetInternalURL()
-	u, err := url.Parse(internalUrl)
+	internalURL, _ := l.GetInternalURL()
+	u, err := url.Parse(internalURL)
 	if err != nil {
-		log.Fatalf("%s is not valid", internalUrl)
+		log.Fatalf("%s is not valid", internalURL)
 	}
 	return httputil.NewSingleHostReverseProxy(u)
 }
