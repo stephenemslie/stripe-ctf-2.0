@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -154,23 +155,25 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func init() {
-	key := []byte(os.Getenv("SECRET"))
-	if len(key) == 0 && os.Getenv("GCLOUD_SECRET_KEY_NAME") != "" {
+	secret := os.Getenv("SECRET")
+	gsm_prefix := "GSM:"
+	if strings.HasPrefix(secret, gsm_prefix) {
 		ctx := context.Background()
 		client, err := secretmanager.NewClient(ctx)
 		if err != nil {
 			log.Fatalf("failed to setup secrets client: %v", err)
 		}
+		secret_key := secret[len(gsm_prefix):]
 		accessRequest := &secretmanagerpb.AccessSecretVersionRequest{
-			Name: os.Getenv("GCLOUD_SECRET_KEY_NAME"),
+			Name: secret_key,
 		}
 		result, err := client.AccessSecretVersion(ctx, accessRequest)
 		if err != nil {
 			log.Fatalf("failed to access secret version: %v", err)
 		}
-		key = result.Payload.Data
+		secret = string(result.Payload.Data)
 	}
-	sessionStore = sessions.NewCookieStore(key)
+	sessionStore = sessions.NewCookieStore([]byte(secret))
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 }
 
