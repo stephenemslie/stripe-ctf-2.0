@@ -76,39 +76,39 @@ resource "google_cloud_run_service" "ctfproxy" {
           }
         }
         env {
-          name  = "LEVEL0_HOST"
+          name  = "LEVEL0_EXTERNAL_URL"
           value = module.level0.service_url
         }
         env {
-          name  = "LEVEL1_HOST"
+          name  = "LEVEL1_EXTERNAL_URL"
           value = module.level1.service_url
         }
         env {
-          name  = "LEVEL2_HOST"
+          name  = "LEVEL2_EXTERNAL_URL"
           value = module.level2.service_url
         }
         env {
-          name  = "LEVEL3_HOST"
+          name  = "LEVEL3_EXTERNAL_URL"
           value = module.level3.service_url
         }
         env {
-          name  = "LEVEL4_HOST"
+          name  = "LEVEL4_EXTERNAL_URL"
           value = module.level4_server.service_url
         }
         env {
-          name  = "LEVEL5_HOST"
+          name  = "LEVEL5_EXTERNAL_URL"
           value = module.level5.service_url
         }
         env {
-          name  = "LEVEL6_HOST"
+          name  = "LEVEL6_EXTERNAL_URL"
           value = module.level6_server.service_url
         }
         env {
-          name  = "LEVEL7_HOST"
+          name  = "LEVEL7_EXTERNAL_URL"
           value = module.level7.service_url
         }
         env {
-          name  = "LEVEL8_HOST"
+          name  = "LEVEL8_EXTERNAL_URL"
           value = module.level8.service_url
         }
         resources {
