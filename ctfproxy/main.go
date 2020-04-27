@@ -193,7 +193,7 @@ func main() {
 			}
 		})
 	}
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR")))))
 	r.HandleFunc("/", indexHandler).Methods("GET")
 	r.HandleFunc("/levels/{index:[0-8]}/unlock/", unlockLevelHandler).Methods("GET", "POST")
 	r.HandleFunc("/levels/{index:[0-8]}.json", levelJsonHandler).Methods("GET")
