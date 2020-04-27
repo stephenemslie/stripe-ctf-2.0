@@ -1,3 +1,11 @@
+terraform {
+  backend "gcs" {
+    credentials = "stripe-ctf-demo-b7b45a85638e.json"
+    bucket      = "tf-state-ctf"
+    prefix      = "terraform/state"
+  }
+}
+
 provider "google" {
 
   credentials = file("stripe-ctf-demo-b7b45a85638e.json")
