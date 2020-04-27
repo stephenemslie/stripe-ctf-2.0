@@ -178,7 +178,8 @@ func main() {
 	r.Use(sessionMiddleware)
 	for i := range level.Levels {
 		level := level.Levels[i]
-		s := r.Host(level.Host).Subrouter()
+		externalUrl, _ := url.Parse(level.GetExternalURL())
+		s := r.Host(externalUrl.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			session := r.Context().Value("session").(*sessions.Session)
 			levelProgress := session.Values["levelProgress"].(int)
