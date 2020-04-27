@@ -123,7 +123,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if currentLevel.Index == 8 {
-			http.Redirect(w, r, fmt.Sprintf("/levels/flag/"), http.StatusFound)
+			http.Redirect(w, r, fmt.Sprintf("/flag/"), http.StatusFound)
 		} else {
 			http.Redirect(w, r, fmt.Sprintf("/levels/%d/", currentLevel.Index+1), http.StatusFound)
 		}
