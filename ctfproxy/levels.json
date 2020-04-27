@@ -1,10 +1,8 @@
 [
     {
         "emoji": "\ud83d\udd10",
-        "host": "level0-stripe-ctf",
         "index": 0,
         "name": "The Secret Safe",
-        "port": 3000,
         "sources": [
             {
                 "language": "html",
@@ -20,10 +18,8 @@
     },
     {
         "emoji": "\ud83c\udfb2",
-        "host": "level1-stripe-ctf",
         "index": 1,
         "name": "The Guessing Game",
-        "port": 8000,
         "sources": [
             {
                 "language": "php",
@@ -39,10 +35,8 @@
     },
     {
         "emoji": "\ud83d\udc65",
-        "host": "level2-stripe-ctf",
         "index": 2,
         "name": "The Social Network",
-        "port": 8000,
         "sources": [
             {
                 "language": "php",
@@ -58,10 +52,8 @@
     },
     {
         "emoji": "\ud83d\ude4a",
-        "host": "level3-stripe-ctf",
         "index": 3,
         "name": "The Secret Vault",
-        "port": 5000,
         "sources": [
             {
                 "language": "html",
@@ -114,7 +106,7 @@
         "host": "level5-stripe-ctf",
         "index": 5,
         "name": "DomainAuthenticator",
-        "port": 4568,
+        "port": 4567,
         "sources": [
             {
                 "language": "ruby",
@@ -128,7 +120,7 @@
         "host": "level6-stripe-ctf",
         "index": 6,
         "name": "Streamer",
-        "port": 4569,
+        "port": 4567,
         "sources": [
             {
                 "language": "ruby",
