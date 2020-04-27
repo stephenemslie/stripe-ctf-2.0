@@ -1,6 +1,6 @@
 FROM python:2.7.17-alpine3.11
 RUN apk add --no-cache build-base
-RUN pip install twisted==11.1.0
+RUN pip install twisted==11.1.0 google-cloud-secret-manager
 WORKDIR /usr/src/app
 COPY . .
 EXPOSE 4000
