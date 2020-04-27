@@ -114,6 +114,10 @@ resource "google_cloud_run_service" "ctfproxy" {
           name  = "LEVEL8_EXTERNAL_URL"
           value = module.level8.service_url
         }
+        env {
+          name  = "LEVELCODE"
+          value = "/usr/src/levels"
+        }
         resources {
           limits = {
             memory = "512M"
