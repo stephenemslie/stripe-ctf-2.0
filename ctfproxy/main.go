@@ -76,7 +76,7 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func codeLevelHandler(w http.ResponseWriter, r *http.Request) {
+func levelJsonHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	session := r.Context().Value("session").(*sessions.Session)
 	levelIndex, _ := strconv.Atoi(vars["index"])
@@ -192,7 +192,7 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	r.HandleFunc("/", indexHandler).Methods("GET")
 	r.HandleFunc("/levels/{index:[0-8]}/unlock/", unlockLevelHandler).Methods("GET", "POST")
-	r.HandleFunc("/levels/{index:[0-8]}.json", codeLevelHandler).Methods("GET")
+	r.HandleFunc("/levels/{index:[0-8]}.json", levelJsonHandler).Methods("GET")
 	r.HandleFunc("/levels/{index:[0-8]}/", levelHandler).Methods("GET")
 	r.HandleFunc("/flag/", flagHandler).Methods("GET")
 	http.Handle("/", r)
