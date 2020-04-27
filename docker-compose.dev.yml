@@ -8,40 +8,153 @@ services:
       - ./ctfproxy:/usr/src/app
       - /usr/src/app/node_modules
     command: npmwatch
-  ctfproxy:
+  ctfproxy-server:
+    build:
+      context: ./ctfproxy
+      target: go
     volumes:
       - ./ctfproxy:/usr/src/app
+      - ./levels:/usr/src/levels
     command: gowatch
+    environment:
+      - LEVELCODE=/usr/src/levels
+      - STATIC_DIR=/usr/src/app/static
+    env_file:
+      - ./env/ctfproxy.env
+    ports:
+      - "8000:8000"
+    networks:
+      proxy:
+      levels:
   level0:
     volumes:
       - ./levels/0:/usr/src/app
       - /usr/src/app/node_modules
+    networks:
+      levels:
+        aliases:
+          - level0-stripe-ctf
   level1:
+    init: true
     volumes:
       - ./levels/1:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level1-stripe-ctf
+    env_file:
+      - ./env/1.env
   level2:
+    init: true
     volumes:
       - ./levels/2:/usr/src/app
+    networks:
+      browsers:
+        aliases:
+          - level2-stripe-ctf
+      levels:
+        aliases:
+          - level2-stripe-ctf
+    env_file:
+      - ./env/2.env
   level3:
+    init: true
     volumes:
       - ./levels/3:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level3-stripe-ctf
+    environment:
+      - DATA_DIR=/var/level3/data
+    env_file:
+      - ./env/3.env
   level4-browser:
+    init: true
+    environment:
+      - PORT=8001
+    ports:
+      - "8001:8001"
     volumes:
       - ./levels/4/browser:/usr/src/app
       - /usr/src/app/node_modules
+    networks:
+      - browsers
+    env_file:
+      - ./env/4.env
   level4-server:
+    init: true
     volumes:
       - ./levels/4/server:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level4-stripe-ctf
+      browsers:
+    environment:
+      - DB_FILE=/usr/src/app/karma.db
+      # - RESET_FILE=/mnt/level4/reset.txt
+    env_file:
+      - ./env/4.env
   level6-browser:
+    init: true
     volumes:
       - ./levels/6/browser:/usr/src/app
       - /usr/src/app/node_modules
+    networks:
+      - browsers
+    cap_add:
+      - SYS_ADMIN
+    # environment:
+    #   - RESET_FILE=/mnt/level6/reset.txt
+    env_file:
+      - ./env/6.env
+  level5:
+    init: true
+    volumes:
+      - ./levels/5:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level5-stripe-ctf
+    env_file:
+      - ./env/5.env
   level6-server:
+    init: true
     volumes:
       - ./levels/6/server:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level6-stripe-ctf
+      browsers:
+    env_file:
+      - ./env/6.env
   level7:
+    init: true
     volumes:
       - ./levels/7:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level7-stripe-ctf
+    env_file:
+      - ./env/7.env
   level8:
+    init: true
     volumes:
       - ./levels/8:/usr/src/app
+    networks:
+      levels:
+        aliases:
+          - level8-stripe-ctf
+    env_file:
+      - ./env/8.env
+
+networks:
+  browsers:
+    driver: bridge
+  levels:
+    driver: bridge
+  proxy:
+    driver: bridge

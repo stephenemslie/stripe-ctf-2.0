@@ -1,198 +1,62 @@
 version: "3.7"
 services:
-  ctfproxy:
-    env_file:
-      - secret.env
-    build: ./ctfproxy
-    image: gcr.io/stripe-ctf-2-semslie/ctfproxy
-    ports:
-      - "8000:8000"
-    networks:
-      proxy:
-      levels:
-      browsers:
-    environment:
-      - LEVELCODE=/mnt/levelcode
-    volumes:
-      - ./levels:/mnt/levelcode
-      - level0:/mnt/level0
-      - level1:/mnt/level1
-      - level2:/mnt/level2
-      - level3:/mnt/level3
-      - level4:/mnt/level4
-      - level5:/mnt/level5
-      - level6:/mnt/level6
-      - level7:/mnt/level7
-      - level8:/mnt/level8
   level0:
+    init: true
     build:
       context: ./levels/0
-    image: gcr.io/stripe-ctf-2-semslie/level0
-    networks:
-      levels:
-        aliases:
-          - level0-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level0/password.txt
-    volumes:
-      - level0:/mnt/level0
+    image: gcr.io/stripe-ctf-demo/level0
+    env_file:
+      - ./env/0.env
   level1:
     build:
       context: ./levels/1
-    image: gcr.io/stripe-ctf-2-semslie/level1
-    networks:
-      levels:
-        aliases:
-          - level1-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level1/password.txt
-    volumes:
-      - level1:/mnt/level1
+    image: gcr.io/stripe-ctf-demo/level1
   level2:
     build:
       context: ./levels/2
-    image: gcr.io/stripe-ctf-2-semslie/level2
-    networks:
-      browsers:
-        aliases:
-          - level2-stripe-ctf
-      levels:
-        aliases:
-          - level2-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level2/password.txt
-    volumes:
-      - level2:/mnt/level2
+    image: gcr.io/stripe-ctf-demo/level2
   level3:
     build:
       context: ./levels/3
-    image: gcr.io/stripe-ctf-2-semslie/level3
-    networks:
-      levels:
-        aliases:
-          - level3-stripe-ctf
-    environment:
-      - LEVEL3_DATA_DIR=/var/level3/data
-      - PW_FILE=/mnt/level3/password.txt
-    volumes:
-      - level3:/mnt/level3
+    image: gcr.io/stripe-ctf-demo/level3
   level4-server:
     build:
       context: ./levels/4/server
-    image: gcr.io/stripe-ctf-2-semslie/level4-server
-    command: serve
-    networks:
-      levels:
-        aliases:
-          - level4-stripe-ctf
-      browsers:
-    environment:
-      - PW_FILE=/mnt/level4/password.txt
-      - DB_FILE=/usr/src/app/karma.db
-      - RESET_FILE=/mnt/level4/reset.txt
-    volumes:
-      - level4:/mnt/level4
+    image: gcr.io/stripe-ctf-demo/level4-server
   level4-browser:
     build:
       context: ./levels/4/browser
-    image: gcr.io/stripe-ctf-2-semslie/level4-browser
+    image: gcr.io/stripe-ctf-demo/level4-browser
     depends_on:
       - level4-server
-    cap_add:
-      - SYS_ADMIN
-    environment:
-      - PW_FILE=/mnt/level4/password.txt
-    volumes:
-      - level4:/mnt/level4
-    networks:
-      - browsers
   level5:
     build:
       context: ./levels/5
-    image: gcr.io/stripe-ctf-2-semslie/level5
-    command: serve
+    image: gcr.io/stripe-ctf-demo/level5
     depends_on:
       - level2
-    networks:
-      browsers:
-        aliases:
-          - level5-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level5/password.txt
-    volumes:
-      - level5:/mnt/level5
   level6-server:
     build:
       context: ./levels/6/server
-    image: gcr.io/stripe-ctf-2-semslie/level6-server
-    command: serve
-    networks:
-      levels:
-        aliases:
-          - level6-stripe-ctf
-      browsers:
-    environment:
-      - PW_FILE=/mnt/level6/password.txt
-    volumes:
-      - level6:/mnt/level6
+    image: gcr.io/stripe-ctf-demo/level6-server
   level6-browser:
     build:
       context: ./levels/6/browser
-    image: gcr.io/stripe-ctf-2-semslie/level6-browser
+    image: gcr.io/stripe-ctf-demo/level6-browser
     depends_on:
       - level6-server
-    networks:
-      - browsers
-    cap_add:
-      - SYS_ADMIN
-    environment:
-      - PW_FILE=/mnt/level6/password.txt
-      - RESET_FILE=/mnt/level6/reset.txt
-    volumes:
-      - level6:/mnt/level6
   level7:
     build:
       context: ./levels/7
-    image: gcr.io/stripe-ctf-2-semslie/level7
-    command: serve
-    networks:
-      levels:
-        aliases:
-          - level7-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level7/password.txt
-    volumes:
-      - level7:/mnt/level7
+    image: gcr.io/stripe-ctf-demo/level7
   level8:
     build:
       context: ./levels/8
-    image: gcr.io/stripe-ctf-2-semslie/level8
+    image: gcr.io/stripe-ctf-demo/level8
     depends_on:
       - level2
-    networks:
-      levels:
-        aliases:
-          - level8-stripe-ctf
-    environment:
-      - PW_FILE=/mnt/level8/password.txt
-    volumes:
-      - level8:/mnt/level8
-volumes:
-  level0:
-  level1:
-  level2:
-  level3:
-  level4:
-  level5:
-  level6:
-  level7:
-  level8:
 networks:
   browsers:
     driver: bridge
-    internal: true
   levels:
-    driver: bridge
-    internal: true
-  proxy:
     driver: bridge
