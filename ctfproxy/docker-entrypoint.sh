@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" = 'serve' ]; then
-    exec go run main.go
+    exec ./bin/ctfproxy
 fi
 
 if [ "$1" = 'gowatch' ]; then
