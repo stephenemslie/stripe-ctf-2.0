@@ -11,8 +11,8 @@ steps:
       fi
 
       echo "Building $d ... "
-      # (
-      #   gcloud builds submit $d --config=${config}
-      # ) &
+      (
+        gcloud builds submit $d --config=${config}
+      ) &
     done
     wait
