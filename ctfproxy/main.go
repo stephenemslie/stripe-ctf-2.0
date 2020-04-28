@@ -188,7 +188,9 @@ func main() {
 			session := r.Context().Value("session").(*sessions.Session)
 			levelProgress := session.Values["levelProgress"].(int)
 			if levelProgress < level.Index {
-				http.Redirect(w, r, fmt.Sprintf("http://stripe-ctf:8000/levels/%d/unlock/", level.Index), http.StatusFound)
+				ctfproxyURL := os.Getenv("CTFPROXY_EXTERNAL_URL")
+				redirectURL := fmt.Sprintf("%s/levels/%d/", ctfproxyURL, level.Index)
+				http.Redirect(w, r, redirectURL, http.StatusFound)
 			} else {
 				level.Proxy().ServeHTTP(w, r)
 			}
