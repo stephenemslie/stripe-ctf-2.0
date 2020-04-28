@@ -92,10 +92,10 @@ func (l *Level) CheckPassword(pwAttempt string) bool {
 }
 
 func (l *Level) Proxy() *httputil.ReverseProxy {
-	internalURL, _ := l.GetInternalURL()
-	u, err := url.Parse(internalURL)
+	targetURL, err := l.GetInternalURL()
+	u, err := url.Parse(targetURL)
 	if err != nil {
-		log.Fatalf("%s is not valid", internalURL)
+		log.Fatalf("%s is not valid", targetURL)
 	}
 	proxy := httputil.NewSingleHostReverseProxy(u)
 	if os.Getenv("ENABLE_PROXY_TOKEN") != "1" {
