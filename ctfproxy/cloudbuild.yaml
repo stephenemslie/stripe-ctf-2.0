@@ -1,10 +1,10 @@
 steps:
 # build the container image
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA', '.']
-# push the container image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA']
+- name: 'gcr.io/kaniko-project/executor:latest'
+  args:
+  - --destination=gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA
+  - --cache=true
+  - --cache-ttl=8h
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
@@ -17,5 +17,3 @@ steps:
   - 'us-central1'
   - '--platform'
   - 'managed'
-images:
-- 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
