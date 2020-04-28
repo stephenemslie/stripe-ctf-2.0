@@ -97,7 +97,27 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 	if err != nil {
 		log.Fatalf("%s is not valid", internalURL)
 	}
-	return httputil.NewSingleHostReverseProxy(u)
+	proxy := httputil.NewSingleHostReverseProxy(u)
+	if os.Getenv("ENABLE_PROXY_TOKEN") != "1" {
+		return proxy
+	}
+	originalDirector := proxy.Director
+	proxy.Director = func(r *http.Request) {
+		originalDirector(r)
+
+		// originalDirector doesn't set the Host header, but this is required
+		// by Google Cloud Run.
+		r.Host = r.URL.Host
+
+		// levels require authorization as the ctfproxy service account
+		tokenURL := fmt.Sprintf("/instance/service-accounts/default/identity?audience=%s", r.URL.String())
+		idToken, err := metadata.Get(tokenURL)
+		if err != nil {
+			fmt.Printf("metadata.Get: failed to query id_token: %+v\n", err)
+		}
+		r.Header.Set("Authorization", fmt.Sprintf("Bearer %s", idToken))
+	}
+	return proxy
 }
 
 // Next returns the next level and an error if there isn't one
