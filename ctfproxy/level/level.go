@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
@@ -13,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 
+	"cloud.google.com/go/compute/metadata"
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 )
