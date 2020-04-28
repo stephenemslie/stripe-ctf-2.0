@@ -1,0 +1,19 @@
+steps:
+# build the container image
+- name: 'gcr.io/kaniko-project/executor:latest'
+  args:
+  - --destination=gcr.io/$PROJECT_ID/level1:$COMMIT_SHA
+  - --cache=true
+  - --cache-ttl=8h
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'run'
+  - 'deploy'
+  - 'level1'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/level1:$COMMIT_SHA'
+  - '--region'
+  - 'us-central1'
+  - '--platform'
+  - 'managed'
