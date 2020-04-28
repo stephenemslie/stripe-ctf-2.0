@@ -4,6 +4,7 @@ steps:
   args:
   - '-c'
   - |
+    shopt -s globstar
     for d in **/; do
       config="${d}cloudbuild.yaml"
       if [[ ! -f "${config}" ]]; then
