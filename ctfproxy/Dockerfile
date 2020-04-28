@@ -6,6 +6,7 @@ COPY assets ./assets
 COPY static ./static
 RUN npm run build:css
 ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["npmwatch"]
 
 FROM golang:1.13-alpine
 RUN apk add git
