@@ -2,7 +2,7 @@
   {{ with .Level }}
     <div class="bg-gray-700 p-6 pt-12 pb-32 border-gray-400 border-b-4">
       <h1><div class="text-4xl inline mr-4">{{ .Emoji }}</div>Level {{ .Index }}: {{ .Name }}</h1>
-      <a class="text-s mb-4" href="http://{{ .Host }}:8000/">http://{{ .Host }}:8000/</a>
+      <a class="text-s mb-4" href="{{ .GetExternalURL }}">{{ .GetExternalURL }}</a>
       <p> {{ template "levelintro" . }} </p>
       {{ if le $.LevelProgress .Index }}
       <form method="POST" action="/levels/{{ .Index }}/unlock/">
