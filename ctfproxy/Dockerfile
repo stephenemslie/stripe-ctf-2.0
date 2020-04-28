@@ -9,7 +9,7 @@ ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["npmwatch"]
 
 FROM golang:1.13-alpine as go
-RUN apk add git
+RUN apk add --no-cache git
 WORKDIR /usr/src/app
 COPY go.mod /usr/src/app/go.mod
 RUN go mod download
