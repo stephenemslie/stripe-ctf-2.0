@@ -20,4 +20,5 @@ RUN mkdir -p /usr/src/bin
 run go build -o /usr/src/app/bin/ctfproxy /usr/src/app/main.go
 EXPOSE 8000
 ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["gowatch"]
 CMD ["serve"]
