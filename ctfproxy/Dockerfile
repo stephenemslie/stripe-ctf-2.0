@@ -8,7 +8,7 @@ RUN npm run build:css
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["npmwatch"]
 
-FROM golang:1.13-alpine
+FROM golang:1.13-alpine as go
 RUN apk add git
 WORKDIR /usr/src/app
 COPY go.mod /usr/src/app/go.mod
