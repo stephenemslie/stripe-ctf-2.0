@@ -14,7 +14,7 @@ $log.level = Logger::INFO
 module DomainAuthenticator
   class DomainAuthenticatorSrv < Sinatra::Base
     set :environment, :production
-    set :port, 4568
+    set :port, Integer(ENV['PORT'] || 4567)
 
     # If authenticated for localhost, share the password.
     PASSWORD_HOSTS = /^localhost$/
