@@ -4,7 +4,11 @@ if [ -n "$GSM_PASSWORD_KEY" ]; then
     export LEVEL4_PW=`ruby get_secret.rb $GSM_PASSWORD_KEY`
 fi
 
-if [ "$1" = 'serve' ]; then
+if [ "$1" = 'serve' ] && [ -z "$RESET_FILE" ]; then
+    exec ruby srv.rb
+fi
+
+if [ "$1" = 'serve' ] && [ -n "$RESET_FILE" ]; then
     ruby srv.rb&
     PID=$!
     WATCH_DIR=`dirname $RESET_FILE`
