@@ -1,4 +1,5 @@
 const fs = require("fs"),
+  express = require("express"),
   puppeteer = require("puppeteer");
 
 const TITLES = [
@@ -79,16 +80,19 @@ async function browse(username, password) {
 }
 
 (() => {
-  const password = fs.readFileSync(process.env.PW_FILE, "utf-8");
-  const intervalSeconds = 30;
-  console.log(`Starting timer for ${intervalSeconds} seconds.`);
-  setInterval(() => {
-    fs.access(process.env.UNLOCK_FILE, err => {
-      if (err) {
-        browse("level07-password-holder", password);
-      } else {
-        console.log(`${process.env.UNLOCK_FILE} exists, skipping browse`);
-      }
-    });
-  }, intervalSeconds * 1000);
+  const app = express();
+  const port = process.env.PORT || 8000;
+  const url = process.env.URL;
+  const password = process.env.LEVEL6_PW;
+  app.get('/', (req, res) => {
+    res.send("OK")
+  });
+  app.post('/', (req, res) => {
+    console.log(`Checking credits`)
+    browse("level07-password-holder", password);
+    res.send("OK")
+  })
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`Listening on port ${port}`);
+  });
 })();
