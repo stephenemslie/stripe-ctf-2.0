@@ -178,6 +178,20 @@ func init() {
 	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
 }
 
+func levelProxyHandler(w http.ResponseWriter, r *http.Request, l *level.Level) {
+	session := r.Context().Value("session").(*sessions.Session)
+	levelProgress := session.Values["levelProgress"].(int)
+	fmt.Printf("session: %q\n", session.Values)
+	fmt.Printf("levelProgress: %d\n", levelProgress)
+	if levelProgress < l.Index {
+		ctfproxyURL := os.Getenv("CTFPROXY_EXTERNAL_URL")
+		redirectURL := fmt.Sprintf("%s/levels/%d/", ctfproxyURL, l.Index)
+		http.Redirect(w, r, redirectURL, http.StatusFound)
+	} else {
+		l.Proxy().ServeHTTP(w, r)
+	}
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.Use(sessionMiddleware)
@@ -187,15 +201,7 @@ func main() {
 		parsedExternalURL, _ := url.Parse(externalURL)
 		s := r.Host(parsedExternalURL.Host).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			session := r.Context().Value("session").(*sessions.Session)
-			levelProgress := session.Values["levelProgress"].(int)
-			if levelProgress < level.Index {
-				ctfproxyURL := os.Getenv("CTFPROXY_EXTERNAL_URL")
-				redirectURL := fmt.Sprintf("%s/levels/%d/", ctfproxyURL, level.Index)
-				http.Redirect(w, r, redirectURL, http.StatusFound)
-			} else {
-				level.Proxy().ServeHTTP(w, r)
-			}
+			levelProxyHandler(w, r, level)
 		})
 	}
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR")))))
