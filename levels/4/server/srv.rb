@@ -9,7 +9,7 @@ require 'sequel'
 require 'sinatra'
 
 module KarmaTrader
-  PASSWORD = File.read(ENV['PW_FILE']).strip
+  PASSWORD = ENV['LEVEL4_PW'].strip
   STARTING_KARMA = 500
   KARMA_FOUNTAIN = 'karma_fountain'
 
