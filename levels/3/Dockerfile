@@ -1,5 +1,5 @@
-FROM python:3.8.1-alpine
-RUN apk add --no-cache util-linux
+FROM python:3.8.2-slim-buster
+RUN apt-get update && apt-get install uuid-runtime && apt-get clean
 WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
