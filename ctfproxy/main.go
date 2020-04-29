@@ -26,8 +26,10 @@ var (
 )
 
 func sessionMiddleware(next http.Handler) http.Handler {
+	parsedExternalURL, _ := url.Parse(os.Getenv("CTFPROXY_EXTERNAL_URL"))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session, _ := sessionStore.Get(r, "ctf")
+		session.Options.Domain = parsedExternalURL.Hostname()
 		if _, ok := session.Values["levelProgress"]; !ok {
 			session.Values["levelProgress"] = 0
 			session.Save(r, w)
