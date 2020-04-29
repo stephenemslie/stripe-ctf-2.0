@@ -5,5 +5,5 @@ COPY Gemfile* ./
 RUN bundle install
 COPY . .
 RUN chmod a+x docker-entrypoint.sh
-EXPOSE 4568
+EXPOSE 4567
 ENTRYPOINT ["./docker-entrypoint.sh"]
