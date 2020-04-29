@@ -199,7 +199,7 @@ func main() {
 		level := level.Levels[i]
 		externalURL, _ := level.GetExternalURL()
 		parsedExternalURL, _ := url.Parse(externalURL)
-		s := r.Host(parsedExternalURL.Host).Subrouter()
+		s := r.Host(parsedExternalURL.Hostname()).Subrouter()
 		s.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			levelProxyHandler(w, r, level)
 		})
