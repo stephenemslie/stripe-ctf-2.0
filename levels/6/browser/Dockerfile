@@ -4,5 +4,7 @@ ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium-browser
 WORKDIR /usr/src/app
 COPY package* ./
 RUN npm install .
-COPY index.js ./
-CMD ["node", "index.js"]
+COPY . ./
+EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["browser"]
