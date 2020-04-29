@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@google-cloud/secret-manager": "^3.0.0",
+    "express": "^4.17.1",
     "puppeteer": "^1.20.0"
   },
   "devDependencies": {}
