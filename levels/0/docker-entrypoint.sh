@@ -1,17 +1,12 @@
 #!/bin/sh
 
-if [ -z "$GSM_PASSWORD_KEY" ]; then
-
-    node get_secret.js $GSM_PASSWORD_KEY > $PW_FILE
-fi
-
-if [ ! -f $PW_FILE ]; then
-    base64 /dev/urandom | head -c 10 > $PW_FILE
+if [ -n "$GSM_PASSWORD_KEY" ]; then
+    export LEVEL0_PW=`node get_secret.js $GSM_PASSWORD_KEY`
 fi
 
 if [ "$1" = 'serve' ]; then
     rm level00.db
-    node ctf-install.js `cat $PW_FILE`
+    node ctf-install.js $LEVEL0_PW
     exec node level00.js
 fi
 
