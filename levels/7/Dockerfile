@@ -1,5 +1,4 @@
-FROM python:3.8.1-alpine
-RUN apk add --no-cache build-base libffi-dev
+FROM python:3.8.2-slim-buster
 RUN pip install bcrypt \
                 requests \
                 flask \
