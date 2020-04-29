@@ -8,3 +8,4 @@ COPY . .
 RUN chmod a+x docker-entrypoint.sh
 EXPOSE 9233
 ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["serve"]
