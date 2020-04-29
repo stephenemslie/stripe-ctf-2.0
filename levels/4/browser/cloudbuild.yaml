@@ -2,7 +2,7 @@ steps:
 # build the container image
 - name: 'gcr.io/kaniko-project/executor:latest'
   args:
-  - --destination=gcr.io/$PROJECT_ID/level4-server:$COMMIT_SHA
+  - --destination=gcr.io/$PROJECT_ID/level4-browser:$COMMIT_SHA
   - --cache=true
   - --cache-ttl=8h
 # Deploy container image to Cloud Run
@@ -10,9 +10,9 @@ steps:
   args:
   - 'run'
   - 'deploy'
-  - 'level4-server'
+  - 'level4-browser'
   - '--image'
-  - 'gcr.io/$PROJECT_ID/level4-server:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/level4-browser:$COMMIT_SHA'
   - '--region'
   - 'us-central1'
   - '--platform'
