@@ -1,7 +1,10 @@
-FROM ruby:2.7.0-alpine
+FROM ruby:2.6.6-slim-buster
 WORKDIR /usr/src/app
-RUN apk add --no-cache build-base sqlite sqlite-dev sqlite-libs
-RUN apk add inotify-tools --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
+RUN apt-get update && \
+    apt install -y build-essential \
+                   libsqlite3-dev \
+                   inotify-tools && \
+    apt-get clean
 COPY Gemfile ./
 COPY Gemfile.lock ./
 RUN bundle install
