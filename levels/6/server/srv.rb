@@ -9,7 +9,7 @@ require 'sequel'
 require 'sinatra'
 
 module Streamer
-  PASSWORD = File.read(ENV['PW_FILE']).strip
+  PASSWORD = ENV['LEVEL6_PW'].strip
 
   module DB
     def self.db_file
