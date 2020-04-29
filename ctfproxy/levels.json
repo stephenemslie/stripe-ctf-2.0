@@ -69,7 +69,6 @@
     },
     {
         "emoji": "\ud83d\ude4f",
-        "host": "level4-stripe-ctf",
         "index": 4,
         "name": "Karma Trader",
         "port": 4567,
@@ -103,7 +102,6 @@
     },
     {
         "emoji": "\ud83c\udf10",
-        "host": "level5-stripe-ctf",
         "index": 5,
         "name": "DomainAuthenticator",
         "port": 4567,
@@ -117,7 +115,6 @@
     },
     {
         "emoji": "\ud83d\udcac",
-        "host": "level6-stripe-ctf",
         "index": 6,
         "name": "Streamer",
         "port": 4567,
@@ -151,7 +148,6 @@
     },
     {
         "emoji": "\ud83d\ude81",
-        "host": "level7-stripe-ctf",
         "index": 7,
         "name": "WaffleCopter",
         "port": 9233,
@@ -200,7 +196,6 @@
     },
     {
         "emoji": "\ud83d\udd11",
-        "host": "level8-stripe-ctf",
         "index": 8,
         "name": "PasswordDB",
         "port": 4000,
