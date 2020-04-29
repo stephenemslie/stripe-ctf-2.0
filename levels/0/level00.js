@@ -65,6 +65,6 @@ if (process.argv.length > 2) {
   app.listen(socket);
 } else {
   var port = parseInt(process.env.PORT || "3000");
-  console.log("Starting server on port 3000");
+  console.log(`Starting server on port ${port}`);
   app.listen(port);
 }
