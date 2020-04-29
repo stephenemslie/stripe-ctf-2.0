@@ -1,6 +1,6 @@
-FROM ruby:2.7.0-alpine
+FROM ruby:2.6.6-slim-buster
 WORKDIR /usr/src/app
-RUN apk add --no-cache build-base
+RUN apt-get update && apt install -y build-essential && apt-get clean
 COPY Gemfile* ./
 RUN bundle install
 COPY . .
