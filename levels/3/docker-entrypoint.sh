@@ -1,16 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ ! -f $PW_FILE ]; then
-  base64 /dev/urandom | head -c 10 > $PW_FILE
+if [ -n "$GSM_PASSWORD_KEY" ]; then
+    export LEVEL3_PW=`python get_secret.py $GSM_PASSWORD_KEY`
 fi
 
-export PASSWORD=`cat $PW_FILE`
 export PLANS=`uuidgen`
 export PROOF=`uuidgen`
-mkdir -p $LEVEL3_DATA_DIR
-python generate_data.py $LEVEL3_DATA_DIR $PASSWORD $PROOF $PLANS
+mkdir -p $DATA_DIR
+python generate_data.py $DATA_DIR $LEVEL3_PW $PROOF $PLANS
 
-if [ "$1" == 'serve' ]; then
+if [ "$1" == "serve" ]; then
   exec python secretvault.py
 fi
 

@@ -1,12 +1,11 @@
 #!/bin/sh
 
-if [ ! -f $PW_FILE ]; then
-    python -c "import random; import sys; sys.stdout.write(''.join([str(random.SystemRandom().randint(0, 9)) for i in range(12)]))" > $PW_FILE
+if [ -n "$GSM_PASSWORD_KEY" ]; then
+    export LEVEL8_PW=`python get_secret.py $GSM_PASSWORD_KEY`
 fi
 
 if [ "$1" = 'serve' ]; then
-    PASSWORD=`cat $PW_FILE`
-    exec ./password_db_launcher "$PASSWORD" 0.0.0.0:4000
+    exec ./password_db_launcher $LEVEL8_PW 0.0.0.0:${PORT:-4000}
 fi
 
 exec "$@"

@@ -4,9 +4,8 @@ if [ ! -f secret-combination.txt ]; then
     uuidgen > secret-combination.txt
 fi
 
-if [ ! -f $PW_FILE ]; then
-    uuidgen > secret-combination.txt
-    base64 /dev/urandom | head -c 10 > $PW_FILE
+if [ -n "$GSM_PASSWORD_KEY" ]; then
+    export LEVEL1_PW=`php get_secret.php $GSM_PASSWORD_KEY`
 fi
 
 if [ "$1" = 'serve' ]; then

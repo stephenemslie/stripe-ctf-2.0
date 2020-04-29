@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ ! -f $PW_FILE ]; then
-    base64 /dev/urandom | head -c 10 > $PW_FILE
+if [ -n "$GSM_PASSWORD_KEY" ]; then
+    export LEVEL4_PW=`ruby get_secret.rb $GSM_PASSWORD_KEY`
 fi
 
 if [ "$1" = 'serve' ]; then
