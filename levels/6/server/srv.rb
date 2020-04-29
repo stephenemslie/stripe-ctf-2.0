@@ -75,7 +75,7 @@ machine, for example, can only talk directly to the Streamer server itself!",
   class StreamerSrv < Sinatra::Base
     set :environment, :production
     enable :sessions
-    set :port, 4569
+    set :port, Integer(ENV['PORT'] || 4567)
 
     # Use persistent entropy file
     entropy_file = 'entropy.dat'
