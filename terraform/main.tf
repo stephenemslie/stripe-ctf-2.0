@@ -73,40 +73,47 @@ resource "google_cloud_run_service" "ctfproxy" {
             value = format("GSM:%s/versions/latest", google_secret_manager_secret.password[env.value].id)
           }
         }
+        dynamic "env" {
+          for_each = toset([0, 1, 2, 3, 4, 5, 6, 7, 8])
+          content {
+            name  = "LEVEL${env.value}_EXTERNAL_URL"
+            value = "https://level${env.value}.hack2012.app"
+          }
+        }
         env {
-          name  = "LEVEL0_EXTERNAL_URL"
+          name  = "LEVEL0_INTERNAL_URL"
           value = module.level0.service_url
         }
         env {
-          name  = "LEVEL1_EXTERNAL_URL"
+          name  = "LEVEL1_INTERNAL_URL"
           value = module.level1.service_url
         }
         env {
-          name  = "LEVEL2_EXTERNAL_URL"
+          name  = "LEVEL2_INTERNAL_URL"
           value = module.level2.service_url
         }
         env {
-          name  = "LEVEL3_EXTERNAL_URL"
+          name  = "LEVEL3_INTERNAL_URL"
           value = module.level3.service_url
         }
         env {
-          name  = "LEVEL4_EXTERNAL_URL"
+          name  = "LEVEL4_INTERNAL_URL"
           value = module.level4_server.service_url
         }
         env {
-          name  = "LEVEL5_EXTERNAL_URL"
+          name  = "LEVEL5_INTERNAL_URL"
           value = module.level5.service_url
         }
         env {
-          name  = "LEVEL6_EXTERNAL_URL"
+          name  = "LEVEL6_INTERNAL_URL"
           value = module.level6_server.service_url
         }
         env {
-          name  = "LEVEL7_EXTERNAL_URL"
+          name  = "LEVEL7_INTERNAL_URL"
           value = module.level7.service_url
         }
         env {
-          name  = "LEVEL8_EXTERNAL_URL"
+          name  = "LEVEL8_INTERNAL_URL"
           value = module.level8.service_url
         }
         env {
