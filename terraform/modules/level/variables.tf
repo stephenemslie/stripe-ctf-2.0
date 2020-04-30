@@ -9,10 +9,6 @@ variable "secret" {
   })
 }
 
-variable "digest" {
-  type = string
-}
-
 variable "env" {
   type    = map(string)
   default = {}
