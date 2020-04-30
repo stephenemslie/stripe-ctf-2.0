@@ -44,14 +44,8 @@ resource "google_secret_manager_secret_iam_binding" "ctfproxy_key" {
   ]
 }
 
-variable "ctfproxy_image_digest" {
-  type    = string
-  default = "sha256:6b6106655aa87322d953b58d604fa74b6314ad0061c95f566ea96bc4b53ee32c"
-}
-
 data "google_container_registry_image" "ctfproxy" {
-  name   = "ctfproxy"
-  digest = var.ctfproxy_image_digest
+  name = "ctfproxy"
 }
 
 
