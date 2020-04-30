@@ -50,8 +50,9 @@ data "google_container_registry_image" "ctfproxy" {
 
 
 resource "google_cloud_run_service" "ctfproxy" {
-  name     = "ctfproxy"
-  location = "us-central1"
+  name                       = "ctfproxy"
+  location                   = "us-central1"
+  autogenerate_revision_name = true
 
   template {
     spec {
