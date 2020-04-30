@@ -183,27 +183,30 @@ resource "google_secret_manager_secret" "password" {
 }
 
 module "level0" {
-  source        = "./modules/level"
-  name          = "level0"
-  secret        = google_secret_manager_secret.password[0]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level0"
+  secret                = google_secret_manager_secret.password[0]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level1" {
-  source        = "./modules/level"
-  name          = "level1"
-  secret        = google_secret_manager_secret.password[1]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level1"
+  secret                = google_secret_manager_secret.password[1]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level2" {
-  source        = "./modules/level"
-  name          = "level2"
-  secret        = google_secret_manager_secret.password[2]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level2"
+  secret                = google_secret_manager_secret.password[2]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level3" {
@@ -213,16 +216,18 @@ module "level3" {
   env = {
     DATA_DIR = "/var/level/data"
   }
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level4_server" {
-  source        = "./modules/level"
-  name          = "level4-server"
-  secret        = google_secret_manager_secret.password[4]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level4-server"
+  secret                = google_secret_manager_secret.password[4]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level4_browser" {
@@ -234,19 +239,21 @@ module "level4_browser" {
 }
 
 module "level5" {
-  source        = "./modules/level"
-  name          = "level5"
-  secret        = google_secret_manager_secret.password[5]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level5"
+  secret                = google_secret_manager_secret.password[5]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level6_server" {
-  source        = "./modules/level"
-  name          = "level6-server"
-  secret        = google_secret_manager_secret.password[6]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level6-server"
+  secret                = google_secret_manager_secret.password[6]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level6_browser" {
@@ -258,17 +265,19 @@ module "level6_browser" {
 }
 
 module "level7" {
-  source        = "./modules/level"
-  name          = "level7"
-  secret        = google_secret_manager_secret.password[7]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level7"
+  secret                = google_secret_manager_secret.password[7]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
 
 module "level8" {
-  source        = "./modules/level"
-  name          = "level8"
-  secret        = google_secret_manager_secret.password[8]
-  caller        = google_service_account.ctfproxy.email
-  proxy_service = google_cloud_run_service.ctfproxy
+  source                = "./modules/level"
+  name                  = "level8"
+  secret                = google_secret_manager_secret.password[8]
+  caller                = google_service_account.ctfproxy.email
+  proxy_service         = google_cloud_run_service.ctfproxy
+  enable_domain_mapping = true
 }
