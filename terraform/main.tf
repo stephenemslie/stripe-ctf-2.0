@@ -117,6 +117,10 @@ resource "google_cloud_run_service" "ctfproxy" {
           value = module.level8.service_url
         }
         env {
+          name  = "CTFPROXY_EXTERNAL_URL"
+          value = "https://hack2012.app"
+        }
+        env {
           name  = "LEVELCODE"
           value = "/usr/src/levels"
         }
