@@ -5,6 +5,28 @@ steps:
   - '--destination=gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
   - '--cache=true'
   - '--cache-ttl=8h'
+# Copy static files to volume
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'run'
+  - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
+  - 'cp -r /usr/src/app/static/ /mnt/static/'
+  volumes:
+  - name: 'static'
+    path: '/mnt/static'
+# Copy static files to cloud storage
+- name: 'gcr.io/cloud-builders/gsutil'
+  args:
+  - '-m'
+  - 'rsync'
+  - '-r'
+  - '-c'
+  - '-d'
+  - '/mnt/static/'
+  - 'gs://ctfproxy-static/'
+  volumes:
+  - name: 'static'
+    path: '/mnt/static'
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
