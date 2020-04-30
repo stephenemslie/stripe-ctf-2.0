@@ -124,6 +124,10 @@ resource "google_cloud_run_service" "ctfproxy" {
           name  = "LEVELCODE"
           value = "/usr/src/levels"
         }
+        env {
+          name  = "ENABLE_PROXY_TOKEN"
+          value = "1"
+        }
         resources {
           limits = {
             memory = "512M"
