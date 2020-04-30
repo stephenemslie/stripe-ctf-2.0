@@ -162,7 +162,12 @@ func init() {
 		secret = string(result.Payload.Data)
 	}
 	sessionStore = sessions.NewCookieStore([]byte(secret))
-	baseTemplate, _ = template.ParseGlob("templates/layout/*.html")
+	baseTemplate = template.New("base.html")
+	baseTemplate = baseTemplate.Funcs(template.FuncMap{"static": func(suffix string) string {
+		prefix := os.Getenv("STATIC_URL")
+		return fmt.Sprintf("%s%s", prefix, suffix)
+	}})
+	baseTemplate, _ = baseTemplate.ParseGlob("templates/layout/*.html")
 }
 
 func levelProxyHandler(w http.ResponseWriter, r *http.Request, l *level.Level) {
