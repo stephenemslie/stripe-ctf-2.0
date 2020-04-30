@@ -25,6 +25,13 @@ var (
 	sessionStore *sessions.CookieStore
 )
 
+type templateData struct {
+	Handler       string
+	Level         *level.Level
+	Levels        []*level.Level
+	LevelProgress int
+}
+
 func sessionMiddleware(next http.Handler) http.Handler {
 	parsedExternalURL, _ := url.Parse(os.Getenv("CTFPROXY_EXTERNAL_URL"))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -43,12 +50,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	session := r.Context().Value("session").(*sessions.Session)
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles("templates/index.html")
-	data := struct {
-		Handler       string
-		Level         level.Level
-		Levels        []*level.Level
-		LevelProgress int
-	}{"home", level.Level{Index: -1}, level.Levels, session.Values["levelProgress"].(int)}
+	data := templateData{"home", &level.Level{Index: -1}, level.Levels, session.Values["levelProgress"].(int)}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -68,12 +70,7 @@ func levelHandler(w http.ResponseWriter, r *http.Request) {
 	path := fmt.Sprintf("templates/levels/%d.html", currentLevel.Index)
 	t, _ := baseTemplate.Clone()
 	t.ParseFiles(path)
-	data := struct {
-		Handler       string
-		Levels        []*level.Level
-		Level         *level.Level
-		LevelProgress int
-	}{"level", level.Levels, currentLevel, levelProgress}
+	data := templateData{"level", currentLevel, level.Levels, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
@@ -108,12 +105,7 @@ func unlockLevelHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			t, _ := baseTemplate.Clone()
 			t.ParseFiles("templates/locked.html")
-			data := struct {
-				Handler       string
-				Levels        []*level.Level
-				Level         *level.Level
-				LevelProgress int
-			}{"unlock", level.Levels, currentLevel, levelProgress}
+			data := templateData{"unlock", currentLevel, level.Levels, levelProgress}
 			t.Execute(w, data)
 		}
 	} else if r.Method == http.MethodPost {
@@ -143,12 +135,7 @@ func flagHandler(w http.ResponseWriter, r *http.Request) {
 		t, _ = baseTemplate.Clone()
 		t.ParseFiles("templates/flag.html")
 	}
-	data := struct {
-		Handler       string
-		Levels        []*level.Level
-		Level         level.Level
-		LevelProgress int
-	}{"flag", level.Levels, level.Level{Index: -1}, levelProgress}
+	data := templateData{"flag", &level.Level{Index: -1}, level.Levels, levelProgress}
 	err := t.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
