@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Containerized Stripe CTF 2.0</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="/static/prism-tailwind.css">
-    <link rel="icon" href="/static/images/flag.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ "/styles.css" | static }}">
+    <link rel="stylesheet" href="{{ "/prism-tailwind.css" | static }}">
+    <link rel="icon" href="{{ "/images/flag.svg" | static }}" type="image/svg+xml">
     {{ block "extrahead" . }}{{ end }}
 </head>
 <body class="font-mono">
