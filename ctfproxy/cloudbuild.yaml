@@ -14,7 +14,7 @@ steps:
   - 'cp'
   - '-v'
   - '-r'
-  - '/usr/src/app/static/'
+  - '/usr/src/app/static/*'
   - '/mnt/static/'
 # List static files for debugging
 - name: 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
