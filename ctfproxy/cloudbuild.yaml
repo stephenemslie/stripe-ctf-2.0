@@ -26,8 +26,8 @@ steps:
   - '-r'
   - '-c'
   - '-d'
-  - '/mnt/static/'
-  - 'gs://ctfproxy-static/'
+  - '/mnt/static'
+  - 'gs://ctfproxy-static'
   volumes:
   - name: 'static'
     path: '/mnt/static'
