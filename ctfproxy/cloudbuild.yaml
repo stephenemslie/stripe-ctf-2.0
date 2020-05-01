@@ -11,6 +11,7 @@ steps:
   - 'run'
   - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
   - 'cp'
+  - '-v'
   - '-r'
   - '/usr/src/app/static/'
   - '/mnt/static/'
