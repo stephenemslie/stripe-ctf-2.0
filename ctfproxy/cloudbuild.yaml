@@ -6,30 +6,30 @@ steps:
   - '--cache=true'
   - '--cache-ttl=8h'
 # Copy static files to volume
-- name: 'gcr.io/cloud-builders/docker'
+- name: 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
+  volumes:
+  - name: 'static'
+    path: '/mnt/static'
+  entrypoint: 'sh'
   args:
-  - 'run'
-  - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
   - 'cp'
   - '-v'
   - '-r'
   - '/usr/src/app/static/'
   - '/mnt/static/'
+# List static files for debugging
+- name: 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
   volumes:
   - name: 'static'
     path: '/mnt/static'
-# List static files for debugging
-- name: 'gcr.io/cloud-builders/docker'
   args:
-  - 'run'
-  - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
   - 'ls'
   - '/mnt/static/'
+# Copy static files to cloud storage
+- name: 'gcr.io/cloud-builders/gsutil'
   volumes:
   - name: 'static'
     path: '/mnt/static'
-# Copy static files to cloud storage
-- name: 'gcr.io/cloud-builders/gsutil'
   args:
   - '-m'
   - 'rsync'
@@ -38,9 +38,6 @@ steps:
   - '-d'
   - '/mnt/static'
   - 'gs://ctfproxy-static'
-  volumes:
-  - name: 'static'
-    path: '/mnt/static'
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
