@@ -6,8 +6,8 @@ body {
 
 @font-face {
   font-family: "8-bit_pusabregular";
-  src: url("/static/8-bit-pusab-webfont.woff2") format("woff2"),
-    url("/static/8-bit-pusab-webfont.woff") format("woff");
+  src: url("./8-bit-pusab-webfont.woff2") format("woff2"),
+    url("./8-bit-pusab-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
