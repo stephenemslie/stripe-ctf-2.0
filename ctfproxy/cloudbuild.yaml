@@ -13,8 +13,8 @@ steps:
   args:
   - 'cp'
   - '-v'
-  - '-r'
-  - '/usr/src/app/static/*'
+  - '-R'
+  - '/usr/src/app/static/'
   - '/mnt/static/'
 # List static files for debugging
 - name: 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
