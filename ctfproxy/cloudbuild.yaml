@@ -18,6 +18,16 @@ steps:
   volumes:
   - name: 'static'
     path: '/mnt/static'
+# List static files for debugging
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'run'
+  - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
+  - 'ls'
+  - '/mnt/static/'
+  volumes:
+  - name: 'static'
+    path: '/mnt/static'
 # Copy static files to cloud storage
 - name: 'gcr.io/cloud-builders/gsutil'
   args:
