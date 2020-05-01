@@ -10,7 +10,6 @@ steps:
   volumes:
   - name: 'static'
     path: '/mnt/static'
-  entrypoint: 'sh'
   args:
   - 'cp'
   - '-v'
