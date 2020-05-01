@@ -10,7 +10,10 @@ steps:
   args:
   - 'run'
   - 'gcr.io/$PROJECT_ID/ctfproxy:$COMMIT_SHA'
-  - 'cp -r /usr/src/app/static/ /mnt/static/'
+  - 'cp'
+  - '-r'
+  - '/usr/src/app/static/'
+  - '/mnt/static/'
   volumes:
   - name: 'static'
     path: '/mnt/static'
