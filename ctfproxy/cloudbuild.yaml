@@ -35,8 +35,8 @@ steps:
   - '-r'
   - '-c'
   - '-d'
-  - '/mnt/static'
-  - 'gs://ctfproxy-static'
+  - '/mnt/static/'
+  - 'gs://ctfproxy-static/'
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
