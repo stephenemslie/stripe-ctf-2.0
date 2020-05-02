@@ -25,3 +25,8 @@ variable "proxy_service" {
     location = string
   })
 }
+
+variable "enable_domain_mapping" {
+  type    = bool
+  default = false
+}
