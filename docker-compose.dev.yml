@@ -19,6 +19,24 @@ services:
     environment:
       - LEVELCODE=/usr/src/levels
       - STATIC_DIR=/usr/src/app/static
+      - LEVEL0_INTERNAL_URL=http://level0:3000
+      - LEVEL0_EXTERNAL_URL=http://level0.stripe-ctf.com:8000
+      - LEVEL1_INTERNAL_URL=http://level1:8000
+      - LEVEL1_EXTERNAL_URL=http://level1.stripe-ctf.com:8000
+      - LEVEL2_INTERNAL_URL=http://level2:8000
+      - LEVEL2_EXTERNAL_URL=http://level2.stripe-ctf.com:8000
+      - LEVEL3_INTERNAL_URL=http://level3:5000
+      - LEVEL3_EXTERNAL_URL=http://level3.stripe-ctf.com:8000
+      - LEVEL4_INTERNAL_URL=http://level4-server:4567
+      - LEVEL4_EXTERNAL_URL=http://level4.stripe-ctf.com:8000
+      - LEVEL5_INTERNAL_URL=http://level5:4567
+      - LEVEL5_EXTERNAL_URL=http://level5.stripe-ctf.com:8000
+      - LEVEL6_INTERNAL_URL=http://level6-server:4567
+      - LEVEL6_EXTERNAL_URL=http://level6.stripe-ctf.com:8000
+      - LEVEL7_INTERNAL_URL=http://level7:9233
+      - LEVEL7_EXTERNAL_URL=http://level7.stripe-ctf.com:8000
+      - LEVEL8_INTERNAL_URL=http://level8:4000
+      - LEVEL8_EXTERNAL_URL=http://level8.stripe-ctf.com:8000
       - CTFPROXY_EXTERNAL_URL=http://stripe-ctf.com:8000
       - STATIC_URL=/static
     env_file:
