@@ -155,6 +155,10 @@ resource "google_cloud_run_service" "ctfproxy" {
           name  = "ENABLE_PROXY_TOKEN"
           value = "1"
         }
+        env {
+          name  = "STATIC_URL"
+          value = "https://storage.googleapis.com/${google_storage_bucket.ctfproxy_static.name}/static"
+        }
         resources {
           limits = {
             memory = "512M"
