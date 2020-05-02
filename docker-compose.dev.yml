@@ -84,6 +84,8 @@ services:
       - browsers
     env_file:
       - ./env/4.env
+    environment:
+      - URL=http://level4-server:4567
   level4-server:
     init: true
     volumes:
