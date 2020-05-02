@@ -109,6 +109,8 @@ services:
       - browsers
     env_file:
       - ./env/6.env
+    environment:
+      - URL=http://level6-server:4567
   level5:
     init: true
     volumes:
