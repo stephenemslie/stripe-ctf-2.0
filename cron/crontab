@@ -1,0 +1,4 @@
+* * * * * root curl -sS -X POST level4-browser:8000 >> /var/log/cron.log 2>&1
+* * * * * root curl -sS -X POST level6-browser:8000 >> /var/log/cron.log 2>&1
+# Don't remove the empty line at the end of this file. It is required to run the cron job
+
