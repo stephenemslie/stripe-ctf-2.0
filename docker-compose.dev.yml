@@ -26,6 +26,12 @@ services:
     networks:
       proxy:
       levels:
+  cron:
+    init: true
+    build:
+      context: ./cron
+    networks:
+      - browsers
   level0:
     volumes:
       - ./levels/0:/usr/src/app
