@@ -53,6 +53,14 @@ resource "google_cloud_run_service" "ctfproxy" {
   name                       = "ctfproxy"
   location                   = "us-central1"
   autogenerate_revision_name = true
+  lifecycle {
+    ignore_changes = [
+      template[0].spec[0].containers[0].image,
+      template[0].metadata[0].annotations["client.knative.dev/user-image"],
+      template[0].metadata[0].annotations["run.googleapis.com/client-name"],
+      template[0].metadata[0].annotations["run.googleapis.com/client-version"]
+    ]
+  }
 
   template {
     spec {
