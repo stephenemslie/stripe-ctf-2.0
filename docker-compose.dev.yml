@@ -71,10 +71,6 @@ services:
       - ./env/3.env
   level4-browser:
     init: true
-    environment:
-      - PORT=8001
-    ports:
-      - "8001:8001"
     volumes:
       - ./levels/4/browser:/usr/src/app
       - /usr/src/app/node_modules
