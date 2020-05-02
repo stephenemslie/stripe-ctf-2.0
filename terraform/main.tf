@@ -22,6 +22,25 @@ provider "google-beta" {
 data "google_client_config" "current" {
 }
 
+resource "google_storage_bucket" "ctfproxy_static" {
+  name               = "ctfproxy-static"
+  bucket_policy_only = true
+  cors {
+    origin          = ["*"]
+    method          = ["GET", "HEAD"]
+    response_header = ["Content-Type"]
+    max_age_seconds = 3600
+  }
+}
+
+resource "google_storage_bucket_iam_binding" "ctfproxy_static_public" {
+  bucket = google_storage_bucket.ctfproxy_static.name
+  role   = "roles/storage.objectViewer"
+  members = [
+    "allUsers"
+  ]
+}
+
 resource "google_service_account" "ctfproxy" {
   account_id = "ctfproxy"
 }
