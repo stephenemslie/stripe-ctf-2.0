@@ -85,6 +85,13 @@ resource "google_secret_manager_secret_iam_member" "secret" {
   member    = format("serviceAccount:%s", google_service_account.level.email)
 }
 
+resource "google_secret_manager_secret_iam_member" "caller" {
+  provider  = google-beta
+  secret_id = var.secret.name
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${var.caller}"
+}
+
 resource "google_storage_bucket_iam_member" "storage_viewer" {
   bucket = google_container_registry.registry.id
   role   = "roles/storage.objectViewer"
