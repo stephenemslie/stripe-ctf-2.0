@@ -1,10 +1,10 @@
-const fs = require("fs"),
-  puppeteer = require("puppeteer");
+const express = require("express"),
+    puppeteer = require("puppeteer");
 
-async function checkCredits(username, password) {
+async function checkCredits(url, username, password) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(`http://level4-server:4567`);
+  await page.goto(url);
   await page.evaluate(
     (username, password) => {
       document.querySelector("input[name=username]").value = username;
@@ -20,14 +20,14 @@ async function checkCredits(username, password) {
     browser.close();
     return;
   }
-  const { title, url, credits } = await page.evaluate(() => {
+  const { title, actionURL, credits } = await page.evaluate(() => {
     return {
       title: document.title,
-      url: document.URL,
+      actionURL: document.URL,
       credits: document.querySelectorAll("p")[1].innerHTML
     };
   });
-  console.log(`Page title is: ${title} (url: ${url})`);
+  console.log(`Page title is: ${title} (url: ${actionURL})`);
   const creditsLeft = credits.match(/-?\d+/);
   console.log(`Guard Llama has ${creditsLeft}, credits left.`);
   await page.waitFor(1000);
@@ -35,19 +35,18 @@ async function checkCredits(username, password) {
 }
 
 (() => {
-  const password = fs.readFileSync(process.env.PW_FILE, "utf-8");
-  const intervalSeconds = 30;
-  console.log(
-    `Starting timer to check credits every ${intervalSeconds} seconds.`
-  );
-  setInterval(() => {
-    fs.access(process.env.UNLOCK_FILE, err => {
-      if (err) {
-        console.log("Checking karma");
-        checkCredits("karma_fountain", password);
-      } else {
-        console.log(`${process.env.UNLOCK_FILE} exists, skipping check`);
-      }
-    });
-  }, intervalSeconds * 1000);
+  const app = express();
+  const port = process.env.PORT || 8000;
+  const url = process.env.URL;
+  app.get('/', (req, res) => {
+    res.send("OK")
+  });
+  app.post('/', (req, res) => {
+    console.log(`Checking credits`)
+    checkCredits(url, "karma_fountain", process.env.LEVEL4_PW);
+    res.send("OK")
+  })
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`Listening on port ${port}`);
+  });
 })();
