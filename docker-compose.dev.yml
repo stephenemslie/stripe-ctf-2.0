@@ -107,10 +107,6 @@ services:
       - /usr/src/app/node_modules
     networks:
       - browsers
-    cap_add:
-      - SYS_ADMIN
-    # environment:
-    #   - RESET_FILE=/mnt/level6/reset.txt
     env_file:
       - ./env/6.env
   level5:
