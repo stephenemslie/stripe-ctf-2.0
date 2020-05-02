@@ -1,5 +1,5 @@
 data "google_container_registry_image" "image" {
-  name   = var.name
+  name = var.name
 }
 
 resource "google_container_registry" "registry" {
