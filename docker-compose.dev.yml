@@ -19,6 +19,7 @@ services:
     environment:
       - LEVELCODE=/usr/src/levels
       - STATIC_DIR=/usr/src/app/static
+      - STATIC_URL=/static
     env_file:
       - ./env/ctfproxy.env
     ports:
