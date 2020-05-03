@@ -14,15 +14,12 @@ variable "env" {
   default = {}
 }
 
-variable "caller" {
-  type = string
-}
-
 variable "proxy_service" {
   type = object({
-    name     = string
-    project  = string
-    location = string
+    name                 = string
+    project              = string
+    location             = string
+    service_account_name = string
   })
 }
 

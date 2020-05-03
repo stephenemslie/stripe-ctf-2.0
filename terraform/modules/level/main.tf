@@ -75,7 +75,7 @@ resource "google_cloud_run_service_iam_member" "caller" {
   project  = google_cloud_run_service.service.project
   service  = google_cloud_run_service.service.name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:${var.caller}"
+  member   = "serviceAccount:${var.proxy_service.service_account_name}"
 }
 
 resource "google_secret_manager_secret_iam_member" "secret" {
@@ -89,7 +89,7 @@ resource "google_secret_manager_secret_iam_member" "caller" {
   provider  = google-beta
   secret_id = var.secret.name
   role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${var.caller}"
+  member    = "serviceAccount:${var.proxy_service.service_account_name}"
 }
 
 resource "google_storage_bucket_iam_member" "storage_viewer" {
