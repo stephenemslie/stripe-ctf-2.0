@@ -278,6 +278,14 @@ module "level4_browser" {
   }
 }
 
+resource "google_cloud_run_service_iam_member" "level4_browser_invoker" {
+  location = module.level4_server.service.location
+  project  = module.level4_server.service.project
+  service  = module.level4_server.service.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${module.level4_browser.service.template[0].spec[0].service_account_name}"
+}
+
 module "level5" {
   source                = "./modules/level"
   name                  = "level5"
