@@ -273,6 +273,9 @@ module "level4_browser" {
   name          = "level4-browser"
   secret        = google_secret_manager_secret.password[4]
   proxy_service = local.ctfproxy_service
+  env = {
+    URL = module.level4_server.service.status[0].url
+  }
 }
 
 module "level5" {
