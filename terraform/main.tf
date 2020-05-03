@@ -109,39 +109,39 @@ resource "google_cloud_run_service" "ctfproxy" {
         }
         env {
           name  = "LEVEL0_INTERNAL_URL"
-          value = module.level0.service_url
+          value = module.level0.service.status[0].url
         }
         env {
           name  = "LEVEL1_INTERNAL_URL"
-          value = module.level1.service_url
+          value = module.level1.service.status[0].url
         }
         env {
           name  = "LEVEL2_INTERNAL_URL"
-          value = module.level2.service_url
+          value = module.level2.service.status[0].url
         }
         env {
           name  = "LEVEL3_INTERNAL_URL"
-          value = module.level3.service_url
+          value = module.level3.service.status[0].url
         }
         env {
           name  = "LEVEL4_INTERNAL_URL"
-          value = module.level4_server.service_url
+          value = module.level4_server.service.status[0].url
         }
         env {
           name  = "LEVEL5_INTERNAL_URL"
-          value = module.level5.service_url
+          value = module.level5.service.status[0].url
         }
         env {
           name  = "LEVEL6_INTERNAL_URL"
-          value = module.level6_server.service_url
+          value = module.level6_server.service.status[0].url
         }
         env {
           name  = "LEVEL7_INTERNAL_URL"
-          value = module.level7.service_url
+          value = module.level7.service.status[0].url
         }
         env {
           name  = "LEVEL8_INTERNAL_URL"
-          value = module.level8.service_url
+          value = module.level8.service.status[0].url
         }
         env {
           name  = "CTFPROXY_EXTERNAL_URL"

@@ -98,6 +98,6 @@ resource "google_storage_bucket_iam_member" "storage_viewer" {
   member = format("serviceAccount:%s", google_service_account.level.email)
 }
 
-output "service_url" {
-  value = google_cloud_run_service.service.status[0].url
+output "service" {
+  value = google_cloud_run_service.service
 }
