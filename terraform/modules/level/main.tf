@@ -26,10 +26,12 @@ resource "google_cloud_run_service" "service" {
     spec {
       containers {
         image = data.google_container_registry_image.image.image_url
+
         env {
           name  = "GSM_PASSWORD_KEY"
           value = format("%s/versions/latest", var.secret.id)
         }
+
         dynamic "env" {
           for_each = var.env
           content {
@@ -37,6 +39,14 @@ resource "google_cloud_run_service" "service" {
             value = env.value
           }
         }
+
+        resources {
+          limits = {
+            memory = var.memory
+            cpu    = "1000m"
+          }
+        }
+
       }
       service_account_name = google_service_account.level.email
     }

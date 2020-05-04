@@ -23,6 +23,11 @@ variable "proxy_service" {
   })
 }
 
+variable "memory" {
+  type    = string
+  default = "256M"
+}
+
 variable "enable_domain_mapping" {
   type    = bool
   default = false
