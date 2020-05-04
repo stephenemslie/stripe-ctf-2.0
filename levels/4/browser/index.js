@@ -45,8 +45,9 @@ async function checkCredits(url, username, password) {
   });
   app.post('/', (req, res) => {
     console.log(`Checking credits`)
-    checkCredits(url, "karma_fountain", process.env.LEVEL4_PW);
-    res.send("OK")
+    checkCredits(url, "karma_fountain", process.env.LEVEL4_PW).then(() => {
+      res.send("OK")
+    });
   })
   app.listen(port, "0.0.0.0", () => {
     console.log(`Listening on port ${port}`);
