@@ -100,9 +100,6 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 		log.Fatalf("%s is not valid", targetURL)
 	}
 	proxy := httputil.NewSingleHostReverseProxy(u)
-	if os.Getenv("ENABLE_PROXY_TOKEN") != "1" {
-		return proxy
-	}
 	originalDirector := proxy.Director
 	proxy.Director = func(r *http.Request) {
 		originalDirector(r)
@@ -117,13 +114,16 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 		forwardedHostURL, _ := url.Parse(forwardedHost)
 		r.Header.Set("X-Forwarded-Host", forwardedHostURL.Hostname())
 
-		// levels require authorization as the ctfproxy service account
-		tokenURL := fmt.Sprintf("/instance/service-accounts/default/identity?audience=%s", r.URL.String())
-		idToken, err := metadata.Get(tokenURL)
-		if err != nil {
-			fmt.Printf("metadata.Get: failed to query id_token: %+v\n", err)
+		if os.Getenv("ENABLE_PROXY_TOKEN") == "1" {
+			// levels require authorization as the ctfproxy service account
+			tokenURL := fmt.Sprintf("/instance/service-accounts/default/identity?audience=%s", r.URL.String())
+			idToken, err := metadata.Get(tokenURL)
+			if err != nil {
+				fmt.Printf("metadata.Get: failed to query id_token: %+v\n", err)
+			}
+			r.Header.Set("Authorization", fmt.Sprintf("Bearer %s", idToken))
 		}
-		r.Header.Set("Authorization", fmt.Sprintf("Bearer %s", idToken))
+
 	}
 	return proxy
 }
