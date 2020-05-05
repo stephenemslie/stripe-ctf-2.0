@@ -1,5 +1,17 @@
 const express = require("express"),
-    puppeteer = require("puppeteer");
+  puppeteer = require("puppeteer"),
+  fetch = require("node-fetch");
+
+async function getToken(url) {
+  const metadataServerTokenURL =
+    "http://metadata/computeMetadata/v1/instance/service-accounts/default/identity?audience=";
+  const res = await fetch(url, {
+    method: "get",
+    headers: { "Metadata-Flavor": "Google" }
+  });
+  const token = await res.text();
+  return token;
+}
 
 async function checkCredits(url, username, password) {
   const browser = await puppeteer.launch({
