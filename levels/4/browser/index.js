@@ -15,7 +15,7 @@ async function getToken(url) {
 
 async function checkCredits(url, username, password) {
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-dev-shm-usage'],
+    args: ["--no-sandbox", "--disable-dev-shm-usage"]
   });
   const page = await browser.newPage();
   await page.goto(url);
