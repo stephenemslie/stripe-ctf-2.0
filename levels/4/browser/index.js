@@ -36,7 +36,7 @@ async function checkCredits(url, username, password) {
   );
   try {
     await page.waitForNavigation({ timeout: 10000 });
-  } catch {
+  } catch (e) {
     browser.close();
     return;
   }
