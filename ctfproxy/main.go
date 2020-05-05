@@ -173,8 +173,6 @@ func init() {
 func levelProxyHandler(w http.ResponseWriter, r *http.Request, l *level.Level) {
 	session := r.Context().Value("session").(*sessions.Session)
 	levelProgress := session.Values["levelProgress"].(int)
-	fmt.Printf("session: %q\n", session.Values)
-	fmt.Printf("levelProgress: %d\n", levelProgress)
 	if levelProgress < l.Index {
 		ctfproxyURL := os.Getenv("CTFPROXY_EXTERNAL_URL")
 		redirectURL := fmt.Sprintf("%s/levels/%d/", ctfproxyURL, l.Index)
