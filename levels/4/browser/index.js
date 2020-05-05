@@ -18,6 +18,12 @@ async function checkCredits(url, username, password) {
     args: ["--no-sandbox", "--disable-dev-shm-usage"]
   });
   const page = await browser.newPage();
+  if (process.env.ENABLE_TOKENS === "1") {
+    const token = await getToken(url);
+    page.setExtraHTTPHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
   await page.goto(url);
   await page.evaluate(
     (username, password) => {
