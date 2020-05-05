@@ -5,7 +5,7 @@ const express = require("express"),
 async function getToken(url) {
   const metadataServerTokenURL =
     "http://metadata/computeMetadata/v1/instance/service-accounts/default/identity?audience=";
-  const res = await fetch(url, {
+  const res = await fetch(metadataServerTokenURL + url, {
     method: "get",
     headers: { "Metadata-Flavor": "Google" }
   });
