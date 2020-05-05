@@ -20,7 +20,6 @@ async function checkCredits(url, username, password) {
   const page = await browser.newPage();
   if (process.env.ENABLE_TOKENS === "1") {
     const token = await getToken(url);
-    console.log(`Token is ${token}`);
     page.setExtraHTTPHeaders({
       Authorization: `Bearer ${token}`
     });
