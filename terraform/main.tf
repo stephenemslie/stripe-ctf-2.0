@@ -275,7 +275,8 @@ module "level4_browser" {
   proxy_service = local.ctfproxy_service
   memory        = "1024Mi"
   env = {
-    URL = module.level4_server.service.status[0].url
+    URL           = module.level4_server.service.status[0].url,
+    ENABLE_TOKENS = "1"
   }
 }
 
