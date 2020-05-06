@@ -252,6 +252,14 @@ module "level2" {
   subdomain             = "level2"
 }
 
+resource "google_cloud_run_service_iam_member" "level2_browser_sheduler_invoker" {
+  location = module.level2.service.location
+  project  = module.level2.service.project
+  service  = module.level2.service.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${module.level5.service.template[0].spec[0].service_account_name}"
+}
+
 module "level3" {
   source = "./modules/level"
   name   = "level3"
