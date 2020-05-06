@@ -8,4 +8,8 @@ if [ "$1" = 'serve' ]; then
     exec ruby srv.rb
 fi
 
+if [ "$1" = 'cloudrun' ]; then
+    exec ruby cloud_srv.rb
+fi
+
 exec "$@"
