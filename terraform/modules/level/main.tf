@@ -69,7 +69,7 @@ resource "google_cloud_run_service" "service" {
 resource "google_cloud_run_domain_mapping" "ctfproxy" {
   count    = var.enable_domain_mapping ? 1 : 0
   location = var.proxy_service.location
-  name     = "${var.name}.hack2012.app"
+  name     = "${var.subdomain}.hack2012.app"
 
   metadata {
     namespace = var.proxy_service.project

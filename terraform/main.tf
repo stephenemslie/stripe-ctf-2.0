@@ -231,6 +231,7 @@ module "level0" {
   secret                = google_secret_manager_secret.password[0]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level0"
 }
 
 module "level1" {
@@ -239,6 +240,7 @@ module "level1" {
   secret                = google_secret_manager_secret.password[1]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level1"
 }
 
 module "level2" {
@@ -247,6 +249,7 @@ module "level2" {
   secret                = google_secret_manager_secret.password[2]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level2"
 }
 
 module "level3" {
@@ -258,6 +261,7 @@ module "level3" {
   }
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level3"
 }
 
 module "level4_server" {
@@ -266,6 +270,7 @@ module "level4_server" {
   secret                = google_secret_manager_secret.password[4]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level4"
 }
 
 module "level4_browser" {
@@ -333,6 +338,7 @@ module "level5" {
   secret                = google_secret_manager_secret.password[5]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level5"
 }
 
 module "level6_server" {
@@ -341,6 +347,7 @@ module "level6_server" {
   secret                = google_secret_manager_secret.password[6]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level6"
 }
 
 module "level6_browser" {
@@ -356,6 +363,7 @@ module "level7" {
   secret                = google_secret_manager_secret.password[7]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level7"
 }
 
 module "level8" {
@@ -364,4 +372,5 @@ module "level8" {
   secret                = google_secret_manager_secret.password[8]
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
+  subdomain             = "level8"
 }

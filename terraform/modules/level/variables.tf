@@ -32,3 +32,8 @@ variable "enable_domain_mapping" {
   type    = bool
   default = false
 }
+
+variable "subdomain" {
+  type    = string
+  default = ""
+}
