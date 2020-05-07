@@ -140,6 +140,7 @@ services:
           - level5-stripe-ctf
     env_file:
       - ./env/5.env
+    command: serve
   level6-server:
     init: true
     volumes:
