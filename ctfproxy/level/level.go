@@ -109,7 +109,7 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 		r.Host = r.URL.Host
 
 		// originalDirector doesn't set X-Forwarded-Host, but this is required
-		// to ensure that downstread redirects use the external URL
+		// to ensure that downstream redirects use the external URL
 		forwardedHost, _ := l.GetExternalURL()
 		forwardedHostURL, _ := url.Parse(forwardedHost)
 		r.Header.Set("X-Forwarded-Host", forwardedHostURL.Hostname())
