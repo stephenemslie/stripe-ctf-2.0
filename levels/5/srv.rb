@@ -17,7 +17,7 @@ module DomainAuthenticator
     set :port, Integer(ENV['PORT'] || 4567)
 
     # If authenticated for localhost, share the password.
-    PASSWORD_HOSTS = /^localhost$/
+    PASSWORD_HOSTS = /^(localhost|level5.hack2012.app)$/
     # Let people try to authenticate for any host.
     ALLOWED_HOSTS = //
 
