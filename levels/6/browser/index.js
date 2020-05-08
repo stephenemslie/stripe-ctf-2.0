@@ -48,7 +48,9 @@ async function getToken(url) {
 }
 
 async function browse(url, username, password) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-dev-shm-usage"]
+  });
   const page = await browser.newPage();
   await page.goto("http://level6-server:4569/");
   let url = await page.url();
