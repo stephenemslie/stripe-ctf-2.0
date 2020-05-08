@@ -11,10 +11,14 @@ class CookieAuthenticatorSrv < DomainAuthenticator::DomainAuthenticatorSrv
 
   def perform_authenticate(url, username, password)
     $log.info("Sending request to #{url}")
+    headers = {}
+    if cookies[:ctf]
+      headers[:cookies] = { :ctf => cookies[:ctf] }
+    end
     response = RestClient.post(
       url,
       {:password => password, :username => username},
-      {:cookies => cookies}
+      headers
     )
     body = response.body
 
