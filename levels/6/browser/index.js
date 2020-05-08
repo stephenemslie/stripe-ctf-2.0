@@ -96,8 +96,8 @@ async function browse(url, username, password) {
   const port = process.env.PORT || 8000;
   const url = process.env.URL;
   const password = process.env.LEVEL6_PW;
-  app.get('/', (req, res) => {
-    res.send("OK")
+  app.get("/", (req, res) => {
+    res.send("OK");
   });
   app.post("/", (req, res) => {
     console.log(`Checking credits`);
