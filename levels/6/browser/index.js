@@ -58,8 +58,8 @@ async function browse(url, username, password) {
       Authorization: `Bearer ${token}`
     });
   }
-  await page.goto("http://level6-server:4569/");
-  let url = await page.url();
+  await page.goto(url);
+  url = await page.url();
   console.log(`Page address is ${url}`);
   await page.evaluate(
     (username, password) => {
