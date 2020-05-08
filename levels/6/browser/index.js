@@ -99,11 +99,12 @@ async function browse(url, username, password) {
   app.get('/', (req, res) => {
     res.send("OK")
   });
-  app.post('/', (req, res) => {
-    console.log(`Checking credits`)
-    browse(url, "level07-password-holder", password);
-    res.send("OK")
-  })
+  app.post("/", (req, res) => {
+    console.log(`Checking credits`);
+    browse(url, "level07-password-holder", password).then(() => {
+      res.send("OK");
+    });
+  });
   app.listen(port, "0.0.0.0", () => {
     console.log(`Listening on port ${port}`);
   });
