@@ -1,5 +1,4 @@
-const fs = require("fs"),
-  express = require("express"),
+const express = require("express"),
   puppeteer = require("puppeteer"),
   fetch = require("node-fetch");
 
