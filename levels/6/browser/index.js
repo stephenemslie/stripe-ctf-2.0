@@ -48,7 +48,7 @@ async function getToken(url) {
   return token;
 }
 
-async function browse(username, password) {
+async function browse(url, username, password) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto("http://level6-server:4569/");
@@ -101,7 +101,7 @@ async function browse(username, password) {
   });
   app.post('/', (req, res) => {
     console.log(`Checking credits`)
-    browse("level07-password-holder", password);
+    browse(url, "level07-password-holder", password);
     res.send("OK")
   })
   app.listen(port, "0.0.0.0", () => {
