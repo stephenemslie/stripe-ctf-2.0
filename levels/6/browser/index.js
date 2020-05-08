@@ -70,7 +70,12 @@ async function browse(url, username, password) {
     username,
     password
   );
-  await page.waitForNavigation();
+  try {
+    await page.waitForNavigation({ timeout: 10000 });
+  } catch (e) {
+    browser.close();
+    return;
+  }
   let title = await page.title();
   console.log("On the main page.");
   console.log(`Before posting title is: ${title} (${url})`);
