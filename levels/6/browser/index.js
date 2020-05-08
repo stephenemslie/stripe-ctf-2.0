@@ -52,6 +52,12 @@ async function browse(url, username, password) {
     args: ["--no-sandbox", "--disable-dev-shm-usage"]
   });
   const page = await browser.newPage();
+  if (process.env.ENABLE_TOKENS === "1") {
+    const token = await getToken(url);
+    page.setExtraHTTPHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
   await page.goto("http://level6-server:4569/");
   let url = await page.url();
   console.log(`Page address is ${url}`);
