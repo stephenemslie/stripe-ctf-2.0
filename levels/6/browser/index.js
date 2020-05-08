@@ -1,6 +1,7 @@
 const fs = require("fs"),
   express = require("express"),
-  puppeteer = require("puppeteer");
+  puppeteer = require("puppeteer"),
+  fetch = require("node-fetch");
 
 const TITLES = [
   "Important update",
@@ -35,6 +36,17 @@ const BODIES = [
   "Glad to have you here!",
   "I know what you're doing right now. You are reading this message."
 ];
+
+async function getToken(url) {
+  const metadataServerTokenURL =
+    "http://metadata/computeMetadata/v1/instance/service-accounts/default/identity?audience=";
+  const res = await fetch(metadataServerTokenURL + url, {
+    method: "get",
+    headers: { "Metadata-Flavor": "Google" }
+  });
+  const token = await res.text();
+  return token;
+}
 
 async function browse(username, password) {
   const browser = await puppeteer.launch();
