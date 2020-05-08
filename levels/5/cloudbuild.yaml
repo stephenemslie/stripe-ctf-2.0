@@ -13,6 +13,8 @@ steps:
   - 'level5'
   - '--image'
   - 'gcr.io/$PROJECT_ID/level5:$COMMIT_SHA'
+  - '--port'
+  - '4567'
   - '--region'
   - 'us-central1'
   - '--platform'
