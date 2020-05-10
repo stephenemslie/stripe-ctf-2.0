@@ -13,10 +13,12 @@ function CodeView(props) {
     level ? Object.values(level.sources)[0] : null
   );
   React.useEffect(() => {
-    fetchLevel(index).then(level => {
-      setLevel(level);
-      setActiveSource(Object.values(level.sources)[0]);
-    });
+    if (level == null) {
+      fetchLevel(index).then(level => {
+        setLevel(level);
+        setActiveSource(Object.values(level.sources)[0]);
+      });
+    }
   }, []);
   React.useEffect(() => {
     Prism.highlightAll();
