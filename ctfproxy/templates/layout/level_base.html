@@ -29,10 +29,13 @@
       window.CTF.levelJSON = {{ json . }};
     </script>
     <script type="text/babel">
-      ReactDOM.render(
-          <CodeView index={{"{"}}{{.Index}}{{"}"}}/>,
-          document.getElementById("codeview")
-        );
+      (() => {
+        const index = {{.Index}};
+        ReactDOM.render(
+            <CodeView index={{"{"}}index{{"}"}} level={{"{"}}window.CTF.levelJSON{{"}"}}/>,
+            document.getElementById("codeview")
+          );
+      })();
     </script>
   {{ end }}
 {{ end }}
