@@ -24,6 +24,10 @@
     </div>
     <div id="codeview" class="mx-6 mb-16" style="margin-top: -160px;"></div>
     <script type="text/babel" src="{{ "/codeview.js" | static }}"></script>
+    <script>
+      window.CTF = window.CTF || {};
+      window.CTF.levelJSON = {{ json . }};
+    </script>
     <script type="text/babel">
       ReactDOM.render(
           <CodeView index={{"{"}}{{.Index}}{{"}"}}/>,
