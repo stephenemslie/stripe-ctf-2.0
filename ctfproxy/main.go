@@ -163,10 +163,16 @@ func init() {
 	}
 	sessionStore = sessions.NewCookieStore([]byte(secret))
 	baseTemplate = template.New("base.html")
-	baseTemplate = baseTemplate.Funcs(template.FuncMap{"static": func(suffix string) string {
-		prefix := os.Getenv("STATIC_URL")
-		return fmt.Sprintf("%s%s", prefix, suffix)
-	}})
+	baseTemplate = baseTemplate.Funcs(
+		template.FuncMap{
+			"static": func(suffix string) string {
+				prefix := os.Getenv("STATIC_URL")
+				return fmt.Sprintf("%s%s", prefix, suffix)
+			},
+			"json": func(v interface{}) template.JS {
+				bytes, _ := json.Marshal(v)
+				return template.JS(bytes)
+			}})
 	baseTemplate, _ = baseTemplate.ParseGlob("templates/layout/*.html")
 }
 
