@@ -8,7 +8,7 @@ async function fetchLevel(index) {
 
 function CodeView(props) {
   const { index } = props;
-  const [level, setLevel] = React.useState(null);
+  const [level, setLevel] = React.useState(props.level);
   const [activeSource, setActiveSource] = React.useState(null);
   React.useEffect(() => {
     fetchLevel(index).then(level => {
