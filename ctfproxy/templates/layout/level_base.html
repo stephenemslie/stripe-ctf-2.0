@@ -23,25 +23,18 @@
       {{ end }}
     </div>
     <div id="codeview" class="mx-6 mb-16" style="margin-top: -160px;"></div>
-    <script type="text/babel" src="{{ "/codeview.js" | static }}"></script>
     <script>
-      window.CTF = window.CTF || {};
-      window.CTF.levelJSON = {{ json . }};
-    </script>
-    <script type="text/babel">
-      (() => {
-        const index = {{.Index}};
-        ReactDOM.render(
-            <CodeView index={{"{"}}index{{"}"}} level={{"{"}}window.CTF.levelJSON{{"}"}}/>,
-            document.getElementById("codeview")
-          );
+      (()=>{
+        const index = {{ .Index }};
+        const level = {{ json . }};
+        EntryPoint.initCodeView(
+          { index, level }, document.getElementById("codeview")
+        );
       })();
     </script>
   {{ end }}
 {{ end }}
 {{ define "extrahead" }}
-  <script src="{{ "/react.production.min.js" | static }}"></script>
-  <script src="{{ "/react-dom.production.min.js" | static }}"></script>
-  <script src="{{ "/babel.min.js" | static }}"></script>
+  <script src="{{ "/bundle.js" | static }}"></script>
   <script src="{{ "/prism.js" | static }}"></script>
 {{ end }}
