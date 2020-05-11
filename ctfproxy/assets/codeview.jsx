@@ -1,12 +1,14 @@
 "use strict";
 
+import React from "react";
+
 async function fetchLevel(index) {
   const response = await fetch(`/levels/${index}.json`);
   const data = await response.json();
   return data;
 }
 
-function CodeView(props) {
+export default function CodeView(props) {
   const { index } = props;
   const [level, setLevel] = React.useState(props.level);
   const [activeSource, setActiveSource] = React.useState(
