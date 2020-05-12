@@ -21,6 +21,18 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, "assets"),
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader", "postcss-loader"]
+      },
+      {
+        test: /\.(woff|woff2|svg)$/,
+        use: ["url-loader"],
+        include: path.resolve(__dirname, "assets"),
+        exclude: /node_modules/
       }
     ]
   },
