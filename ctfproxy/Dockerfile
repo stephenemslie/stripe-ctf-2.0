@@ -5,6 +5,7 @@ RUN npm install
 COPY webpack.config.js .
 COPY tailwind.config.js .
 COPY postcss.config.js .
+COPY docker-entrypoint.sh .
 COPY assets ./assets
 RUN npm run build
 RUN touch static/index.html
