@@ -29,8 +29,21 @@ module.exports = {
         use: ["style-loader", "css-loader", "postcss-loader"]
       },
       {
-        test: /\.(woff|woff2|svg)$/,
+        test: /\.(woff|woff2)$/,
         use: ["url-loader"],
+        include: path.resolve(__dirname, "assets"),
+        exclude: /node_modules/
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]"
+            }
+          }
+        ],
         include: path.resolve(__dirname, "assets"),
         exclude: /node_modules/
       }
