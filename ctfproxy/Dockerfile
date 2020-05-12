@@ -39,7 +39,7 @@ COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/*.py /usr/src/levels/7/
 COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/templates /usr/src/levels/7/templates/
 COPY --from=gcr.io/stripe-ctf-demo/level8 /usr/src/app/primary_server /usr/src/app/chunk_server /usr/src/app/password_db_launcher /usr/src/app/common.py /usr/src/levels/8/
 COPY . /usr/src/app
-COPY --from=node /usr/src/app/static/styles.css /usr/src/app/static/styles.css
+COPY --from=node /usr/src/app/static/bundle.js /usr/src/app/static/bundle.js
 COPY --from=go /usr/src/app/bin /usr/src/app/bin
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["serve"]
