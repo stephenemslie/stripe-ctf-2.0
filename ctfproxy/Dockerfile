@@ -2,6 +2,9 @@ FROM node:13.8-alpine as node
 WORKDIR /usr/src/app
 COPY package.json package.json
 RUN npm install
+COPY webpack.config.js .
+COPY tailwind.config.js .
+COPY postcss.config.js .
 COPY assets ./assets
 COPY static ./static
 RUN npm run build
