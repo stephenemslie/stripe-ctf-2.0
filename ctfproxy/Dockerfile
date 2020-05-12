@@ -2,9 +2,7 @@ FROM node:13.8-alpine as node
 WORKDIR /usr/src/app
 COPY package.json package.json
 RUN npm install
-COPY webpack.config.js .
-COPY tailwind.config.js .
-COPY postcss.config.js .
+COPY *.config.js .
 COPY docker-entrypoint.sh .
 COPY assets ./assets
 RUN npm run build
