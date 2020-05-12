@@ -2,7 +2,8 @@ FROM node:13.8-alpine as node
 WORKDIR /usr/src/app
 COPY package.json package.json
 RUN npm install
-COPY *.config.js .
+COPY *.config.js ./
+COPY templates /usr/src/app/templates/
 COPY docker-entrypoint.sh .
 COPY assets ./assets
 RUN npm run build
