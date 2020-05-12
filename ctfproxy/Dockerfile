@@ -18,7 +18,7 @@ COPY go.mod /usr/src/app/go.mod
 RUN go mod download
 RUN go get github.com/githubnemo/CompileDaemon
 COPY . /usr/src/app
-COPY --from=node /usr/src/app/static/bundle.js /usr/src/app/static/bundle.js
+COPY --from=node /usr/src/app/static/ /usr/src/app/static/
 RUN mkdir -p /usr/src/bin
 run go build -o /usr/src/app/bin/ctfproxy /usr/src/app/main.go
 EXPOSE 8000
@@ -40,7 +40,7 @@ COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/*.py /usr/src/levels/7/
 COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/templates /usr/src/levels/7/templates/
 COPY --from=gcr.io/stripe-ctf-demo/level8 /usr/src/app/primary_server /usr/src/app/chunk_server /usr/src/app/password_db_launcher /usr/src/app/common.py /usr/src/levels/8/
 COPY . /usr/src/app
-COPY --from=node /usr/src/app/static/bundle.js /usr/src/app/static/bundle.js
+COPY --from=node /usr/src/app/static/ /usr/src/app/static/
 COPY --from=go /usr/src/app/bin /usr/src/app/bin
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["serve"]
