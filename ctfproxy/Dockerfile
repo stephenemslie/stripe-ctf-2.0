@@ -4,7 +4,7 @@ COPY package.json package.json
 RUN npm install
 COPY assets ./assets
 COPY static ./static
-RUN npm run build:css
+RUN npm run build
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["npmwatch"]
 
