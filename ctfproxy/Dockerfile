@@ -6,8 +6,8 @@ COPY webpack.config.js .
 COPY tailwind.config.js .
 COPY postcss.config.js .
 COPY assets ./assets
-COPY static ./static
 RUN npm run build
+RUN touch static/index.html
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["npmwatch"]
 
