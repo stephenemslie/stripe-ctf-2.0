@@ -4,7 +4,7 @@
   "description": "Javascript dependencies for a containerised web security capture the flag game",
   "private": true,
   "scripts": {
-    "build:css": "npx tailwind build assets/styles.css -c assets/tailwind.config.js -o static/styles.css",
+    "build": "NODE_ENV=production npx webpack --mode=production",
     "watch": "webpack --watch"
   },
   "author": "Stephen Emslie",
