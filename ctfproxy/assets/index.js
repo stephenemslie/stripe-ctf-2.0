@@ -9,6 +9,7 @@ import "prismjs/components/prism-python";
 import "prismjs/components/prism-markup-templating";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-php";
+import "./flag.svg";
 
 export const initCodeView = (props, element) => {
   ReactDOM.render(React.createElement(CodeView, props, null), element);
