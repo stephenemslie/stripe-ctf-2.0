@@ -1,4 +1,4 @@
-const breadcrumbs = require("./tailwind-breadcrumbs.js");
+const breadcrumbs = require("./assets/tailwind-breadcrumbs.js");
 
 module.exports = {
   plugins: [breadcrumbs],
