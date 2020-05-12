@@ -5,7 +5,7 @@ RUN npm install
 COPY *.config.js ./
 COPY templates /usr/src/app/templates/
 COPY docker-entrypoint.sh .
-COPY assets ./assets
+COPY assets ./assets/
 RUN npm run build
 RUN touch static/index.html
 ENTRYPOINT ["./docker-entrypoint.sh"]
