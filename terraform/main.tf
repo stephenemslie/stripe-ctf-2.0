@@ -137,6 +137,10 @@ module "level6_browser" {
   name          = "level6-browser"
   secret        = google_secret_manager_secret.password[6]
   proxy_service = local.ctfproxy_service
+  env = {
+    URL           = module.level6_server.service.status[0].url,
+    ENABLE_TOKENS = "1"
+  }
 }
 
 module "level7" {
