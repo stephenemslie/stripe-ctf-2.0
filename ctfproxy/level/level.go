@@ -11,7 +11,6 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"cloud.google.com/go/compute/metadata"
@@ -23,12 +22,7 @@ type SourceFile struct {
 	Level    int    `json:"level"`
 	Name     string `json:"name"`
 	Language string `json:"language"`
-}
-
-func (s *SourceFile) getCode() string {
-	path := filepath.Join(os.Getenv("LEVELCODE"), strconv.Itoa(s.Level), s.Name)
-	code, _ := ioutil.ReadFile(path)
-	return string(code)
+	Content  string `json:"content"`
 }
 
 func (s *SourceFile) getBasename() string {
@@ -41,7 +35,7 @@ func (s *SourceFile) MarshalJSON() ([]byte, error) {
 		Basename string `json:"basename"`
 		Language string `json:"language"`
 		Code     string `json:"code"`
-	}{s.Name, s.getBasename(), s.Language, s.getCode()}
+	}{s.Name, s.getBasename(), s.Language, s.Content}
 	return json.Marshal(data)
 }
 
