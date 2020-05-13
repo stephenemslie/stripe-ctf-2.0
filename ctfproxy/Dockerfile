@@ -27,20 +27,8 @@ CMD ["gowatch"]
 
 FROM golang:1.13-alpine as deploy
 WORKDIR /usr/src/app
-COPY --from=gcr.io/stripe-ctf-demo/level0 /usr/src/app/level00.html /usr/src/app/level00.js /usr/src/levels/0/
-COPY --from=gcr.io/stripe-ctf-demo/level1 /usr/src/app/index.php /usr/src/app/routing.php /usr/src/levels/1/
-COPY --from=gcr.io/stripe-ctf-demo/level2 /usr/src/app/index.php /usr/src/app/routing.php /usr/src/levels/2/
-COPY --from=gcr.io/stripe-ctf-demo/level3 /usr/src/app/index.html /usr/src/app/secretvault.py /usr/src/levels/3/
-COPY --from=gcr.io/stripe-ctf-demo/level4-server /usr/src/app/srv.rb /usr/src/levels/4/server/
-COPY --from=gcr.io/stripe-ctf-demo/level4-server /usr/src/app/views /usr/src/levels/4/server/views/
-COPY --from=gcr.io/stripe-ctf-demo/level5 /usr/src/app/srv.rb /usr/src/levels/5/
-COPY --from=gcr.io/stripe-ctf-demo/level6-server /usr/src/app/srv.rb /usr/src/levels/6/server/
-COPY --from=gcr.io/stripe-ctf-demo/level6-server /usr/src/app/views /usr/src/levels/6/server/views/
-COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/*.py /usr/src/levels/7/
-COPY --from=gcr.io/stripe-ctf-demo/level7 /usr/src/app/templates /usr/src/levels/7/templates/
-COPY --from=gcr.io/stripe-ctf-demo/level8 /usr/src/app/primary_server /usr/src/app/chunk_server /usr/src/app/password_db_launcher /usr/src/app/common.py /usr/src/levels/8/
 COPY . /usr/src/app
 COPY --from=node /usr/src/app/static/ /usr/src/app/static/
-COPY --from=go /usr/src/app/bin /usr/src/app/bin
+COPY --from=go /usr/src/app/bin /usr/src/app/bin/
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["serve"]
