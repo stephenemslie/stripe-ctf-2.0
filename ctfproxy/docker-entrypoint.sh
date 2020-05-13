@@ -5,7 +5,7 @@ if [ "$1" = 'serve' ]; then
 fi
 
 if [ "$1" = 'gowatch' ]; then
-    exec CompileDaemon --build="go build" --include="*.html" --command=./ctfproxy
+    exec CompileDaemon --build="go build -o /usr/src/app/bin/ctfproxy" --include="*.html" --command=./bin/ctfproxy
 fi
 
 if [ "$1" = 'npmbuild' ]; then
