@@ -1,0 +1,28 @@
+name: ctfproxy
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - ctfproxy/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker build
+      uses: docker/build-push-action@v1
+      with:
+        path: ctfproxy
+        repository: gcr.io/stripe-ctf-demo/ctfproxy
+        tag_with_sha: true
+        push: false
+    - name: Cloud Run
+      uses: stefda/action-cloud-run@v1.0
+      with:
+        image: gcr.io/stripe-ctf-demo/ctfproxy:$GITHUB_SHA
+        service: ctfproxy
+        project: stripe-ctf-demo
+        region: us-central-1
+        service key: ${{ secrets.GCLOUD_AUTH }}
