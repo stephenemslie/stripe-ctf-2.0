@@ -6,23 +6,38 @@ on:
     paths: 
       - ctfproxy/**
 
+env:
+  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+  RUN_REGION: us-central1
+  SERVICE_NAME: stripe-ctf-demo
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v2
-    - name: Docker build
-      uses: docker/build-push-action@v1
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
-        path: ctfproxy
-        repository: gcr.io/stripe-ctf-demo/ctfproxy
-        tag_with_sha: true
-        push: false
-    - name: Cloud Run
-      uses: stefda/action-cloud-run@v1.0
-      with:
-        image: gcr.io/stripe-ctf-demo/ctfproxy:$GITHUB_SHA
-        service: ctfproxy
-        project: stripe-ctf-demo
-        region: us-central-1
-        service key: ${{ secrets.GCLOUD_AUTH }}
+        version: '290.0.1'
+        service_account_key: ${{ secrets.RUN_SA_KEY }}
+        project_id: ${{ secrets.RUN_PROJECT }}
+
+    # Build and push image to Google Container Registry
+    - name: Build
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+
+    # Deploy image to Cloud Run
+    - name: Deploy
+      run: |-
+        gcloud run deploy "$SERVICE_NAME" \
+          --quiet \
+          --region "$RUN_REGION" \
+          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --platform "managed" \
+          --allow-unauthenticated
