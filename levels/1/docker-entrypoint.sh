@@ -9,7 +9,9 @@ if [ -n "$GSM_PASSWORD_KEY" ]; then
 fi
 
 if [ "$1" = 'serve' ]; then
-    exec php -t . -S 0.0.0.0:${PORT:-8000} ./routing.php
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf php -t . -S 0.0.0.0:${PORT:-8000} ./routing.php
 fi
 
 exec "$@"
