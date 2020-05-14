@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -n "$GSM_PASSWORD_KEY" ]; then
     export LEVEL2_PW=`php get_secret.php $GSM_PASSWORD_KEY`
