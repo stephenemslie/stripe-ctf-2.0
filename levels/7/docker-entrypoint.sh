@@ -9,7 +9,9 @@ if [ ! -f ./wafflecopter.db ]; then
 fi
 
 if [ "$1" = 'serve' ]; then
-    exec python wafflecopter.py
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf python wafflecopter.py
 fi
 
 exec "$@"
