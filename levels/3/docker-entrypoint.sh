@@ -10,7 +10,9 @@ mkdir -p $DATA_DIR
 python generate_data.py $DATA_DIR $LEVEL3_PW $PROOF $PLANS
 
 if [ "$1" == "serve" ]; then
-  exec python secretvault.py
+  useradd ctf
+  chown -R ctf:ctf /usr/src/app
+  exec gosu ctf:ctf python secretvault.py
 fi
 
 exec "$@"
