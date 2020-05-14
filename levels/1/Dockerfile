@@ -1,4 +1,4 @@
-FROM php:7.4-alpine
+FROM php:7.4.5-cli-buster
 WORKDIR /usr/src/app
 RUN apk add --no-cache util-linux
 COPY docker-entrypoint.sh .
