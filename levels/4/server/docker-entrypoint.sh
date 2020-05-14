@@ -5,7 +5,9 @@ if [ -n "$GSM_PASSWORD_KEY" ]; then
 fi
 
 if [ "$1" = 'serve' ] && [ -z "$RESET_FILE" ]; then
-    exec ruby srv.rb
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf ruby srv.rb
 fi
 
 if [ "$1" = 'serve' ] && [ -n "$RESET_FILE" ]; then
