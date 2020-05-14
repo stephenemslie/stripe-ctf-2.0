@@ -1,4 +1,4 @@
-FROM php:7.4-alpine
+FROM php:7.4.5-cli-buster
 WORKDIR /usr/src/app
 RUN mkdir uploads
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
