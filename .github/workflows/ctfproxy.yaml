@@ -10,7 +10,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
   RUN_REGION: us-central1
-  SERVICE_NAME: stripe-ctf-demo
+  SERVICE_NAME: ctfproxy
 
 jobs:
   build:
