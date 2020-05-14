@@ -9,7 +9,9 @@ if [ "$1" = 'serve' ]; then
 fi
 
 if [ "$1" = 'cloudrun' ]; then
-    exec ruby cloud_srv.rb
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf ruby srv.rb
 fi
 
 exec "$@"
