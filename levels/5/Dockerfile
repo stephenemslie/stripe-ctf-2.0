@@ -1,6 +1,10 @@
 FROM ruby:2.6.6-slim-buster
 WORKDIR /usr/src/app
-RUN apt-get update && apt install -y build-essential && apt-get clean
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gosu build-essential; \
+    rm -rf /var/lib/apt/lists/*; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 COPY Gemfile* ./
 RUN bundle install
 COPY . .
