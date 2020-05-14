@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ ! -f secret-combination.txt ]; then
     uuidgen > secret-combination.txt
