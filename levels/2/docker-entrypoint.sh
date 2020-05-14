@@ -8,8 +8,9 @@ mkdir -p /usr/src/app/uploads
 echo $LEVEL2_PW > password.txt
 
 if [ "$1" == 'serve' ]; then
-  /usr/sbin/sshd
-  exec php -t . -S 0.0.0.0:${PORT:-8000} routing.php
+  useradd ctf
+  chown -R ctf:ctf /usr/src/app
+  exec gosu ctf:ctf php -t . -S 0.0.0.0:${PORT:-8000} routing.php
 fi
 
 exec "$@"
