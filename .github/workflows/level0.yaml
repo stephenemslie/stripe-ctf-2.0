@@ -30,7 +30,7 @@ jobs:
     - name: Build
       run: |-
         gcloud builds submit \
-          level0 \
+          levels/0 \
           --quiet \
           --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
 
