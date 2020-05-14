@@ -5,7 +5,9 @@ if [ -n "$GSM_PASSWORD_KEY" ]; then
 fi
 
 if [ "$1" = 'serve' ]; then
-    exec ruby srv.rb
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf ruby srv.rb
 fi
 
 exec "$@"
