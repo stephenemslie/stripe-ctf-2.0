@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths: 
       - ctfproxy/**
+      - .github/workflows/ctfproxy.yaml
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
