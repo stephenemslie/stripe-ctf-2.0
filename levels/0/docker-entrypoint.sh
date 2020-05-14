@@ -7,7 +7,9 @@ fi
 if [ "$1" = 'serve' ]; then
     rm level00.db
     node ctf-install.js $LEVEL0_PW
-    exec node level00.js
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf node /usr/src/app/level00.js
 fi
 
 exec "$@"
