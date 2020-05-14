@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -n "$GSM_PASSWORD_KEY" ]; then
     export LEVEL4_PW=`ruby get_secret.rb $GSM_PASSWORD_KEY`
