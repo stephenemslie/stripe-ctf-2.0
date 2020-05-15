@@ -30,7 +30,7 @@ CMD ["gowatch"]
 FROM debian:buster-slim as deploy
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y gosu; \
+    apt-get install -y gosu ca-certificates; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 WORKDIR /usr/src/app
