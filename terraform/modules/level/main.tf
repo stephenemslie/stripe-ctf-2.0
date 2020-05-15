@@ -80,12 +80,12 @@ resource "google_cloud_run_domain_mapping" "ctfproxy" {
   }
 }
 
-resource "google_cloud_run_service_iam_member" "caller" {
+resource "google_cloud_run_service_iam_binding" "caller" {
   location = google_cloud_run_service.service.location
   project  = google_cloud_run_service.service.project
   service  = google_cloud_run_service.service.name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:${var.proxy_service.service_account_name}"
+  members  = var.invokers
 }
 
 resource "google_secret_manager_secret_iam_member" "secret" {

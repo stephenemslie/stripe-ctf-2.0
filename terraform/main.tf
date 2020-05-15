@@ -53,6 +53,7 @@ module "level0" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level0"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }
 
 module "level1" {
@@ -62,6 +63,7 @@ module "level1" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level1"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }
 
 module "level2" {
@@ -71,14 +73,10 @@ module "level2" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level2"
-}
-
-resource "google_cloud_run_service_iam_member" "level2_browser_sheduler_invoker" {
-  location = module.level2.service.location
-  project  = module.level2.service.project
-  service  = module.level2.service.name
-  role     = "roles/run.invoker"
-  member   = "serviceAccount:${module.level5.service.template[0].spec[0].service_account_name}"
+  invokers = [
+    "serviceAccount:${google_service_account.ctfproxy.email}",
+    "serviceAccount:${module.level5.service.template[0].spec[0].service_account_name}"
+  ]
 }
 
 module "level3" {
@@ -91,6 +89,7 @@ module "level3" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level3"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }
 
 module "level4_server" {
@@ -100,6 +99,10 @@ module "level4_server" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level4"
+  invokers = [
+    "serviceAccount:${google_service_account.ctfproxy.email}",
+    "serviceAccount:${module.level4_browser.service.template[0].spec[0].service_account_name}"
+  ]
 }
 
 module "level4_browser" {
@@ -112,6 +115,7 @@ module "level4_browser" {
     URL           = module.level4_server.service.status[0].url,
     ENABLE_TOKENS = "1"
   }
+  invokers = ["serviceAccount:${google_service_account.level4_browser_scheduler.email}"]
 }
 
 module "level5" {
@@ -121,6 +125,7 @@ module "level5" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level5"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }
 
 module "level6_server" {
@@ -130,6 +135,10 @@ module "level6_server" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level6"
+  invokers = [
+    "serviceAccount:${google_service_account.ctfproxy.email}",
+    "serviceAccount:${module.level6_browser.service.template[0].spec[0].service_account_name}"
+  ]
 }
 
 module "level6_browser" {
@@ -141,6 +150,7 @@ module "level6_browser" {
     URL           = module.level6_server.service.status[0].url,
     ENABLE_TOKENS = "1"
   }
+  invokers = ["serviceAccount:${google_service_account.level6_browser_scheduler.email}"]
 }
 
 module "level7" {
@@ -150,6 +160,7 @@ module "level7" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level7"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }
 
 module "level8" {
@@ -159,4 +170,5 @@ module "level8" {
   proxy_service         = local.ctfproxy_service
   enable_domain_mapping = true
   subdomain             = "level8"
+  invokers              = ["serviceAccount:${google_service_account.ctfproxy.email}"]
 }

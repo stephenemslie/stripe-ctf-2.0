@@ -37,3 +37,7 @@ variable "subdomain" {
   type    = string
   default = ""
 }
+
+variable "invokers" {
+  type = list(string)
+}
