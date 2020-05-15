@@ -106,7 +106,7 @@ func (l *Level) Proxy() *httputil.ReverseProxy {
 		// to ensure that downstream redirects use the external URL
 		forwardedHost, _ := l.GetExternalURL()
 		forwardedHostURL, _ := url.Parse(forwardedHost)
-		r.Header.Set("X-Forwarded-Host", forwardedHostURL.Hostname())
+		r.Header.Set("X-Forwarded-Host", forwardedHostURL.Host)
 
 		if os.Getenv("ENABLE_PROXY_TOKEN") == "1" {
 			// levels require authorization as the ctfproxy service account
