@@ -1,7 +1,9 @@
 #!/bin/sh
 
 if [ "$1" = 'serve' ]; then
-    exec ./bin/ctfproxy
+    useradd ctf
+    chown -R ctf:ctf /usr/src/app
+    exec gosu ctf:ctf ./bin/ctfproxy
 fi
 
 if [ "$1" = 'gowatch' ]; then
