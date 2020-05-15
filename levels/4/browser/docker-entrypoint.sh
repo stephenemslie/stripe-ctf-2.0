@@ -5,7 +5,7 @@ if [ -n "$GSM_PASSWORD_KEY" ]; then
 fi
 
 if [ "$1" = 'browser' ]; then
-    exec node index.js
+    exec gosu pptruser:pptruser node index.js
 fi
 
 exec "$@"
