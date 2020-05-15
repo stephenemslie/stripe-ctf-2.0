@@ -28,6 +28,11 @@ ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["gowatch"]
 
 FROM debian:buster-slim as deploy
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y gosu; \
+    rm -rf /var/lib/apt/lists/*; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 COPY --from=node /usr/src/app/static/ /usr/src/app/static/
