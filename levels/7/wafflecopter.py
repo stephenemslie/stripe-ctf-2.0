@@ -9,6 +9,7 @@ from functools import wraps
 
 import bcrypt
 import sqlite3
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask import Flask, session, request, redirect, render_template, g, abort
 from flask import make_response
 
@@ -16,6 +17,7 @@ import db
 import settings
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 app.config.from_object(settings)
 app.logger.addHandler(logging.StreamHandler(sys.stderr))
 
