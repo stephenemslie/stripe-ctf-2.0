@@ -8,10 +8,7 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends google-cloud-sdk; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
-RUN pip install bcrypt \
-                requests \
-                flask \
-                google-cloud-secret-manager
+RUN pip install bcrypt requests flask
 WORKDIR /usr/src/app
 COPY . .
 RUN chmod a+x docker-entrypoint.sh
