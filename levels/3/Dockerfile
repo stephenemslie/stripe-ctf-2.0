@@ -1,5 +1,4 @@
 FROM python:3.8.2-slim-buster
-WORKDIR /usr/src/app
 RUN set -eux; \
     apt-get update -y; \
     apt-get install -y --no-install-recommends gosu uuid-runtime curl gnupg2 ca-certificates; \
@@ -9,6 +8,7 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends google-cloud-sdk; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 COPY . .
