@@ -4,8 +4,8 @@ if [ ! -f secret-combination.txt ]; then
     uuidgen > secret-combination.txt
 fi
 
-if [ -n "$GSM_PASSWORD_KEY" ]; then
-    export LEVEL1_PW=`php get_secret.php $GSM_PASSWORD_KEY`
+if [ -z "$LEVEL1_PW" ]; then
+    export LEVEL1_PW=`gcloud secrets versions access latest --secret=level1-password`
 fi
 
 if [ "$1" = 'serve' ]; then
