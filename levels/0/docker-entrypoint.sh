@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -n "$GSM_PASSWORD_KEY" ]; then
-    export LEVEL0_PW=`node get_secret.js $GSM_PASSWORD_KEY`
+if [ -z "$LEVEL0_PW" ]; then
+    export LEVEL0_PW=`gcloud secrets versions access latest --secret=level0-password`
 fi
 
 if [ "$1" = 'serve' ]; then
