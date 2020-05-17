@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -n "$GSM_PASSWORD_KEY" ]; then
-    export LEVEL7_PW=`python get_secret.py $GSM_PASSWORD_KEY`
+if [ -z "$LEVEL7_PW" ]; then
+    export LEVEL7_PW=`gcloud secrets versions access latest --secret=level7-password`
 fi
 
 if [ ! -f ./wafflecopter.db ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -n "$GSM_PASSWORD_KEY" ]; then
-    export LEVEL5_PW=`ruby get_secret.rb $GSM_PASSWORD_KEY`
+if [ -z "$LEVEL5_PW" ]; then
+    export LEVEL5_PW=`gcloud secrets versions access latest --secret=level5-password`
 fi
 
 if [ "$1" = 'serve' ]; then

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -n "$GSM_PASSWORD_KEY" ]; then
-    export LEVEL8_PW=`python get_secret.py $GSM_PASSWORD_KEY`
+if [ -z "$LEVEL8_PW" ]; then
+    export LEVEL8_PW=`gcloud secrets versions access latest --secret=level8-password`
 fi
 
 if [ "$1" = 'serve' ]; then
