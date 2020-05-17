@@ -9,7 +9,8 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends google-cloud-sdk; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
-RUN gem install sinatra sequel sqlite3 google-cloud-secret_manager
+
+RUN gem install sinatra sequel sqlite3
 COPY . .
 RUN chmod a+x docker-entrypoint.sh
 EXPOSE 4567
